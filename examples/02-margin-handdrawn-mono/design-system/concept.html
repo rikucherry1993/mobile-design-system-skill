@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Margin · Concept — Home + Reader</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&family=Lora:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{font-family:var(--font-body);background:var(--bg);color:var(--on-surface);min-height:100vh;margin:0;padding:34px 24px 60px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .back{align-self:flex-start;font:700 13px var(--font-display);color:var(--ink);text-decoration:underline;display:inline-flex;align-items:center;gap:6px}
+  .caption{font:12px var(--font-mono);color:var(--subtle);text-align:center;max-width:580px;line-height:1.7}
+  .two{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .col .label{font:700 11px var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
+  .phone{width:374px;max-width:100%;background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:46px;box-shadow:var(--shadow-hard);overflow:hidden;position:relative}
+  .screen{height:798px;overflow:auto;background:var(--surface);position:relative}
+  .screen::-webkit-scrollbar{width:0}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:128px;height:24px;background:var(--ink);border-radius:0 0 14px 14px;z-index:8}
+  .pad{padding:0 20px}
+  .topbar{display:flex;align-items:center;gap:8px;padding:34px 16px 6px}
+  .sec-h{font:700 14px var(--font-display);color:var(--on-surface);margin:22px 2px 10px;display:flex;align-items:center;justify-content:space-between}
+  .sec-h .more{font:700 12px var(--font-display);color:var(--ink);text-decoration:underline}
+  .qa{display:flex;gap:14px;justify-content:center;margin-top:16px}
+  /* reader page */
+  .reader{padding:6px 22px 100px}
+  .hl{background:linear-gradient(transparent 60%, var(--muted-surface) 60%);box-shadow:0 2px 0 var(--ink)}
+  .marginnote{position:relative;margin:16px 0 16px 18px;padding:12px 14px 12px 16px;border-left:var(--stroke) solid var(--ink);background:var(--secondary-container);border-radius:0 var(--r-sm) var(--r-sm) 0}
+  .marginnote .t-caption{color:var(--muted)}   /* darker on cream — keep ≥4.5:1 */
+  .marginnote .arrow{position:absolute;left:-2px;top:-18px;color:var(--ink)}
+  .readbar{position:sticky;bottom:0;background:var(--surface);border-top:var(--stroke) solid var(--ink);padding:10px 16px;display:flex;align-items:center;gap:12px}
+</style>
+</head>
+<body>
+<a class="back" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg>Back to style guide</a>
+
+<!-- ROUGHEN FILTERS — wobble for hand-drawn line art (.illus / .sparkle) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="rough2" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="24" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G"/></filter>
+</svg>
+
+<!-- SPRITE (copied — icons + illustrations) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></symbol>
+  <symbol id="i-smiley" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.7" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="7" rx="2" fill="currentColor" stroke="none"/><rect x="17" y="13" width="4" height="7" rx="2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+  <symbol id="i-highlight" viewBox="0 0 24 24"><path d="M9 13l-1 5 4-2 8-8-3-3-8 8z"/><path d="M4 21h7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24"><rect x="4" y="3" width="4" height="18" rx="1"/><rect x="10" y="3" width="4" height="18" rx="1"/><path d="M17 5l4 1-3 15-4-1z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="M21 21l-4.6-4.6"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2c1 5 4 8 9 10-5 2-8 5-9 10-1-5-4-8-9-10 5-2 8-5 9-10z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M19 17H6a2 2 0 0 0-2 2"/></symbol>
+  <symbol id="i-aa" viewBox="0 0 24 24"><path d="M3 18l4-11 4 11M4 14h6"/><path d="M20 11a3 3 0 0 0-5 2v5M20 13v5"/></symbol>
+  <symbol id="il-reader" viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M83 38C82 23 95 16 104 18C117 21 121 34 116 44C112 52 103 56 95 53C87 50 83 45 83 38Z"/><path d="M85 31C90 22 105 21 113 28"/><path d="M95 37v3"/><path d="M107 37v3"/><path d="M96 45C99 48 104 48 107 45"/><path d="M96 55C83 60 77 74 80 94C81 104 85 111 94 115"/><path d="M105 55C119 59 125 75 122 97C121 107 117 112 109 116"/><path d="M82 90C72 98 70 114 78 126"/><path d="M119 90C129 98 131 114 123 126"/><path d="M80 112C69 122 63 134 70 142C82 140 98 134 110 134C123 134 133 138 138 143C143 134 134 121 121 113"/><path d="M85 134C100 128 116 128 130 134"/><path d="M100 150C86 140 70 140 60 144C60 132 60 124 60 121C70 117 86 117 100 127C114 117 130 117 140 121C140 124 140 132 140 144C130 140 114 140 100 150Z"/><path d="M100 127v23"/></g></symbol>
+  <symbol id="il-arrow" viewBox="0 0 40 30"><path d="M2 2C14 4 20 12 18 26M18 26l-7-7M18 26l8-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="two">
+
+  <!-- ════════ SCREEN 1 · FIRST VIEW — Home ════════ -->
+  <div class="col">
+    <div class="label">First view · Home</div>
+    <div class="phone"><div class="notch"></div><div class="screen" style="background:var(--bg)">
+      <div class="topbar"><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-grid"/></svg></button><div style="flex:1;text-align:center;font:700 18px var(--font-display);letter-spacing:.02em">MARGIN <span class="sparkle"><svg class="ico ico--sm"><use href="#i-sparkle"/></svg></span></div><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-smiley"/></svg></button></div>
+      <div class="pad">
+        <!-- hero: reader illustration + stats (echoes the reference profile) -->
+        <div style="text-align:center;margin-top:6px"><svg class="illus" style="max-width:188px;margin:0 auto"><use href="#il-reader"/></svg></div>
+        <div style="text-align:center"><div class="t-h1">This week</div><div class="t-body2">3 of 5 reading days · 142 pages</div></div>
+        <div class="slider" style="margin:16px auto 6px;max-width:300px"><div class="track"></div><div class="fill" style="width:60%"></div><div class="thumb" style="left:calc(60% - 12px)"></div></div>
+        <div class="row" style="justify-content:space-between;max-width:300px;margin:0 auto"><span class="t-caption">3 days</span><span class="t-caption">goal · 5 days</span></div>
+        <button class="btn btn-contained btn--hero" style="margin-top:18px"><svg class="ico"><use href="#i-sparkle"/></svg>Continue reading<svg class="ico"><use href="#i-sparkle"/></svg></button>
+        <!-- quick actions (circular, like the reference) -->
+        <div class="qa"><button class="iconbtn"><svg class="ico"><use href="#i-highlight"/></svg></button><button class="iconbtn"><svg class="ico"><use href="#i-pencil"/></svg></button><button class="iconbtn"><svg class="ico"><use href="#i-headphones"/></svg></button></div>
+        <!-- currently reading -->
+        <div class="sec-h">Currently reading <span class="more">All</span></div>
+        <div class="card shadow" style="display:flex;align-items:center;gap:14px;padding:14px">
+          <span class="avatar avatar--lg square"><svg class="ico ico--lg"><use href="#i-book"/></svg></span>
+          <div style="flex:1"><div class="t-title">The Overstory</div><div class="t-body2">Richard Powers · 46%</div><div class="progress" style="margin-top:8px;height:10px"><div class="bar" style="width:46%"></div></div></div>
+        </div>
+        <div style="height:14px"></div>
+      </div>
+      <div class="bottomnav" style="position:sticky;bottom:0">
+        <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-library"/></svg></span>Library</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-search"/></svg></span>Discover</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-pencil"/></svg></span>Notes</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-headphones"/></svg></span>Listen</div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ════════ SCREEN 2 · DETAIL — Reader (marginalia) ════════ -->
+  <div class="col">
+    <div class="label">Detail · Reader</div>
+    <div class="phone"><div class="notch"></div><div class="screen">
+      <div class="topbar"><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-back"/></svg></button><div style="flex:1;text-align:center;font:700 13px var(--font-display);color:var(--muted)">CH. 8 · THE TRUNK</div><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-bookmark"/></svg></button><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-more-v"/></svg></button></div>
+      <div class="reader">
+        <div class="t-h2" style="margin:8px 0 14px">The Trunk</div>
+        <p class="t-read">There are no individuals in a forest, no separable events. The bird and the branch it sits on are a joint thing. A third or more of the food a big tree makes may go to feed other organisms.</p>
+        <p class="t-read" style="margin-top:14px">Even different kinds of trees form partnerships. <span class="hl">Cut down a collaborator and the others may suffer.</span> In the great forests, the trees synchronize their masting — a network deciding, all at once, to bloom.</p>
+        <!-- handwritten margin note -->
+        <div class="marginnote"><span class="arrow"><svg class="illus" style="width:34px"><use href="#il-arrow"/></svg></span><div class="t-note">this is the bridge metaphor again — connection &gt; the individual</div><div class="t-caption" style="margin-top:2px">p. 214 · your note</div></div>
+        <p class="t-read">What you make from a tree should be at least as miraculous as what you cut down.</p>
+      </div>
+      <div class="readbar">
+        <button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-aa"/></svg></button>
+        <button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-highlight"/></svg></button>
+        <button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-pencil"/></svg></button>
+        <div class="progress" style="flex:1;height:10px"><div class="bar" style="width:46%"></div></div>
+        <button class="iconbtn filled iconbtn--sm"><svg class="ico ico--sm"><use href="#i-play"/></svg></button>
+      </div>
+    </div></div>
+  </div>
+
+</div>
+
+<div class="caption">Two concept screens — Home (first view: a reader illustration + weekly progress, a hero “Continue reading”, circular quick-actions, currently-reading card, bottom nav) and the Reader (detail: serif reading text with a highlight and a <b>handwritten margin note</b> — the app's soul — plus a reading toolbar, no bottom nav). Built only from Margin components + hand-drawn illustrations. Switch the theme to “Dark (inverted)” by editing <code>styles.css</code> :root tokens.</div>
+</body>
+</html>

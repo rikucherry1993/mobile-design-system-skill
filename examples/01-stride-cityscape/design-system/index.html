@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride · Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+body{font-family:var(--font-body);color:var(--on-surface);background:var(--background);display:flex}
+nav.side{position:sticky;top:0;align-self:flex-start;height:100vh;width:226px;flex:0 0 226px;background:var(--surface);border-right:1px solid var(--outline-variant);padding:22px 14px;overflow:auto}
+nav.side .brand{font:800 24px var(--font-brand);color:var(--primary);margin-bottom:2px;display:flex;align-items:center;gap:8px}
+nav.side .tag{font:400 11px var(--font-body);color:var(--subtle);margin:0 0 16px 2px}
+nav.side a{display:block;padding:5px 10px;border-radius:8px;font-size:13px;color:var(--on-surface-variant);text-decoration:none}
+nav.side a:hover{background:var(--surface-container);color:var(--primary)}
+nav.side a.concept-link{margin:0 0 8px;padding:11px;font-weight:700;color:var(--on-primary);background:var(--primary);border-radius:14px;box-shadow:var(--elev-1)}
+nav.side .grp{font:700 10px var(--font-body);letter-spacing:.9px;text-transform:uppercase;color:var(--subtle);margin:16px 0 5px 10px}
+main{flex:1;padding:40px 48px 140px;max-width:1080px}
+section{margin-bottom:52px;scroll-margin-top:20px}
+h2.sec{font:800 26px var(--font-brand);color:var(--on-surface);margin-bottom:5px}
+.sec-desc{color:var(--on-surface-variant);font-size:14px;margin-bottom:20px;max-width:720px;line-height:1.6}
+.stage{background:var(--surface-container-low);border-radius:var(--r-xl);padding:28px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;box-shadow:var(--elev-1)}
+.stage.col{flex-direction:column;align-items:stretch}
+.cell{display:flex;flex-direction:column;align-items:center;gap:9px}
+.spec{font:11px var(--font-mono);color:var(--subtle)}
+.colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.sw{border-radius:var(--r-md);overflow:hidden;background:var(--surface);border:1px solid var(--outline-variant)}
+.sw .c{height:54px;display:flex;align-items:flex-end;justify-content:flex-end;padding:6px}.sw .c .on{font:700 11px var(--font-mono)}
+.sw .m{padding:7px 9px}.sw .n{font-size:12px;font-weight:600}.sw .v{font:11px var(--font-mono);color:var(--subtle)}
+.typerow{display:flex;align-items:baseline;gap:18px;padding:11px 0;border-bottom:1px solid var(--outline-variant)}
+.typerow .tk{width:170px;flex:0 0 170px;font:11px var(--font-mono);color:var(--subtle)}
+.sprow{display:flex;align-items:center;gap:12px;margin-bottom:7px}.sprow .bar{background:var(--primary);height:14px;border-radius:3px}.sprow .lbl{width:150px;font:12px var(--font-mono);color:var(--on-surface-variant)}
+.shaperow{display:flex;gap:18px;flex-wrap:wrap}.shapebox{width:84px;height:64px;background:var(--primary-container);display:flex;align-items:flex-end;justify-content:center;padding:5px;font:10px var(--font-mono);color:var(--on-primary-container)}
+.elevrow{display:flex;gap:22px;flex-wrap:wrap}.elevbox{width:120px;height:72px;border-radius:var(--r-md);background:var(--surface);display:flex;align-items:center;justify-content:center;font:11px var(--font-mono);color:var(--subtle)}
+.iconGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:10px}
+.iconGrid .it{background:var(--surface);border-radius:var(--r-md);padding:13px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--on-surface);border:1px solid var(--outline-variant)}
+.iconGrid .it .nm{font:11px var(--font-mono);color:var(--subtle)}
+.illusRow{display:flex;gap:16px;flex-wrap:wrap}.illusRow .ic{flex:0 0 240px}.illusRow .ic .nm{font:11px var(--font-mono);color:var(--subtle);text-align:center;margin-top:6px}
+
+#topctl{position:fixed;top:16px;right:20px;z-index:50;display:flex;gap:10px;align-items:center}
+#themeSel,#langSel{font:600 12px var(--font-body);border:1px solid var(--outline);border-radius:10px;padding:8px 10px;background:var(--surface);color:var(--on-surface-variant)}
+.ds-btn{font:700 12px var(--font-body);background:var(--primary);border:none;color:var(--on-primary);border-radius:10px;padding:9px 13px;cursor:pointer}
+#devToggle{font:600 13px var(--font-body);background:var(--surface);border:1px solid var(--outline);border-radius:10px;padding:8px 14px;cursor:pointer;color:var(--on-surface-variant)}
+#devToggle.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.sec-prompt{font:600 11px var(--font-body);border:1px solid var(--outline);background:var(--surface);color:var(--primary);border-radius:8px;padding:4px 10px;margin-left:12px;cursor:pointer;vertical-align:middle}
+body.dev [data-insp]:hover{outline:2px dashed var(--secondary);outline-offset:3px;cursor:pointer}
+.insp-sel{outline:2px solid var(--primary)!important;outline-offset:3px}
+#inspector{position:fixed;top:0;right:0;width:344px;height:100vh;background:var(--surface-container-low);border-left:1px solid var(--outline-variant);box-shadow:var(--elev-3);transform:translateX(100%);transition:transform .28s var(--ease-standard);z-index:49;overflow:auto;padding:58px 20px 40px}
+body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-right:344px}
+#inspector .iclose{position:absolute;top:16px;right:16px;border:none;background:none;font-size:18px;color:var(--on-surface-variant);cursor:pointer}
+#inspector .nm{font:800 21px var(--font-brand);color:var(--on-surface)}#inspector .file{font:12px var(--font-mono);color:var(--subtle);margin-top:2px}
+#inspector .desc{font-size:13px;color:var(--on-surface-variant);line-height:1.6;margin-top:10px}
+#inspector h4{font:700 11px var(--font-body);letter-spacing:.6px;text-transform:uppercase;color:var(--subtle);margin:20px 0 8px}
+.prop{padding:8px 0;border-bottom:1px solid var(--outline-variant)}.prop .pn{font:600 13px var(--font-mono)}.prop .pt{font:11px var(--font-mono);color:var(--secondary)}.prop .pdef{font:11px var(--font-mono);color:var(--subtle)}
+.tok{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;cursor:pointer}.tok:hover{background:var(--surface-container)}
+.tok .tsw{width:22px;height:22px;border-radius:6px;border:1px solid var(--outline-variant);flex:0 0 22px}.tok .tn{font:600 12px var(--font-mono)}.tok .tr{font-size:11px;color:var(--on-surface-variant)}.tok .tv{margin-left:auto;font:11px var(--font-mono);color:var(--subtle)}
+.metric{display:flex;justify-content:space-between;font:12px var(--font-mono);padding:5px 0;border-bottom:1px dashed var(--outline-variant)}.metric .mk{color:var(--on-surface-variant)}
+.copyprompt{width:100%;margin-top:16px;font:700 13px var(--font-body);background:var(--primary);color:var(--on-primary);border:none;border-radius:12px;padding:11px;cursor:pointer}
+.copied{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--inverse-surface);color:var(--inverse-on-surface);font-size:12px;padding:8px 16px;border-radius:8px;opacity:0;transition:.2s;z-index:60;pointer-events:none}.copied.show{opacity:.96}
+</style>
+</head>
+<body>
+
+<!-- ICON SPRITE (copied from icons.html — self-contained under file://) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V13h6v9"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2-1.5-2-3.4-2.3 1a7.5 7.5 0 0 0-1.7-1l-.3-2.6h-4l-.3 2.6a7.5 7.5 0 0 0-1.7 1l-2.3-1-2 3.4L4.6 11a7.5 7.5 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7.5 7.5 0 0 0 1.7 1l.3 2.6h4l.3-2.6a7.5 7.5 0 0 0 1.7-1l2.3 1 2-3.4z"/></symbol>
+  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 21l1.1-6.5L2.6 9.8l6.5-.9z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></symbol>
+  <symbol id="i-run" viewBox="0 0 24 24"><circle cx="16" cy="5" r="2"/><path d="M5 21l3-5 3 1 1-5 3 3 3 1M11 12l-2-3 4-2 2 3 2 1"/></symbol>
+  <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4" r="2"/><path d="M11 21l1-6-2-2 1-5 3 3 2 1M10 13l-3 1-1 4"/></symbol>
+  <symbol id="i-steps" viewBox="0 0 24 24"><path d="M7 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM6 14c0-3 .5-5 2-6M17 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM16 6c0 3-.5 5-2 6"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 .5 1 1.5 1.5 2 1 .5-2-1-3-1-6z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.4 5.4 0 0 0-7.7 0L12 6.7l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21.2l8.8-8.9a5.4 5.4 0 0 0 0-7.7z"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9 2h6"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8 19h7a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h7"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
+  <symbol id="i-distance" viewBox="0 0 24 24"><path d="M3 12h18M3 9v6M21 9v6M7 12l3-3M7 12l3 3"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M9 21h6M12 13v4"/></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 20l6-11 4 7 2-3 6 7z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+</svg>
+
+<div id="topctl">
+  <button class="ds-btn" onclick="copyFullSystem()" title="Copy a prompt to install or update the whole design system">⤓ Install design system</button>
+  <select id="themeSel" title="Preview theme" onchange="document.documentElement.setAttribute('data-theme',this.value)"><option value="">Light</option><option value="dark">Dark</option></select>
+  <select id="langSel" title="Copy-as-prompt target"></select>
+  <button id="devToggle" onclick="toggleDev()">◧ Dev Mode</button>
+</div>
+<aside id="inspector"><button class="iclose" onclick="closeInspector()">✕</button><div id="inspectorBody"></div></aside>
+<div class="copied" id="copied">Copied</div>
+
+<nav class="side">
+  <div class="brand"><svg class="ico" style="color:var(--primary)"><use href="#i-activity"/></svg>Stride</div>
+  <div class="tag">City fitness · Material 3 · Cityscape</div>
+  <a class="concept-link" href="concept.html">◳ &nbsp;Concept preview &nbsp;→</a>
+  <div class="grp">Foundations</div>
+  <a href="#colors">Color</a><a href="#type">Typography</a><a href="#spacing">Spacing</a><a href="#shape">Shape</a><a href="#elevation">Elevation</a><a href="#icons">Icons</a><a href="#illustrations">Illustrations</a>
+  <div class="grp">Actions</div>
+  <a href="#buttons">Buttons</a><a href="#iconbtn">Icon buttons</a><a href="#fab">FAB</a><a href="#segmented">Segmented</a>
+  <div class="grp">Communication</div>
+  <a href="#badge">Badge</a><a href="#progress">Progress</a><a href="#snackbar">Snackbar</a><a href="#tooltip">Tooltip</a>
+  <div class="grp">Containment</div>
+  <a href="#card">Card</a><a href="#carousel">Carousel</a><a href="#divider">Divider</a><a href="#list">Lists</a><a href="#sheet">Bottom sheet</a><a href="#dialog">Dialog</a>
+  <div class="grp">Navigation</div>
+  <a href="#appbar">Top app bar</a><a href="#navbar">Navigation bar</a><a href="#navrail">Navigation rail</a><a href="#drawer">Nav drawer</a><a href="#tabs">Tabs</a><a href="#search">Search</a><a href="#menu">Menu</a>
+  <div class="grp">Selection</div>
+  <a href="#checkbox">Checkbox</a><a href="#chips">Chips</a><a href="#radio">Radio</a><a href="#switch">Switch</a><a href="#slider">Slider</a><a href="#datepicker">Date picker</a><a href="#timepicker">Time picker</a>
+  <div class="grp">Text inputs</div>
+  <a href="#field">Text field</a>
+</nav>
+
+<main>
+  <header style="margin-bottom:40px">
+    <div class="t-label" style="color:var(--primary)">Android · Material 3</div>
+    <div class="t-display" style="margin-top:6px">Stride Design System</div>
+    <p class="sec-desc" style="margin-top:10px">A warm, friendly city-fitness system. Muted teal brand + warm city-dusk illustration palette, soft surfaces, large radii, rounded display type. The signature is a <b>wide city-skyline blob illustration</b> (token-driven SVG). Every fill ships a contrast-checked <code>on-*</code> partner; source of truth is <code>styles.css</code>. <b>Dev Mode</b> inspects any component; <b>⤓ Install design system</b> scaffolds/updates it all.</p>
+  </header>
+
+  <!-- ============ FOUNDATIONS ============ -->
+  <section id="colors"><h2 class="sec">Color</h2><p class="sec-desc">Material 3 roles + an expression palette for the illustrations. Each fill swatch shows its paired <code>on-*</code> (top-right) — WCAG-verified. Neutrals tinted warm; teal↔amber are a complementary pair.</p><div class="colors" id="colorGrid"></div></section>
+
+  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc">M3 type scale — rounded <b>Nunito</b> for display/headline/title, <b>Inter</b> for body/label.</p><div id="typeList"></div></section>
+
+  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">4dp grid + fine <code>--opt-*</code> optical steps.</p><div id="spacingList"></div></section>
+
+  <section id="shape"><h2 class="sec">Shape</h2><p class="sec-desc">M3 shape scale — soft, with large <code>--r-xl (28)</code> for cards &amp; illustration heroes.</p>
+    <div class="stage"><div class="shaperow" id="shapeRow"></div></div></section>
+
+  <section id="elevation"><h2 class="sec">Elevation</h2><p class="sec-desc">M3 levels 0–5 as soft, warm-tinted shadows.</p>
+    <div class="stage"><div class="elevrow">
+      <div class="elevbox" style="box-shadow:var(--elev-1)">1</div><div class="elevbox" style="box-shadow:var(--elev-2)">2</div><div class="elevbox" style="box-shadow:var(--elev-3)">3</div><div class="elevbox" style="box-shadow:var(--elev-4)">4</div><div class="elevbox" style="box-shadow:var(--elev-5)">5</div>
+    </div></div></section>
+
+  <section id="icons"><h2 class="sec">Icons</h2><p class="sec-desc">Token-driven inline SVG sprite (full set in <a class="link" style="color:var(--primary)" href="icons.html">icons.html</a>). Never emoji.</p><div class="iconGrid" id="iconGrid"></div></section>
+
+  <section id="illustrations"><h2 class="sec">Illustrations</h2><p class="sec-desc">The signature — wide flat <b>city-skyline blob illustrations</b>, token-driven gradients (<code>.illus--day/--dusk/--teal</code>). Use them edge-to-edge as screen heroes (see the concept).</p>
+    <div class="stage"><div class="illusRow" id="illusRow"></div></div></section>
+
+  <!-- ============ ACTIONS ============ -->
+  <section id="buttons"><h2 class="sec">Buttons</h2><p class="sec-desc">M3 common buttons: elevated / filled / filled-tonal / outlined / text.</p>
+    <div class="stage">
+      <div class="cell"><button class="btn btn-filled" data-insp="buttons">Start run</button><div class="spec">filled</div></div>
+      <div class="cell"><button class="btn btn-tonal" data-insp="buttons">Resume</button><div class="spec">tonal</div></div>
+      <div class="cell"><button class="btn btn-elevated" data-insp="buttons">Routes</button><div class="spec">elevated</div></div>
+      <div class="cell"><button class="btn btn-outlined" data-insp="buttons">Share</button><div class="spec">outlined</div></div>
+      <div class="cell"><button class="btn btn-text" data-insp="buttons">History</button><div class="spec">text</div></div>
+      <div class="cell"><button class="btn btn-filled disabled" data-insp="buttons">Disabled</button><div class="spec">disabled</div></div>
+    </div></section>
+
+  <section id="iconbtn"><h2 class="sec">Icon buttons</h2><p class="sec-desc">standard / filled / tonal / outlined / toggle.</p>
+    <div class="stage">
+      <div class="cell"><button class="iconbtn" data-insp="iconbtn"><svg class="ico"><use href="#i-heart"/></svg></button><div class="spec">standard</div></div>
+      <div class="cell"><button class="iconbtn filled" data-insp="iconbtn"><svg class="ico"><use href="#i-play"/></svg></button><div class="spec">filled</div></div>
+      <div class="cell"><button class="iconbtn tonal" data-insp="iconbtn"><svg class="ico"><use href="#i-pause"/></svg></button><div class="spec">tonal</div></div>
+      <div class="cell"><button class="iconbtn outlined" data-insp="iconbtn"><svg class="ico"><use href="#i-share"/></svg></button><div class="spec">outlined</div></div>
+      <div class="cell"><button class="iconbtn sel" data-insp="iconbtn"><svg class="ico ico--filled"><use href="#i-star"/></svg></button><div class="spec">toggle · on</div></div>
+    </div></section>
+
+  <section id="fab"><h2 class="sec">FAB</h2><p class="sec-desc">small / regular / large / extended.</p>
+    <div class="stage">
+      <div class="cell"><button class="fab fab--sm" data-insp="fab"><svg class="ico ico--sm"><use href="#i-plus"/></svg></button><div class="spec">small</div></div>
+      <div class="cell"><button class="fab" data-insp="fab"><svg class="ico"><use href="#i-plus"/></svg></button><div class="spec">regular</div></div>
+      <div class="cell"><button class="fab fab--lg primary" data-insp="fab"><svg class="ico"><use href="#i-run"/></svg></button><div class="spec">large</div></div>
+      <div class="cell"><button class="fab extended primary" data-insp="fab"><svg class="ico"><use href="#i-run"/></svg>Start run</button><div class="spec">extended</div></div>
+    </div></section>
+
+  <section id="segmented"><h2 class="sec">Segmented buttons</h2><p class="sec-desc">single &amp; multi-select.</p>
+    <div class="stage col" style="gap:18px;align-items:flex-start">
+      <div class="segmented" data-insp="segmented"><span class="seg sel"><svg class="ico"><use href="#i-run"/></svg>Run</span><span class="seg"><svg class="ico"><use href="#i-walk"/></svg>Walk</span><span class="seg"><svg class="ico"><use href="#i-activity"/></svg>Cycle</span></div>
+      <div class="segmented"><span class="seg sel"><svg class="ico"><use href="#i-check"/></svg>Week</span><span class="seg sel"><svg class="ico"><use href="#i-check"/></svg>Month</span><span class="seg">Year</span></div>
+    </div></section>
+
+  <!-- ============ COMMUNICATION ============ -->
+  <section id="badge"><h2 class="sec">Badge</h2><p class="sec-desc">small (dot) &amp; large (number).</p>
+    <div class="stage">
+      <div class="cell"><span class="badge-wrap" data-insp="badge"><button class="iconbtn"><svg class="ico"><use href="#i-bell"/></svg></button><span class="badge">3</span></span><div class="spec">number</div></div>
+      <div class="cell"><span class="badge-wrap" data-insp="badge"><button class="iconbtn"><svg class="ico"><use href="#i-trophy"/></svg></button><span class="badge dot"></span></span><div class="spec">dot</div></div>
+    </div></section>
+
+  <section id="progress"><h2 class="sec">Progress indicators</h2><p class="sec-desc">linear &amp; circular (determinate / indeterminate).</p>
+    <div class="stage col" style="gap:18px">
+      <div class="row" style="gap:16px"><div class="progress" data-insp="progress" style="max-width:320px"><div class="bar" style="width:72%"></div></div><span class="t-body-s">7.2 / 10 km</span></div>
+      <div class="spinner" data-insp="progress"></div>
+    </div></section>
+
+  <section id="snackbar"><h2 class="sec">Snackbar</h2><p class="sec-desc">with / without action.</p>
+    <div class="stage"><div class="snackbar" data-insp="snackbar"><span>Run saved · 7.2 km</span><span class="sa">VIEW</span></div></div></section>
+
+  <section id="tooltip"><h2 class="sec">Tooltip</h2><p class="sec-desc">plain &amp; rich.</p>
+    <div class="stage" style="align-items:flex-start;gap:24px">
+      <span class="tooltip" data-insp="tooltip">Avg pace</span>
+      <div class="tooltip rich" data-insp="tooltip"><div class="rt">Active calories</div>Estimated from heart rate, pace and your profile.<span class="ra">Learn more</span></div>
+    </div></section>
+
+  <!-- ============ CONTAINMENT ============ -->
+  <section id="card"><h2 class="sec">Card</h2><p class="sec-desc">elevated / filled / outlined. A real activity card with a city illustration.</p>
+    <div class="stage" style="align-items:stretch">
+      <div class="card card-elevated" data-insp="card" style="width:260px;padding:0;overflow:hidden"><div id="cardIllus"></div><div style="padding:16px"><div class="t-title-l">Morning loop</div><div class="t-body-m">Riverside · 7.2 km</div></div></div>
+      <div class="card card-filled" data-insp="card" style="width:220px"><div class="t-label" style="color:var(--primary)">Today</div><div class="t-num" style="margin:6px 0 2px">8,640</div><div class="t-body-m">steps · 68% of goal</div></div>
+      <div class="card card-outlined" data-insp="card" style="width:200px"><div class="t-title-m">Next badge</div><div class="t-body-m" style="margin-top:4px">2 runs to “City Explorer”</div></div>
+    </div></section>
+
+  <section id="carousel"><h2 class="sec">Carousel</h2><p class="sec-desc">Snapping horizontal media row.</p>
+    <div class="stage col"><div class="carousel" data-insp="carousel" id="carousel"></div></div></section>
+
+  <section id="divider"><h2 class="sec">Divider</h2><p class="sec-desc">full / inset.</p>
+    <div class="stage col" style="gap:12px;max-width:380px"><div>This week</div><hr class="divider" data-insp="divider"><div>Mon · Riverside loop</div><hr class="divider inset"><div>Wed · Hill repeats</div></div></section>
+
+  <section id="list"><h2 class="sec">Lists</h2><p class="sec-desc">one / two / three-line items (leading icon + trailing meta).</p>
+    <div class="stage col"><div class="list" data-insp="list" style="max-width:460px">
+      <div class="list-item two"><span class="iconbtn tonal"><svg class="ico"><use href="#i-run"/></svg></span><div class="grow"><div class="pri">Riverside loop</div><div class="sec">7.2 km · 38:20 · 5:19 /km</div></div><div class="meta">Today</div></div>
+      <hr class="divider inset">
+      <div class="list-item two"><span class="iconbtn tonal"><svg class="ico"><use href="#i-walk"/></svg></span><div class="grow"><div class="pri">Old town walk</div><div class="sec">3.1 km · 31:02</div></div><div class="meta">Mon</div></div>
+      <hr class="divider inset">
+      <div class="list-item three"><span class="iconbtn tonal"><svg class="ico"><use href="#i-activity"/></svg></span><div class="grow"><div class="pri">Hill repeats</div><div class="sec">6.0 km · 410 kcal</div><div class="sec">New best on Castle climb</div></div><div class="meta">Sun</div></div>
+    </div></div></section>
+
+  <section id="sheet"><h2 class="sec">Bottom sheet</h2><p class="sec-desc">standard / modal.</p>
+    <div class="stage col"><div class="sheet" data-insp="sheet" style="max-width:380px"><div class="grab"></div><div class="t-title-l" style="margin-bottom:10px">Start activity</div><div class="row" style="gap:10px;flex-wrap:wrap"><span class="chip assist"><svg class="ico"><use href="#i-run"/></svg>Run</span><span class="chip assist"><svg class="ico"><use href="#i-walk"/></svg>Walk</span><span class="chip assist"><svg class="ico"><use href="#i-activity"/></svg>Cycle</span></div></div></div></section>
+
+  <section id="dialog"><h2 class="sec">Dialog</h2><p class="sec-desc">basic / full-screen.</p>
+    <div class="stage"><div class="dialog" data-insp="dialog"><div class="dt">End this run?</div><div class="db">You've covered 5.4 km in 27:10. Ending now saves it to your history.</div><div class="da"><button class="btn btn-text">Keep going</button><button class="btn btn-filled">End &amp; save</button></div></div></div></section>
+
+  <!-- ============ NAVIGATION ============ -->
+  <section id="appbar"><h2 class="sec">Top app bar</h2><p class="sec-desc">center / small / medium / large.</p>
+    <div class="stage col" style="gap:14px">
+      <div class="appbar center" data-insp="appbar" style="max-width:420px;border-radius:var(--r-lg);background:var(--surface-container-low)"><button class="iconbtn"><svg class="ico"><use href="#i-menu"/></svg></button><div class="ttl">Stride</div><button class="iconbtn"><svg class="ico"><use href="#i-bell"/></svg></button></div>
+      <div class="appbar large" data-insp="appbar" style="max-width:420px;border-radius:var(--r-lg);background:var(--surface-container-low)"><div class="ttl">Good morning, Mira</div></div>
+    </div></section>
+
+  <section id="navbar"><h2 class="sec">Navigation bar</h2><p class="sec-desc">Bottom navigation (active item pill).</p>
+    <div class="stage col"><div class="navbar" data-insp="navbar" style="max-width:420px;border-radius:var(--r-lg)">
+      <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-home"/></svg></span>Today</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-map"/></svg></span>Explore</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-activity"/></svg></span>Activity</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-user"/></svg></span>You</div>
+    </div></div></section>
+
+  <section id="navrail"><h2 class="sec">Navigation rail</h2><p class="sec-desc">Compact side nav (tablet/landscape).</p>
+    <div class="stage"><div class="navrail" data-insp="navrail" style="border-radius:var(--r-lg);background:var(--surface-container-low)">
+      <button class="fab fab--sm primary" style="margin-bottom:8px"><svg class="ico ico--sm"><use href="#i-plus"/></svg></button>
+      <div class="ri sel"><span class="pill"><svg class="ico"><use href="#i-home"/></svg></span>Today</div>
+      <div class="ri"><span class="pill"><svg class="ico"><use href="#i-map"/></svg></span>Explore</div>
+      <div class="ri"><span class="pill"><svg class="ico"><use href="#i-activity"/></svg></span>Activity</div>
+    </div></div></section>
+
+  <section id="drawer"><h2 class="sec">Navigation drawer</h2><p class="sec-desc">standard / modal.</p>
+    <div class="stage"><div class="drawer" data-insp="drawer">
+      <div class="dh">Stride</div>
+      <div class="di sel"><svg class="ico"><use href="#i-home"/></svg>Today</div>
+      <div class="di"><svg class="ico"><use href="#i-map"/></svg>Explore routes</div>
+      <div class="di"><svg class="ico"><use href="#i-activity"/></svg>Activity</div>
+      <div class="di"><svg class="ico"><use href="#i-trophy"/></svg>Goals</div>
+      <div class="di"><svg class="ico"><use href="#i-settings"/></svg>Settings</div>
+    </div></div></section>
+
+  <section id="tabs"><h2 class="sec">Tabs</h2><p class="sec-desc">primary &amp; secondary.</p>
+    <div class="stage col" style="gap:18px">
+      <div class="tabs primary" data-insp="tabs" style="max-width:420px;border-radius:var(--r-md);background:var(--surface-container-low)"><div class="tab sel">Today</div><div class="tab">Week</div><div class="tab">Month</div></div>
+      <div class="tabs secondary" style="max-width:420px"><div class="tab sel">Runs</div><div class="tab">Walks</div><div class="tab">Rides</div></div>
+    </div></section>
+
+  <section id="search"><h2 class="sec">Search</h2><p class="sec-desc">bar &amp; view.</p>
+    <div class="stage col" style="gap:14px;max-width:440px">
+      <div class="searchbar" data-insp="search"><svg class="ico"><use href="#i-search"/></svg><input placeholder="Search routes &amp; places"><svg class="ico"><use href="#i-pin"/></svg></div>
+      <div class="searchview"><div class="searchbar" style="background:transparent"><svg class="ico"><use href="#i-back"/></svg><input value="riverside"><svg class="ico"><use href="#i-close"/></svg></div><hr class="divider"><div class="menu" style="box-shadow:none;background:transparent"><div class="mi"><svg class="ico"><use href="#i-route"/></svg>Riverside loop · 7.2 km</div><div class="mi"><svg class="ico"><use href="#i-pin"/></svg>Riverside Park</div></div></div>
+    </div></section>
+
+  <section id="menu"><h2 class="sec">Menu</h2><p class="sec-desc">Dropdown.</p>
+    <div class="stage"><div class="menu" data-insp="menu"><div class="mi"><svg class="ico"><use href="#i-share"/></svg>Share run</div><div class="mi"><svg class="ico"><use href="#i-route"/></svg>Save as route</div><div class="mi"><svg class="ico"><use href="#i-close"/></svg>Delete</div></div></div></section>
+
+  <!-- ============ SELECTION ============ -->
+  <section id="checkbox"><h2 class="sec">Checkbox</h2><p class="sec-desc">unchecked / checked / indeterminate.</p>
+    <div class="stage">
+      <label class="check" data-insp="checkbox"><span class="box"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Auto-pause</label>
+      <label class="check checked" data-insp="checkbox"><span class="box"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Count steps</label>
+      <label class="check indeterminate" data-insp="checkbox"><span class="box"></span>All metrics</label>
+    </div></section>
+
+  <section id="chips"><h2 class="sec">Chips</h2><p class="sec-desc">assist / filter / input / suggestion.</p>
+    <div class="stage" style="gap:12px">
+      <span class="chip assist" data-insp="chips"><svg class="ico"><use href="#i-pin"/></svg>Nearby</span>
+      <span class="chip filter sel" data-insp="chips"><svg class="ico ico--sm"><use href="#i-check"/></svg>Runs</span>
+      <span class="chip input" data-insp="chips">Riverside <svg class="ico ico--sm"><use href="#i-close"/></svg></span>
+      <span class="chip suggestion" data-insp="chips">5 km</span>
+    </div></section>
+
+  <section id="radio"><h2 class="sec">Radio button</h2><p class="sec-desc">selected / unselected.</p>
+    <div class="stage">
+      <label class="radio sel" data-insp="radio"><span class="dot"></span>Kilometres</label>
+      <label class="radio" data-insp="radio"><span class="dot"></span>Miles</label>
+    </div></section>
+
+  <section id="switch"><h2 class="sec">Switch</h2><p class="sec-desc">off / on (M3 with thumb icon growth).</p>
+    <div class="stage">
+      <div class="cell"><span class="switch" data-insp="switch"></span><div class="spec">off</div></div>
+      <div class="cell"><span class="switch on" data-insp="switch"></span><div class="spec">on</div></div>
+    </div></section>
+
+  <section id="slider"><h2 class="sec">Slider</h2><p class="sec-desc">continuous &amp; discrete.</p>
+    <div class="stage col" style="gap:22px;max-width:340px">
+      <div class="slider" data-insp="slider"><div class="track"></div><div class="fill" style="width:60%"></div><div class="thumb" style="left:calc(60% - 9px)"></div></div>
+      <div class="slider discrete"><div class="track"></div><div class="fill" style="width:40%"></div><span class="tick" style="left:0"></span><span class="tick" style="left:25%"></span><span class="tick" style="left:50%"></span><span class="tick" style="left:75%"></span><span class="tick" style="left:100%"></span><div class="thumb" style="left:calc(40% - 9px)"></div></div>
+    </div></section>
+
+  <section id="datepicker"><h2 class="sec">Date picker</h2><p class="sec-desc">Calendar (docked).</p>
+    <div class="stage"><div class="picker" data-insp="datepicker"><div class="t-label" style="color:var(--on-surface-variant)">Select date</div><div class="row" style="justify-content:space-between;margin-top:6px"><div class="t-headline-s">June 2026</div><svg class="ico"><use href="#i-chevron-down"/></svg></div><div class="pcal" id="cal"></div></div></div></section>
+
+  <section id="timepicker"><h2 class="sec">Time picker</h2><p class="sec-desc">Input.</p>
+    <div class="stage"><div class="timepicker" data-insp="timepicker"><span class="seg2 sel">06</span><span class="t-display-s">:</span><span class="seg2">30</span></div></div></section>
+
+  <!-- ============ TEXT INPUTS ============ -->
+  <section id="field"><h2 class="sec">Text field</h2><p class="sec-desc">filled &amp; outlined · states: empty / focus / filled / error / disabled.</p>
+    <div class="stage">
+      <div class="field filled" data-insp="field"><span class="lab">Route name</span><div class="ctl"><input placeholder="e.g. Riverside loop"></div><span class="hint">Filled · empty</span></div>
+      <div class="field filled focus" data-insp="field"><span class="lab">Goal distance</span><div class="ctl"><input value="10 km"></div><span class="hint">Filled · focused</span></div>
+      <div class="field outlined" data-insp="field"><span class="lab">Weekly target</span><div class="ctl"><input value="30 km"></div><span class="hint">Outlined</span></div>
+      <div class="field outlined error" data-insp="field"><span class="lab">Pace alert</span><div class="ctl"><input value="-5"></div><span class="hint">Enter a positive pace</span></div>
+      <div class="field filled disabled" data-insp="field"><span class="lab">Device</span><div class="ctl"><input value="Locked" disabled></div><span class="hint">Disabled</span></div>
+    </div></section>
+</main>
+
+<script>
+/* ===== Foundations data (Stride / M3 tokens) ===== */
+const COLORS=[
+ ['primary','#2A7E7E','on-primary','#FFFFFF'],['primary-container','#B7E7E3','on-primary-container','#00201F'],
+ ['secondary','#9E5A37','on-secondary','#FFFFFF'],['secondary-container','#FFDCC7','on-secondary-container','#341100'],
+ ['tertiary','#7C5800','on-tertiary','#FFFFFF'],['tertiary-container','#FFE08C','on-tertiary-container','#261A00'],
+ ['error','#BA1A1A','on-error','#FFFFFF'],['error-container','#FFDAD6','on-error-container','#410002'],
+ ['background','#FBF8F2','on-background','#22303C'],['surface','#FCFBF8','on-surface','#22303C'],
+ ['surface-variant','#E5E1D6','on-surface-variant','#4C5660'],['surface-container','#F1ECE2','',''],
+ ['outline','#79858C','',''],['inverse-surface','#2F3A41','inverse-on-surface','#F1ECE2'],['inverse-primary','#8AD1CC','',''],
+ ['sun','#F2C24E','',''],['city-day-1','#E8915A','',''],['city-day-2','#F4C871','',''],
+ ['city-dusk-1','#B56B5E','',''],['city-dusk-2','#5E7E80','',''],['city-silhouette','#39476A','','']];
+const TYPE=[['t-display-l','Nunito 800 / 56'],['t-display-m','Nunito 800 / 44'],['t-display-s','Nunito 800 / 34'],['t-headline-l','Nunito 700 / 30'],['t-headline-m','Nunito 700 / 26'],['t-headline-s','Nunito 700 / 22'],['t-title-l','Nunito 700 / 20'],['t-title-m','Inter 700 / 16'],['t-title-s','Inter 600 / 14'],['t-body-l','Inter 400 / 16'],['t-body-m','Inter 400 / 14'],['t-body-s','Inter 400 / 12'],['t-label-l','Inter 600 / 14'],['t-label-m','Inter 600 / 12'],['t-label-s','Inter 600 / 11']];
+const SPACING=[['sp-4',4],['sp-8',8],['sp-12',12],['sp-16',16],['sp-20',20],['sp-24',24],['sp-32',32],['sp-48',48],['sp-64',64]];
+const SHAPES=[['none',0],['xs',6],['sm',10],['md',14],['lg',18],['xl',28],['full',999]];
+colorGrid.innerHTML=COLORS.map(([n,h,on,onh])=>`<div class="sw"><div class="c" style="background:${h}">${on?`<span class="on" style="color:${onh}">${onh}</span>`:''}</div><div class="m"><div class="n">${n}</div><div class="v">${h}${on?` · ${on}`:''}</div></div></div>`).join('');
+typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">Run your city</div></div>`).join('');
+spacingList.innerHTML=SPACING.map(([n,v])=>`<div class="sprow"><div class="lbl">${n} · ${v}px</div><div class="bar" style="width:${v}px"></div></div>`).join('');
+shapeRow.innerHTML=SHAPES.map(([n,v])=>`<div class="shapebox" style="border-radius:${v}px">${n}</div>`).join('');
+const ICONS=['activity','run','walk','steps','flame','heart','timer','route','pin','map','distance','trophy','wind','mountain','bolt','home','play','calendar','star','user'];
+iconGrid.innerHTML=ICONS.map(n=>`<div class="it"><svg class="ico ico--lg"><use href="#i-${n}"/></svg><div class="nm">i-${n}</div></div>`).join('');
+const cal=document.getElementById('cal');const days=['S','M','T','W','T','F','S'];let ch=days.map(d=>`<div class="h">${d}</div>`).join('');for(let i=0;i<3;i++)ch+=`<div class="d dim">${28+i}</div>`;for(let d=1;d<=30;d++)ch+=`<div class="d${d===14?' sel':''}">${d}</div>`;cal.innerHTML=ch;
+
+/* City illustration helper (token-driven, unique ids) */
+let _uid=0;
+function cityScene(variant){const u=++_uid,g='cg'+u,c='cc'+u;
+ const blob='M36 132C24 78 78 36 150 34C214 32 262 20 318 46C372 70 380 140 356 182C332 224 256 232 184 226C120 221 64 226 44 188C30 160 44 158 36 132Z';
+ return `<svg class="illus illus--${variant}" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="City skyline"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--illus-1)"/><stop offset="1" stop-color="var(--illus-2)"/></linearGradient><clipPath id="${c}"><path d="${blob}"/></clipPath></defs><path d="${blob}" fill="url(#${g})"/><g clip-path="url(#${c})"><circle cx="306" cy="74" r="30" fill="var(--sun)"/><g fill="var(--cloud)"><ellipse cx="118" cy="92" rx="26" ry="15"/><ellipse cx="150" cy="86" rx="20" ry="13"/><ellipse cx="95" cy="97" rx="15" ry="10"/></g><g fill="var(--illus-sil)"><rect x="72" y="150" width="22" height="80"/><rect x="96" y="126" width="16" height="104"/><rect x="114" y="162" width="20" height="68"/><path d="M150 122l8-10 8 10v108h-16z"/><rect x="170" y="146" width="24" height="84"/><rect x="198" y="132" width="18" height="98"/><rect x="250" y="94" width="6" height="136"/><ellipse cx="253" cy="112" rx="11" ry="6"/><rect x="251.5" y="74" width="3" height="22"/><rect x="276" y="150" width="26" height="80"/><path d="M304 150a9 9 0 0 1 18 0v80h-18z"/><rect x="326" y="164" width="18" height="66"/></g></g></svg>`;}
+illusRow.innerHTML=[['day','day'],['dusk','dusk'],['teal','teal']].map(([v])=>`<div class="ic">${cityScene(v)}<div class="nm">.illus--${v}</div></div>`).join('');
+document.getElementById('cardIllus').innerHTML=cityScene('day');
+
+/* ===== SPECS ===== */
+const SPECS={
+ buttons:{name:'Buttons',file:'components/Button',desc:'M3 common buttons. variant: elevated/filled/filled-tonal/outlined/text; states: enabled/hover/focus/pressed/disabled.',props:[{n:'label',t:'string'},{n:'variant',t:'elevated|filled|tonal|outlined|text',def:'filled'},{n:'icon',t:'sprite?'},{n:'enabled',t:'bool',def:'true'}],tokens:[{r:'filled bg',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'filled label',n:'--on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'tonal bg',n:'--secondary-container',v:'#FFDCC7',c:'#FFDCC7'},{r:'disabled',n:'on-surface@12/38%',v:'state layer'}],metrics:[['height','40 · lg 56'],['radius','--r-full'],['contrast','white on primary = 4.7:1']]},
+ iconbtn:{name:'Icon button',file:'components/IconButton',desc:'standard/filled/tonal/outlined + toggle.',props:[{n:'icon',t:'sprite'},{n:'variant',t:'standard|filled|tonal|outlined',def:'standard'},{n:'selected',t:'bool',def:'false'}],tokens:[{r:'filled',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'tonal',n:'--primary-container',v:'#B7E7E3',c:'#B7E7E3'}],metrics:[['size','40'],['radius','--r-full']]},
+ fab:{name:'FAB',file:'components/Fab',desc:'small / regular / large / extended.',props:[{n:'icon',t:'sprite'},{n:'label',t:'string?'},{n:'size',t:'small|regular|large',def:'regular'},{n:'color',t:'tonal|primary',def:'tonal'}],tokens:[{r:'container',n:'--primary-container',v:'#B7E7E3',c:'#B7E7E3'},{r:'primary',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'shadow',n:'--elev-3',v:'soft'}],metrics:[['size','40 / 56 / 96'],['radius','md / lg / xl']]},
+ segmented:{name:'Segmented buttons',file:'components/SegmentedButton',desc:'single & multi-select, with leading check/icon.',props:[{n:'segments',t:'Seg[]'},{n:'multiple',t:'bool',def:'false'}],tokens:[{r:'selected',n:'--secondary-container',v:'#FFDCC7',c:'#FFDCC7'},{r:'outline',n:'--outline',v:'#79858C',c:'#79858C'}],metrics:[['height','40'],['radius','--r-full']]},
+ badge:{name:'Badge',file:'components/Badge',desc:'small (dot) & large (number).',props:[{n:'count',t:'number?'},{n:'dot',t:'bool',def:'false'}],tokens:[{r:'bg',n:'--error',v:'#BA1A1A',c:'#BA1A1A'},{r:'fg',n:'--on-error',v:'#FFFFFF',c:'#FFFFFF'}],metrics:[['size','8 / 18']]},
+ progress:{name:'Progress indicators',file:'components/Progress',desc:'linear & circular (determinate/indeterminate).',props:[{n:'variant',t:'linear|circular'},{n:'value',t:'number?'}],tokens:[{r:'indicator',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'track',n:'--surface-variant',v:'#E5E1D6',c:'#E5E1D6'}],metrics:[['linear h','4'],['circular','30']]},
+ snackbar:{name:'Snackbar',file:'components/Snackbar',desc:'with/without action; inverse surface.',props:[{n:'message',t:'string'},{n:'action',t:'string?'}],tokens:[{r:'bg',n:'--inverse-surface',v:'#2F3A41',c:'#2F3A41'},{r:'action',n:'--inverse-primary',v:'#8AD1CC',c:'#8AD1CC'}],metrics:[['radius','--r-xs']]},
+ tooltip:{name:'Tooltip',file:'components/Tooltip',desc:'plain & rich.',props:[{n:'text',t:'string'},{n:'rich',t:'bool',def:'false'},{n:'action',t:'string?'}],tokens:[{r:'bg',n:'--inverse-surface',v:'#2F3A41',c:'#2F3A41'},{r:'fg',n:'--inverse-on-surface',v:'#F1ECE2',c:'#F1ECE2'}],metrics:[['radius','xs / sm']]},
+ card:{name:'Card',file:'components/Card',desc:'elevated / filled / outlined.',props:[{n:'variant',t:'elevated|filled|outlined',def:'elevated'},{n:'child',t:'node'}],tokens:[{r:'elevated',n:'--surface-container-low',v:'#F7F3EB',c:'#F7F3EB'},{r:'filled',n:'--surface-container-high',v:'#EBE6DB',c:'#EBE6DB'},{r:'outline',n:'--outline-variant',v:'#D6D2C7',c:'#D6D2C7'}],metrics:[['radius','--r-xl (28)'],['pad','20']]},
+ carousel:{name:'Carousel',file:'components/Carousel',desc:'Snapping horizontal media row of items.',props:[{n:'items',t:'Item[]'}],tokens:[{r:'item radius',n:'--r-lg',v:'18'}],metrics:[['snap','x mandatory'],['gap','12']]},
+ divider:{name:'Divider',file:'components/Divider',desc:'full / inset.',props:[{n:'inset',t:'bool',def:'false'}],tokens:[{r:'line',n:'--outline-variant',v:'#D6D2C7',c:'#D6D2C7'}],metrics:[['height','1'],['inset','16']]},
+ list:{name:'Lists',file:'components/List',desc:'one/two/three-line items with leading + trailing.',props:[{n:'items',t:'ListItem[]'},{n:'lines',t:'1|2|3',def:'2'}],tokens:[{r:'headline',n:'--on-surface',v:'#22303C',c:'#22303C'},{r:'supporting',n:'--on-surface-variant',v:'#4C5660',c:'#4C5660'}],metrics:[['min','56 / 72 / 88']]},
+ sheet:{name:'Bottom sheet',file:'components/BottomSheet',desc:'standard / modal; drag handle.',props:[{n:'modal',t:'bool',def:'false'}],tokens:[{r:'surface',n:'--surface-container-low',v:'#F7F3EB',c:'#F7F3EB'},{r:'handle',n:'--outline-variant',v:'#D6D2C7',c:'#D6D2C7'}],metrics:[['radius','top --r-xl']]},
+ dialog:{name:'Dialog',file:'components/Dialog',desc:'basic / full-screen.',props:[{n:'title',t:'string'},{n:'body',t:'string'},{n:'actions',t:'Button[]'}],tokens:[{r:'surface',n:'--surface-container-high',v:'#EBE6DB',c:'#EBE6DB'}],metrics:[['radius','--r-xl'],['maxWidth','360']]},
+ appbar:{name:'Top app bar',file:'components/TopAppBar',desc:'center / small / medium / large.',props:[{n:'title',t:'string'},{n:'size',t:'center|small|medium|large',def:'small'},{n:'actions',t:'IconButton[]'}],tokens:[{r:'surface',n:'--surface',v:'#FCFBF8',c:'#FCFBF8'},{r:'title',n:'--on-surface',v:'#22303C',c:'#22303C'}],metrics:[['height','64 / 112 / 152']]},
+ navbar:{name:'Navigation bar',file:'components/NavigationBar',desc:'Bottom nav; active pill.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'container',n:'--surface-container',v:'#F1ECE2',c:'#F1ECE2'},{r:'active pill',n:'--secondary-container',v:'#FFDCC7',c:'#FFDCC7'}],metrics:[['height','72']]},
+ navrail:{name:'Navigation rail',file:'components/NavigationRail',desc:'Compact side nav with a leading FAB.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'active pill',n:'--secondary-container',v:'#FFDCC7',c:'#FFDCC7'}],metrics:[['width','88']]},
+ drawer:{name:'Navigation drawer',file:'components/NavigationDrawer',desc:'standard / modal.',props:[{n:'items',t:'NavItem[]'},{n:'selected',t:'string'}],tokens:[{r:'active',n:'--secondary-container',v:'#FFDCC7',c:'#FFDCC7'},{r:'surface',n:'--surface-container-low',v:'#F7F3EB',c:'#F7F3EB'}],metrics:[['width','300'],['item h','56']]},
+ tabs:{name:'Tabs',file:'components/Tabs',desc:'primary (pill indicator) & secondary (underline).',props:[{n:'tabs',t:'string[]'},{n:'index',t:'number'},{n:'variant',t:'primary|secondary',def:'primary'}],tokens:[{r:'active',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'inactive',n:'--on-surface-variant',v:'#4C5660',c:'#4C5660'}],metrics:[['indicator','3']]},
+ search:{name:'Search',file:'components/Search',desc:'bar & expanded view.',props:[{n:'value',t:'string'},{n:'suggestions',t:'Item[]'}],tokens:[{r:'bar',n:'--surface-container-high',v:'#EBE6DB',c:'#EBE6DB'}],metrics:[['height','56'],['radius','--r-full']]},
+ menu:{name:'Menu',file:'components/Menu',desc:'Dropdown of actions.',props:[{n:'items',t:'MenuItem[]'}],tokens:[{r:'surface',n:'--surface-container',v:'#F1ECE2',c:'#F1ECE2'},{r:'shadow',n:'--elev-2',v:'soft'}],metrics:[['item h','48']]},
+ checkbox:{name:'Checkbox',file:'components/Checkbox',desc:'unchecked/checked/indeterminate.',props:[{n:'checked',t:'bool'},{n:'indeterminate',t:'bool',def:'false'}],tokens:[{r:'selected',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'outline',n:'--on-surface-variant',v:'#4C5660',c:'#4C5660'}],metrics:[['box','18'],['radius','--r-xs']]},
+ chips:{name:'Chips',file:'components/Chip',desc:'assist / filter / input / suggestion.',props:[{n:'label',t:'string'},{n:'type',t:'assist|filter|input|suggestion'},{n:'selected',t:'bool',def:'false'}],tokens:[{r:'selected (filter)',n:'--secondary-container',v:'#FFDCC7',c:'#FFDCC7'},{r:'outline',n:'--outline',v:'#79858C',c:'#79858C'}],metrics:[['height','32'],['radius','--r-sm']]},
+ radio:{name:'Radio button',file:'components/Radio',desc:'selected / unselected.',props:[{n:'selected',t:'bool'},{n:'name',t:'string'}],tokens:[{r:'dot',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'}],metrics:[['outer','20'],['inner','10']]},
+ switch:{name:'Switch',file:'components/Switch',desc:'M3 switch; thumb grows when on.',props:[{n:'on',t:'bool'}],tokens:[{r:'on track',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'off track',n:'--surface-variant',v:'#E5E1D6',c:'#E5E1D6'}],metrics:[['track','52×32'],['thumb','16→24']]},
+ slider:{name:'Slider',file:'components/Slider',desc:'continuous & discrete (with ticks).',props:[{n:'value',t:'number'},{n:'discrete',t:'bool',def:'false'}],tokens:[{r:'active',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'inactive',n:'--surface-variant',v:'#E5E1D6',c:'#E5E1D6'}],metrics:[['thumb','18'],['track','4']]},
+ datepicker:{name:'Date picker',file:'components/DatePicker',desc:'Docked calendar.',props:[{n:'value',t:'Date'},{n:'onSelect',t:'callback'}],tokens:[{r:'selected day',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'surface',n:'--surface-container-high',v:'#EBE6DB',c:'#EBE6DB'}],metrics:[['width','328'],['day','36']]},
+ timepicker:{name:'Time picker',file:'components/TimePicker',desc:'Input/selector for HH:MM.',props:[{n:'hour',t:'number'},{n:'minute',t:'number'}],tokens:[{r:'selected field',n:'--primary-container',v:'#B7E7E3',c:'#B7E7E3'}],metrics:[['radius','--r-sm']]},
+ field:{name:'Text field',file:'components/TextField',desc:'filled & outlined; states empty/focus/filled/error/disabled.',props:[{n:'label',t:'string'},{n:'value',t:'string'},{n:'variant',t:'filled|outlined',def:'filled'},{n:'error',t:'string?'},{n:'disabled',t:'bool',def:'false'}],tokens:[{r:'filled bg',n:'--surface-container-highest',v:'#E5E0D4',c:'#E5E0D4'},{r:'active indicator',n:'--primary',v:'#2A7E7E',c:'#2A7E7E'},{r:'error',n:'--error',v:'#BA1A1A',c:'#BA1A1A'}],metrics:[['height','56'],['radius','filled top / outlined --r-xs']]},
+};
+
+/* ===== Copy-as-prompt (per component add-or-update + one Install prompt) ===== */
+const LANGS=['Jetpack Compose (Kotlin)','Flutter (Dart)','React Native','SwiftUI','React (TypeScript + CSS)','HTML + CSS'];
+let promptLang=LANGS[0];
+langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</option>`).join('');
+langSel.onchange=()=>promptLang=langSel.value;
+const DS_NAME='the "Stride" city-fitness design system (Material 3; warm teal + city-illustration "Cityscape" theme)';
+const TOKEN_GROUPS={
+ 'M3 color roles (keep every fill paired with its on-*)':['--primary','--on-primary','--primary-container','--on-primary-container','--secondary','--on-secondary','--secondary-container','--on-secondary-container','--tertiary','--on-tertiary','--tertiary-container','--on-tertiary-container','--error','--on-error','--error-container','--on-error-container','--background','--on-background','--surface','--on-surface','--surface-variant','--on-surface-variant','--surface-container-lowest','--surface-container-low','--surface-container','--surface-container-high','--surface-container-highest','--outline','--outline-variant','--inverse-surface','--inverse-on-surface','--inverse-primary'],
+ 'Expression / illustration':['--sun','--city-day-1','--city-day-2','--city-dusk-1','--city-dusk-2','--city-silhouette','--city-silhouette-cool','--cloud'],
+ 'Spacing':['--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
+ 'Shape':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full'],
+ 'Elevation':['--elev-0','--elev-1','--elev-2','--elev-3','--elev-4','--elev-5'],
+ 'Type families':['--font-brand','--font-body','--font-mono'],
+ 'Motion':['--dur-short','--dur-medium','--dur-long','--ease-standard','--ease-emphasized','--ease-spring']};
+function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];
+ for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);if(rows.length)out.push(`### ${grp}`,...rows,'');}
+ return out;}
+function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as a named constant in ONE theme file, idiomatic to ${promptLang} (e.g. a Compose MaterialTheme / ColorScheme). Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### M3 type scale (text styles)`];
+ TYPE.forEach(([n,m])=>L.push(`- ${n}: ${m}`));
+ L.push('',`### Signature illustration`,`Wide flat city-skyline blob (inline SVG): an organic blob with a vertical gradient (--illus-1→--illus-2), a sun (--sun), soft clouds (--cloud), and a skyline silhouette (--illus-sil). Themed per instance via .illus--day/--dusk/--teal. Re-implement as a reusable, token-driven vector.`,'',`### Rules`,`- Every fill stays paired with its on-* foreground; pairs are WCAG-checked (body ≥ 4.5:1).`,`- Neutrals tinted warm; teal↔amber complementary, kept muted. Large radii, soft tinted shadows.`);
+ return L.join('\n');}
+function buildPrompt(key){const s=SPECS[key];const L=[`# Add or update the \`${s.name}\` component — ${promptLang}`,'',`A component from ${DS_NAME}, following Material 3. If a component with this role ALREADY EXISTS, modify it IN PLACE to match the spec below (this spec is the source of truth) — don't duplicate, note breaking changes. Otherwise create it, reusing existing tokens/atoms and the project's conventions.`,'',`## What it is`,s.desc,'',`## Props`];
+ s.props.forEach(p=>L.push(`- \`${p.n}\`: ${p.t}${p.def?` (default ${p.def})`:''}`));
+ L.push('',`## Design tokens (define/extend in the theme layer; never inline)`);s.tokens.forEach(t=>L.push(`- ${t.n} = ${t.v}   // ${t.r}`));
+ L.push('',`## Metrics`);s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
+ L.push('',`## Requirements`,`- Implement every variant/state listed; follow Material 3 behaviour & state layers.`,`- Reference tokens by name; keep each fill paired with its on-* foreground (WCAG ≥ 4.5:1).`,`- Match the warm, friendly, soft feel: large radii, soft tinted shadows, rounded display type.`,`- Output complete, compilable ${promptLang} code + a short usage example.`);
+ return L.join('\n');}
+function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
+function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[`# Install or update the ENTIRE design system — ${promptLang}`,'',`Set up ${DS_NAME} in ${promptLang}, following Material 3. If it doesn't exist, scaffold from scratch; if parts exist, update them IN PLACE to match this spec — modify, don't duplicate; collect breaking changes.`,'',`## Build order`,`1. Implement the **foundation token layer** below (M3 ColorScheme + type + shape + elevation + the illustration tokens) as the single source of truth.`,`2. Then build the components against that **shared** layer — you may split across parallel workers, but never redefine colors/sizes locally. Keep M3 naming & states consistent.`,`3. Reconcile: a components index + a pass that every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
+ keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
+ L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/on-* pair (WCAG ≥ 4.5:1); preserve warm neutrals, large radii, soft tinted shadows, and the city-illustration signature.`,`- Output: the theme file, then each component + the illustration, each with a short usage example.`);
+ return L.join('\n');}
+function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
+function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t);}
+
+/* every SPECS-backed section auto-gets a Copy-as-prompt button */
+document.querySelectorAll('main section[id]').forEach(sec=>{const key=sec.id;if(!SPECS[key])return;const h=sec.querySelector('h2.sec');if(!h||h.querySelector('.sec-prompt'))return;const b=document.createElement('button');b.className='sec-prompt';b.type='button';b.textContent='Copy as prompt';b.addEventListener('click',()=>copyPrompt(key));h.appendChild(b);});
+
+/* ===== Dev Mode + Inspector ===== */
+function toggleDev(){const on=document.body.classList.toggle('dev');devToggle.classList.toggle('on',on);devToggle.textContent=on?'◧ Dev Mode · ON':'◧ Dev Mode';if(!on)closeInspector();}
+function closeInspector(){document.body.classList.remove('inspecting');document.querySelectorAll('.insp-sel').forEach(e=>e.classList.remove('insp-sel'));}
+document.addEventListener('click',e=>{if(e.target.closest('#inspector')||e.target.closest('#topctl'))return;if(!document.body.classList.contains('dev'))return;const el=e.target.closest('[data-insp]');if(el&&SPECS[el.dataset.insp])selectComp(el,el.dataset.insp);});
+function selectComp(el,key){document.querySelectorAll('.insp-sel').forEach(x=>x.classList.remove('insp-sel'));el.classList.add('insp-sel');document.body.classList.add('inspecting');const s=SPECS[key];
+ const props=s.props.map(p=>`<div class="prop"><span class="pn">${p.n}</span> <span class="pt">${p.t}</span>${p.def?` <span class="pdef">= ${p.def}</span>`:''}</div>`).join('');
+ const toks=s.tokens.map(t=>`<div class="tok" onclick="copyVal('${t.v}')"><div class="tsw" style="background:${t.c||'var(--surface-variant)'}"></div><div><div class="tn">${t.n}</div><div class="tr">${t.r}</div></div><div class="tv">${t.v}</div></div>`).join('');
+ const mets=s.metrics.map(([k,v])=>`<div class="metric"><span class="mk">${k}</span><span>${v}</span></div>`).join('');
+ inspectorBody.innerHTML=`<div class="nm">${s.name}</div><div class="file">${s.file}</div><div class="desc">${s.desc}</div><h4>Properties</h4>${props}<h4>Design tokens · click to copy</h4>${toks}<h4>Metrics</h4>${mets}<button class="copyprompt" onclick="copyPrompt('${key}')">⧉ Copy as prompt</button>`;}
+function copyVal(v){navigator.clipboard&&navigator.clipboard.writeText(v);toast('Copied '+v);}
+function toast(msg){const c=document.getElementById('copied');c.textContent=msg;c.classList.add('show');setTimeout(()=>c.classList.remove('show'),1300);}
+</script>
+</body>
+</html>

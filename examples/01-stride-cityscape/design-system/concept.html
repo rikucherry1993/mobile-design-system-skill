@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride · Concept — Today + Run detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{font-family:var(--font-body);background:var(--background);color:var(--on-surface);min-height:100vh;margin:0;padding:34px 24px 60px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .back{align-self:flex-start;font:700 13px var(--font-body);color:var(--primary);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .caption{font:12px var(--font-mono);color:var(--subtle);text-align:center;max-width:580px;line-height:1.7}
+  .two{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .col .label{font:700 11px var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
+  .phone{width:374px;max-width:100%;background:var(--surface);border-radius:46px;box-shadow:var(--elev-5);border:1px solid var(--outline-variant);overflow:hidden;position:relative}
+  .screen{height:798px;overflow:auto;background:var(--background);position:relative}
+  .screen::-webkit-scrollbar{width:0}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:140px;height:26px;background:rgb(0 0 0 / .10);border-radius:0 0 16px 16px;z-index:8}
+  .pad{padding:0 18px}
+  .appbar.cc{background:transparent;padding-top:30px;height:auto}
+  /* hero with city illustration */
+  .hero{position:relative;border-radius:var(--r-xl);overflow:hidden;margin-top:6px;background:var(--surface-container-low);box-shadow:var(--elev-1)}
+  .hero .illwrap{position:relative}
+  .hero .ovl{position:absolute;left:16px;top:14px;right:16px;display:flex;justify-content:space-between;align-items:flex-start}
+  .hero .cap{position:absolute;left:18px;bottom:14px;color:#fff;text-shadow:0 1px 6px rgb(0 0 0 / .25)}
+  .stat3{display:flex;gap:10px;margin-top:14px}
+  .stat3 .s{flex:1;background:var(--surface-container-low);border-radius:var(--r-lg);padding:14px;text-align:center;box-shadow:var(--elev-1)}
+  .stat3 .s .v{font:800 22px var(--font-brand);color:var(--on-surface)}
+  .stat3 .s .k{font:600 11px var(--font-body);color:var(--on-surface-variant);margin-top:2px}
+  .sec-h{font:700 15px var(--font-brand);color:var(--on-surface);margin:22px 4px 10px;display:flex;align-items:center;justify-content:space-between}
+  .sec-h .more{font:600 12px var(--font-body);color:var(--primary)}
+  .route-ovl{position:absolute;inset:0;pointer-events:none}
+  /* detail */
+  .topbar{position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;gap:8px;padding:40px 14px 10px}
+  .glass{background:color-mix(in srgb,var(--surface) 60%,transparent);backdrop-filter:blur(8px);box-shadow:var(--elev-1)}
+  .bigstat{display:flex;align-items:baseline;gap:8px;margin-top:6px}
+  .splits .sp{display:flex;align-items:center;gap:12px;padding:9px 0}
+  .splits .sp .km{width:30px;font:700 13px var(--font-mono);color:var(--on-surface-variant)}
+  .splits .sp .barwrap{flex:1;height:8px;border-radius:var(--r-full);background:var(--surface-variant);overflow:hidden}
+  .splits .sp .bar{height:100%;border-radius:var(--r-full);background:var(--primary)}
+  .splits .sp .pc{font:700 13px var(--font-mono);color:var(--on-surface);width:50px;text-align:right}
+  .ctabar{position:sticky;bottom:0;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--outline-variant);padding:12px 18px 16px;display:flex;gap:12px;align-items:center}
+</style>
+</head>
+<body>
+<a class="back" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg>Back to style guide</a>
+
+<!-- ICON SPRITE (copied — self-contained) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V13h6v9"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-run" viewBox="0 0 24 24"><circle cx="16" cy="5" r="2"/><path d="M5 21l3-5 3 1 1-5 3 3 3 1M11 12l-2-3 4-2 2 3 2 1"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8 19h7a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h7"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 .5 1 1.5 1.5 2 1 .5-2-1-3-1-6z"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9 2h6"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.4 5.4 0 0 0-7.7 0L12 6.7l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21.2l8.8-8.9a5.4 5.4 0 0 0 0-7.7z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+
+<div class="two">
+
+  <!-- ════════ SCREEN 1 · FIRST VIEW — Today ════════ -->
+  <div class="col">
+    <div class="label">First view · Today</div>
+    <div class="phone"><div class="notch"></div><div class="screen">
+      <div class="appbar large cc pad" style="flex-direction:column;align-items:stretch">
+        <div class="row" style="justify-content:space-between"><button class="iconbtn"><svg class="ico"><use href="#i-menu"/></svg></button><span class="badge-wrap"><button class="iconbtn"><svg class="ico"><use href="#i-bell"/></svg></button><span class="badge dot"></span></span></div>
+        <div class="t-headline-m" style="margin-top:10px">Good morning, Mira</div>
+        <div class="t-body-m">Sunny, 21° · a great day to move</div>
+      </div>
+      <div class="pad">
+        <!-- HERO with wide city illustration -->
+        <div class="hero">
+          <div class="illwrap" id="hero1"></div>
+          <div class="ovl"><span class="chip input" style="background:color-mix(in srgb,var(--surface) 78%,transparent);border:none"><svg class="ico ico--sm"><use href="#i-map"/></svg>Lisbon</span></div>
+          <div class="cap"><div style="font:800 20px var(--font-brand)">Your city today</div><div style="font:600 13px var(--font-body)">Riverside loop is calling</div></div>
+        </div>
+        <!-- today's rings/stats -->
+        <div class="stat3">
+          <div class="s"><div class="v">8,640</div><div class="k">steps</div></div>
+          <div class="s"><div class="v">5.2<span style="font-size:13px"> km</span></div><div class="k">distance</div></div>
+          <div class="s"><div class="v">410</div><div class="k">kcal</div></div>
+        </div>
+        <button class="fab extended primary" style="width:100%;margin-top:16px;height:56px"><svg class="ico"><use href="#i-run"/></svg>Start a run</button>
+        <!-- suggested route -->
+        <div class="sec-h">Suggested route <span class="more">Explore</span></div>
+        <div class="card card-elevated" style="display:flex;align-items:center;gap:14px;padding:14px">
+          <span class="iconbtn tonal" style="width:46px;height:46px"><svg class="ico"><use href="#i-route"/></svg></span>
+          <div style="flex:1"><div class="t-title-m">Old town &amp; river</div><div class="t-body-m">6.4 km · mostly flat · 2 viewpoints</div></div>
+          <button class="iconbtn"><svg class="ico"><use href="#i-heart"/></svg></button>
+        </div>
+        <div style="height:14px"></div>
+      </div>
+      <div class="navbar" style="position:sticky;bottom:0">
+        <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-home"/></svg></span>Today</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-map"/></svg></span>Explore</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-activity"/></svg></span>Activity</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-user"/></svg></span>You</div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ════════ SCREEN 2 · DETAIL — Run ════════ -->
+  <div class="col">
+    <div class="label">Detail · Run</div>
+    <div class="phone"><div class="notch"></div><div class="screen">
+      <div class="topbar"><button class="iconbtn glass"><svg class="ico"><use href="#i-back"/></svg></button><div style="flex:1"></div><button class="iconbtn glass"><svg class="ico"><use href="#i-share"/></svg></button></div>
+      <!-- hero illustration with route overlay -->
+      <div class="illwrap" id="hero2" style="position:relative">
+        <svg class="route-ovl" viewBox="0 0 400 240" preserveAspectRatio="none"><path d="M70 188 C 120 150, 150 200, 200 170 S 300 120, 330 150" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10" opacity=".95"/><circle cx="70" cy="188" r="6" fill="#fff"/><circle cx="330" cy="150" r="6" fill="var(--primary)" stroke="#fff" stroke-width="2"/></svg>
+      </div>
+      <div class="pad" style="padding-bottom:96px">
+        <div class="t-label" style="color:var(--primary);margin-top:14px">Riverside loop · Today 7:02 AM</div>
+        <div class="bigstat"><span class="t-display-m">7.2</span><span class="t-headline-s" style="color:var(--on-surface-variant)">km</span></div>
+        <!-- stat row -->
+        <div class="stat3" style="margin-top:14px">
+          <div class="s"><div class="v">38:20</div><div class="k">time</div></div>
+          <div class="s"><div class="v">5:19</div><div class="k">/km pace</div></div>
+          <div class="s"><div class="v">612</div><div class="k">kcal</div></div>
+        </div>
+        <!-- splits -->
+        <div class="sec-h">Splits</div>
+        <div class="card card-filled splits" style="padding:8px 16px">
+          <div class="sp"><span class="km">1</span><div class="barwrap"><div class="bar" style="width:88%"></div></div><span class="pc">5:02</span></div>
+          <div class="sp"><span class="km">2</span><div class="barwrap"><div class="bar" style="width:80%"></div></div><span class="pc">5:14</span></div>
+          <div class="sp"><span class="km">3</span><div class="barwrap"><div class="bar" style="width:72%"></div></div><span class="pc">5:28</span></div>
+          <div class="sp"><span class="km">4</span><div class="barwrap"><div class="bar" style="width:84%"></div></div><span class="pc">5:08</span></div>
+          <div class="sp"><span class="km">5</span><div class="barwrap"><div class="bar" style="width:90%"></div></div><span class="pc">4:58</span></div>
+        </div>
+        <div class="row" style="gap:8px;margin-top:14px;color:var(--on-surface-variant);font:600 13px var(--font-body)"><svg class="ico ico--sm"><use href="#i-flame"/></svg>New best on the Castle climb</div>
+      </div>
+      <div class="ctabar">
+        <button class="btn btn-filled btn--lg" style="flex:1">Save run</button>
+        <button class="iconbtn tonal"><svg class="ico"><use href="#i-share"/></svg></button>
+      </div>
+    </div></div>
+  </div>
+
+</div>
+
+<div class="caption">Two concept screens — Today (first view: wide city-illustration hero, daily stats, start-a-run CTA, bottom nav) and a Run detail (full-bleed city illustration with the route traced over it, big metrics, splits, sticky CTA — no bottom nav). Built only from Stride components + the token-driven city illustration. Switch the theme by editing <code>styles.css</code> :root tokens.</div>
+
+<script>
+let _uid=0;
+function cityScene(variant){const u=++_uid,g='cg'+u,c='cc'+u;
+ const blob='M0 60C40 30 90 18 150 22C214 26 262 8 330 30C372 44 400 96 400 130L400 240L0 240Z';
+ return `<svg class="illus illus--${variant}" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" style="height:230px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="City skyline"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--illus-1)"/><stop offset="1" stop-color="var(--illus-2)"/></linearGradient><clipPath id="${c}"><path d="${blob}"/></clipPath></defs><path d="${blob}" fill="url(#${g})"/><g clip-path="url(#${c})"><circle cx="318" cy="66" r="30" fill="var(--sun)"/><g fill="var(--cloud)"><ellipse cx="96" cy="70" rx="26" ry="15"/><ellipse cx="128" cy="64" rx="20" ry="13"/><ellipse cx="72" cy="76" rx="15" ry="10"/></g><g fill="var(--illus-sil)"><rect x="40" y="150" width="22" height="90"/><rect x="64" y="126" width="16" height="114"/><rect x="82" y="162" width="20" height="78"/><path d="M120 122l8-10 8 10v118h-16z"/><rect x="142" y="146" width="24" height="94"/><rect x="170" y="132" width="18" height="108"/><rect x="232" y="92" width="6" height="148"/><ellipse cx="235" cy="112" rx="11" ry="6"/><rect x="233.5" y="72" width="3" height="22"/><rect x="262" y="150" width="26" height="90"/><path d="M290 150a9 9 0 0 1 18 0v90h-18z"/><rect x="318" y="166" width="20" height="74"/><rect x="344" y="150" width="16" height="90"/></g></g></svg>`;}
+document.getElementById('hero1').innerHTML=cityScene('day');
+document.getElementById('hero2').innerHTML=cityScene('dusk');
+</script>
+</body>
+</html>

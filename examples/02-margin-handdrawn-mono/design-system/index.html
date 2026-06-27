@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Margin · Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&family=Lora:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);display:flex}
+nav.side{position:sticky;top:0;align-self:flex-start;height:100vh;width:222px;flex:0 0 222px;background:var(--surface);border-right:var(--stroke) solid var(--ink);padding:22px 14px;overflow:auto}
+nav.side .brand{font:700 24px var(--font-display);color:var(--ink);margin-bottom:2px;display:flex;align-items:center;gap:8px}
+nav.side .tag{font:600 11px var(--font-body);color:var(--subtle);margin:0 0 16px 2px}
+nav.side a{display:block;padding:5px 10px;border-radius:8px;font-size:13px;color:var(--muted);text-decoration:none}
+nav.side a:hover{background:var(--muted-surface);color:var(--ink)}
+nav.side a.concept-link{margin:0 0 8px;padding:11px;font-weight:700;color:var(--on-primary);background:var(--ink);border-radius:14px;font-family:var(--font-display)}
+nav.side .grp{font:700 10px var(--font-body);letter-spacing:.9px;text-transform:uppercase;color:var(--subtle);margin:16px 0 5px 10px}
+main{flex:1;padding:40px 48px 140px;max-width:1080px}
+section{margin-bottom:52px;scroll-margin-top:20px}
+h2.sec{font:700 26px var(--font-display);color:var(--on-surface);margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.sec-desc{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:720px;line-height:1.6}
+.stage{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);padding:28px;display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+.stage.col{flex-direction:column;align-items:stretch}
+.cell{display:flex;flex-direction:column;align-items:center;gap:9px}.spec{font:11px var(--font-mono);color:var(--subtle)}
+.colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.sw{border:var(--stroke) solid var(--ink);border-radius:var(--r-sm);overflow:hidden;background:var(--surface)}
+.sw .c{height:54px;display:flex;align-items:flex-end;justify-content:flex-end;padding:6px}.sw .c .on{font:700 11px var(--font-mono)}
+.sw .m{padding:7px 9px}.sw .n{font-size:12px;font-weight:700}.sw .v{font:11px var(--font-mono);color:var(--subtle)}
+.typerow{display:flex;align-items:baseline;gap:18px;padding:12px 0;border-bottom:1px solid var(--border-faint)}
+.typerow .tk{width:130px;flex:0 0 130px;font:11px var(--font-mono);color:var(--subtle)}
+.sprow{display:flex;align-items:center;gap:12px;margin-bottom:7px}.sprow .bar{background:var(--ink);height:14px;border-radius:3px}.sprow .lbl{width:150px;font:12px var(--font-mono);color:var(--muted)}
+.shaperow{display:flex;gap:18px;flex-wrap:wrap}.shapebox{width:84px;height:60px;background:var(--surface);border:var(--stroke) solid var(--ink);display:flex;align-items:flex-end;justify-content:center;padding:5px;font:10px var(--font-mono);color:var(--ink)}
+.iconGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.iconGrid .it{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-sm);padding:13px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--on-surface)}.iconGrid .it .nm{font:11px var(--font-mono);color:var(--subtle)}
+.illusRow{display:flex;gap:16px;flex-wrap:wrap}.illusRow .ix{flex:0 0 200px;background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);padding:18px}.illusRow .ix.ink{background:var(--ink-card);color:var(--on-ink-card)}.illusRow .ix .nm{font:11px var(--font-mono);opacity:.7;text-align:center;margin-top:8px}
+
+#topctl{position:fixed;top:16px;right:20px;z-index:50;display:flex;gap:10px;align-items:center}
+#themeSel,#langSel{font:700 12px var(--font-body);border:var(--stroke) solid var(--ink);border-radius:10px;padding:7px 10px;background:var(--surface);color:var(--ink)}
+.ds-btn{font:700 12px var(--font-display);background:var(--ink);border:var(--stroke) solid var(--ink);color:var(--on-primary);border-radius:10px;padding:8px 13px;cursor:pointer}
+#devToggle{font:700 13px var(--font-display);background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:10px;padding:7px 14px;cursor:pointer;color:var(--ink)}
+#devToggle.on{background:var(--ink);color:var(--on-primary)}
+.sec-prompt{font:700 11px var(--font-display);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);border-radius:8px;padding:4px 10px;margin-left:8px;cursor:pointer;vertical-align:middle}
+body.dev [data-insp]:hover{outline:2px dashed var(--ink);outline-offset:4px;cursor:pointer}
+.insp-sel{outline:2px solid var(--ink)!important;outline-offset:4px}
+#inspector{position:fixed;top:0;right:0;width:344px;height:100vh;background:var(--surface);border-left:var(--stroke) solid var(--ink);transform:translateX(100%);transition:transform .26s var(--ease);z-index:49;overflow:auto;padding:58px 20px 40px}
+body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-right:344px}
+#inspector .iclose{position:absolute;top:16px;right:16px;border:none;background:none;font-size:18px;color:var(--muted);cursor:pointer}
+#inspector .nm{font:700 21px var(--font-display);color:var(--on-surface)}#inspector .file{font:12px var(--font-mono);color:var(--subtle);margin-top:2px}
+#inspector .desc{font-size:13px;color:var(--muted);line-height:1.6;margin-top:10px}
+#inspector h4{font:700 11px var(--font-body);letter-spacing:.6px;text-transform:uppercase;color:var(--subtle);margin:20px 0 8px}
+.prop{padding:8px 0;border-bottom:1px solid var(--border-faint)}.prop .pn{font:600 13px var(--font-mono)}.prop .pt{font:11px var(--font-mono);color:var(--muted)}.prop .pdef{font:11px var(--font-mono);color:var(--subtle)}
+.tok{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;cursor:pointer}.tok:hover{background:var(--muted-surface)}
+.tok .tsw{width:22px;height:22px;border-radius:5px;border:var(--stroke) solid var(--ink);flex:0 0 22px}.tok .tn{font:600 12px var(--font-mono)}.tok .tr{font-size:11px;color:var(--muted)}.tok .tv{margin-left:auto;font:11px var(--font-mono);color:var(--subtle)}
+.metric{display:flex;justify-content:space-between;font:12px var(--font-mono);padding:5px 0;border-bottom:1px dashed var(--border-faint)}.metric .mk{color:var(--muted)}
+.copyprompt{width:100%;margin-top:16px;font:700 13px var(--font-display);background:var(--ink);color:var(--on-primary);border:none;border-radius:12px;padding:11px;cursor:pointer}
+.copied{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--on-primary);font-size:12px;padding:8px 16px;border-radius:8px;opacity:0;transition:.2s;z-index:60;pointer-events:none}.copied.show{opacity:.97}
+</style>
+</head>
+<body>
+
+<!-- ROUGHEN FILTERS — wobble & uneven weight for hand-drawn line art (.illus / .sparkle) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="rough2" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="24" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G"/></filter>
+</svg>
+
+<!-- SPRITE (copied from icons.html — icons + doodles + illustrations) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></symbol>
+  <symbol id="i-smiley" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="M21 21l-4.6-4.6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.7" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2-1.5-2-3.4-2.3 1a7.5 7.5 0 0 0-1.7-1l-.3-2.6h-4l-.3 2.6a7.5 7.5 0 0 0-1.7 1l-2.3-1-2 3.4L4.6 11a7.5 7.5 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7.5 7.5 0 0 0 1.7 1l.3 2.6h4l.3-2.6a7.5 7.5 0 0 0 1.7-1l2.3 1 2-3.4z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M19 17H6a2 2 0 0 0-2 2"/></symbol>
+  <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 6C9 4 5 4 3 5v14c2-1 6-1 9 1 3-2 7-2 9-1V5c-2-1-6-1-9 1z"/><path d="M12 7v13"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="7" rx="2" fill="currentColor" stroke="none"/><rect x="17" y="13" width="4" height="7" rx="2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+  <symbol id="i-highlight" viewBox="0 0 24 24"><path d="M9 13l-1 5 4-2 8-8-3-3-8 8z"/><path d="M4 21h7"/></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24"><rect x="4" y="3" width="4" height="18" rx="1"/><rect x="10" y="3" width="4" height="18" rx="1"/><path d="M17 5l4 1-3 15-4-1z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.4 5.4 0 0 0-7.7 0L12 6.7l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21.2l8.8-8.9a5.4 5.4 0 0 0 0-7.7z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 21l1.1-6.5L2.6 9.8l6.5-.9z"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M7 7H4v6h3c0 2-1 3-3 3M17 7h-3v6h3c0 2-1 3-3 3"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2c1 5 4 8 9 10-5 2-8 5-9 10-1-5-4-8-9-10 5-2 8-5 9-10z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="il-openbook" viewBox="0 0 220 170"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M110 46C108 72 109 112 111 140"/><path d="M110 46C92 35 58 30 30 38C24 40 20 42 19 48C17 80 18 112 20 136C21 142 26 142 31 140C56 133 90 134 109 144"/><path d="M110 46C128 35 162 30 190 38C196 40 200 42 201 48C203 80 202 112 200 136C199 142 194 142 189 140C164 133 130 134 111 144"/><path d="M28 60C56 56 86 58 104 68"/><path d="M28 76C54 72 84 74 103 84"/><path d="M118 66C140 60 168 60 190 64"/><path d="M119 82C142 77 168 77 189 80"/><path d="M150 32C150 46 150 58 150 66C150 68 152 68 153 66L157 58L161 66C162 68 164 68 164 66C164 56 164 44 164 32"/></g></symbol>
+  <symbol id="il-reader" viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M83 38C82 23 95 16 104 18C117 21 121 34 116 44C112 52 103 56 95 53C87 50 83 45 83 38Z"/><path d="M85 31C90 22 105 21 113 28"/><path d="M95 37v3"/><path d="M107 37v3"/><path d="M96 45C99 48 104 48 107 45"/><path d="M96 55C83 60 77 74 80 94C81 104 85 111 94 115"/><path d="M105 55C119 59 125 75 122 97C121 107 117 112 109 116"/><path d="M82 90C72 98 70 114 78 126"/><path d="M119 90C129 98 131 114 123 126"/><path d="M80 112C69 122 63 134 70 142C82 140 98 134 110 134C123 134 133 138 138 143C143 134 134 121 121 113"/><path d="M85 134C100 128 116 128 130 134"/><path d="M100 150C86 140 70 140 60 144C60 132 60 124 60 121C70 117 86 117 100 127C114 117 130 117 140 121C140 124 140 132 140 144C130 140 114 140 100 150Z"/><path d="M100 127v23"/></g></symbol>
+  <symbol id="il-listen" viewBox="0 0 200 180"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M66 78C66 68 68 64 78 64C100 63 122 64 130 66C136 68 136 74 136 82C136 110 136 134 135 146C135 154 130 156 122 156C100 157 80 156 72 154C66 152 66 146 66 138Z"/><path d="M76 68C76 96 76 124 76 152"/><path d="M97 104v4"/><path d="M114 104v4"/><path d="M96 116C101 122 110 122 115 116"/><path d="M56 100C56 64 90 48 101 48C112 48 146 64 146 100"/><path d="M52 100C47 100 45 105 45 113C45 122 48 126 54 125C59 124 60 119 60 112V104C60 101 56 100 52 100Z"/><path d="M150 100C155 100 157 105 157 113C157 122 154 126 148 125C143 124 142 119 142 112V104C142 101 146 100 150 100Z"/><path d="M160 58C160 50 161 44 161 40C161 37 165 37 168 39M161 58C158 56 154 57 154 61C154 64 158 65 161 62"/></g></symbol>
+  <symbol id="il-stack" viewBox="0 0 200 175"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M40 140C40 132 42 130 50 129C90 126 140 127 150 130C156 132 156 136 156 142C156 150 154 152 146 153C106 156 58 155 48 152C42 150 40 147 40 140Z"/><path d="M47 140C80 137 120 137 150 140"/><path d="M54 114C54 106 56 104 64 103C100 100 144 101 154 104C160 106 160 110 160 116C160 124 158 126 150 127C110 130 66 129 58 126C52 124 54 120 54 114Z"/><path d="M60 114C92 111 128 111 156 114"/><g transform="rotate(-5 100 84)"><path d="M50 88C50 80 52 78 60 77C98 74 140 75 150 78C156 80 156 84 156 90C156 98 154 100 146 101C108 104 64 103 56 100C50 98 50 94 50 88Z"/><path d="M89 86v4"/><path d="M113 86v4"/><path d="M91 94C97 99 105 99 111 94"/></g><path d="M172 72C173 76 175 78 179 79C175 80 173 82 172 86C171 82 169 80 165 79C169 78 171 76 172 72Z"/></g></symbol>
+</svg>
+
+<div id="topctl">
+  <button class="ds-btn" onclick="copyFullSystem()" title="Copy a prompt to install or update the whole design system">⤓ Install design system</button>
+  <select id="themeSel" title="Preview theme" onchange="document.documentElement.setAttribute('data-theme',this.value)"><option value="">Light</option><option value="dark">Dark (inverted)</option></select>
+  <select id="langSel" title="Copy-as-prompt target"></select>
+  <button id="devToggle" onclick="toggleDev()">◧ Dev Mode</button>
+</div>
+<aside id="inspector"><button class="iclose" onclick="closeInspector()">✕</button><div id="inspectorBody"></div></aside>
+<div class="copied" id="copied">Copied</div>
+
+<nav class="side">
+  <div class="brand"><svg class="ico" style="color:var(--ink)"><use href="#i-book-open"/></svg>Margin</div>
+  <div class="tag">Reading &amp; notes · Mono · hand-drawn</div>
+  <a class="concept-link" href="concept.html">◳ &nbsp;Concept preview &nbsp;→</a>
+  <div class="grp">Foundations</div>
+  <a href="#colors">Color</a><a href="#type">Typography</a><a href="#spacing">Spacing</a><a href="#shape">Shape</a><a href="#elevation">Elevation</a><a href="#icons">Icons</a><a href="#illustrations">Illustrations</a>
+  <div class="grp">Inputs</div>
+  <a href="#button">Button</a><a href="#buttongroup">Button group</a><a href="#iconbtn">Icon button</a><a href="#fab">FAB</a><a href="#checkbox">Checkbox</a><a href="#radio">Radio</a><a href="#switch">Switch</a><a href="#select">Select</a><a href="#autocomplete">Autocomplete</a><a href="#slider">Slider</a><a href="#field">Text field</a><a href="#toggle">Toggle</a><a href="#rating">Rating</a>
+  <div class="grp">Data display</div>
+  <a href="#avatar">Avatar</a><a href="#badge">Badge</a><a href="#chip">Chip</a><a href="#divider">Divider</a><a href="#list">List</a><a href="#table">Table</a><a href="#tooltip">Tooltip</a>
+  <div class="grp">Feedback</div>
+  <a href="#alert">Alert</a><a href="#dialog">Dialog</a><a href="#snackbar">Snackbar</a><a href="#progress">Progress</a><a href="#skeleton">Skeleton</a>
+  <div class="grp">Surfaces</div>
+  <a href="#card">Card</a><a href="#paper">Paper</a><a href="#appbar">App bar</a><a href="#accordion">Accordion</a>
+  <div class="grp">Navigation</div>
+  <a href="#bottomnav">Bottom nav</a><a href="#drawer">Drawer</a><a href="#tabs">Tabs</a><a href="#menu">Menu</a><a href="#link">Link</a><a href="#stepper">Stepper</a><a href="#speeddial">Speed dial</a>
+</nav>
+
+<main>
+  <header style="margin-bottom:40px">
+    <div class="t-label">Cross-platform · Material + MUI</div>
+    <div class="t-display" style="margin-top:6px">Margin <span class="sparkle"><svg class="ico ico--lg"><use href="#i-sparkle"/></svg></span></div>
+    <p class="sec-desc" style="margin-top:8px">A monochrome, hand-drawn system for a reading &amp; notes app — read, listen, highlight, and keep <span class="u-wavy">marginalia</span>. Thick ink outlines, hard offset shadows, heavy display type, hand-drawn line illustrations, a handwriting face for notes. Source of truth is <code>styles.css</code>. <b>Dev Mode</b> inspects; <b>⤓ Install design system</b> scaffolds it all.</p>
+  </header>
+
+  <section id="colors"><h2 class="sec">Color</h2><p class="sec-desc">Monochrome — ink on warm paper, plus an inverse ink card. Each fill shows its paired <code>on-*</code> (top-right), WCAG-verified. "Status" is shown by treatment (raised / dashed / inverted), not hue.</p><div class="colors" id="colorGrid"></div></section>
+
+  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc">Heavy <b>Space Grotesk</b> display, <b>Inter</b> body, <b>Lora</b> serif for reading, <b>Caveat</b> handwriting for notes.</p><div id="typeList"></div></section>
+
+  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">4dp grid + fine <code>--opt-*</code> steps.</p><div id="spacingList"></div></section>
+
+  <section id="shape"><h2 class="sec">Shape</h2><p class="sec-desc">Large radii + pills, all drawn with a 2px <code>--stroke</code> ink outline.</p><div class="stage"><div class="shaperow" id="shapeRow"></div></div></section>
+
+  <section id="elevation"><h2 class="sec">Elevation</h2><p class="sec-desc">Mostly flat; the signature is a <b>hard offset shadow</b> (<code>--shadow-hard</code>) for a sticker feel.</p>
+    <div class="stage" style="gap:40px"><div class="card" style="width:120px;height:72px;display:grid;place-items:center;font:11px var(--font-mono)">flat</div><div class="card shadow" style="width:120px;height:72px;display:grid;place-items:center;font:11px var(--font-mono)">hard</div></div></section>
+
+  <section id="icons"><h2 class="sec">Icons</h2><p class="sec-desc">Heavier 2.1 stroke (full set + illustrations in <a class="link" href="icons.html">icons.html</a>). Never emoji.</p><div class="iconGrid" id="iconGrid"></div></section>
+
+  <section id="illustrations"><h2 class="sec">Illustrations</h2><p class="sec-desc">The signature — hand-drawn line illustrations, <code>stroke:currentColor</code> so they invert on the ink card. Use as headers, empty states, and the concept hero.</p>
+    <div class="stage"><div class="illusRow" id="illusRow"></div></div></section>
+
+  <!-- ============ INPUTS ============ -->
+  <section id="button"><h2 class="sec">Button</h2><p class="sec-desc">contained / outlined / text · sizes · hero. Lifts on a hard shadow when pressed.</p>
+    <div class="stage">
+      <div class="cell"><button class="btn btn-contained" data-insp="button">Read now</button><div class="spec">contained</div></div>
+      <div class="cell"><button class="btn btn-tonal" data-insp="button">Listen</button><div class="spec">tonal · cream</div></div>
+      <div class="cell"><button class="btn btn-outlined" data-insp="button">Add note</button><div class="spec">outlined</div></div>
+      <div class="cell"><button class="btn btn-text" data-insp="button">Skip</button><div class="spec">text</div></div>
+      <div class="cell"><button class="btn btn-contained disabled" data-insp="button">Disabled</button><div class="spec">disabled</div></div>
+      <div class="cell"><button class="btn btn-contained btn--sm" data-insp="button">Small</button><div class="spec">sm</div></div>
+    </div>
+    <div class="stage" style="margin-top:14px"><button class="btn btn-contained btn--hero" data-insp="button"><svg class="ico"><use href="#i-sparkle"/></svg>Continue reading<svg class="ico"><use href="#i-sparkle"/></svg></button></div></section>
+
+  <section id="buttongroup"><h2 class="sec">Button group</h2><p class="sec-desc">Joined segmented actions.</p>
+    <div class="stage"><div class="btn-group" data-insp="buttongroup"><button class="btn sel">Read</button><button class="btn">Listen</button><button class="btn">Notes</button></div></div></section>
+
+  <section id="iconbtn"><h2 class="sec">Icon button</h2><p class="sec-desc">outlined (circular) / filled.</p>
+    <div class="stage">
+      <div class="cell"><button class="iconbtn" data-insp="iconbtn"><svg class="ico"><use href="#i-bookmark"/></svg></button><div class="spec">outlined</div></div>
+      <div class="cell"><button class="iconbtn filled" data-insp="iconbtn"><svg class="ico"><use href="#i-play"/></svg></button><div class="spec">filled</div></div>
+      <div class="cell"><button class="iconbtn" data-insp="iconbtn"><svg class="ico"><use href="#i-grid"/></svg></button><div class="spec">grid</div></div>
+      <div class="cell"><button class="iconbtn" data-insp="iconbtn"><svg class="ico"><use href="#i-smiley"/></svg></button><div class="spec">avatar</div></div>
+    </div></section>
+
+  <section id="fab"><h2 class="sec">FAB</h2><p class="sec-desc">regular / small / extended — presses into its hard shadow.</p>
+    <div class="stage">
+      <div class="cell"><button class="fab" data-insp="fab"><svg class="ico"><use href="#i-plus"/></svg></button><div class="spec">regular</div></div>
+      <div class="cell"><button class="fab fab--sm" data-insp="fab"><svg class="ico ico--sm"><use href="#i-plus"/></svg></button><div class="spec">small</div></div>
+      <div class="cell"><button class="fab" data-insp="fab"><svg class="ico"><use href="#i-pencil"/></svg>New note</button><div class="spec">extended</div></div>
+    </div></section>
+
+  <section id="checkbox"><h2 class="sec">Checkbox</h2><p class="sec-desc">unchecked / checked / indeterminate.</p>
+    <div class="stage">
+      <label class="check" data-insp="checkbox"><span class="box"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Sync highlights</label>
+      <label class="check checked" data-insp="checkbox"><span class="box"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Download for offline</label>
+      <label class="check indeterminate" data-insp="checkbox"><span class="box"></span>All shelves</label>
+    </div></section>
+
+  <section id="radio"><h2 class="sec">Radio</h2><p class="sec-desc">selected / unselected.</p>
+    <div class="stage">
+      <label class="radio sel" data-insp="radio"><span class="dot"></span>Serif</label>
+      <label class="radio" data-insp="radio"><span class="dot"></span>Sans</label>
+      <label class="radio" data-insp="radio"><span class="dot"></span>Mono</label>
+    </div></section>
+
+  <section id="switch"><h2 class="sec">Switch</h2><p class="sec-desc">off / on.</p>
+    <div class="stage"><div class="cell"><span class="switch" data-insp="switch"></span><div class="spec">off</div></div><div class="cell"><span class="switch on" data-insp="switch"></span><div class="spec">on</div></div></div></section>
+
+  <section id="select"><h2 class="sec">Select</h2><p class="sec-desc">Closed control + menu.</p>
+    <div class="stage col" style="gap:16px"><div class="field select" data-insp="select" style="max-width:300px"><span class="lab">Shelf</span><div class="ctl"><span>Currently reading</span><svg class="ico ico--sm"><use href="#i-chevron-down"/></svg></div></div>
+      <div class="menu" style="max-width:300px"><div class="mi"><svg class="ico ico--sm"><use href="#i-check"/></svg>Currently reading</div><div class="mi">Want to read</div><div class="mi">Finished</div></div></div></section>
+
+  <section id="autocomplete"><h2 class="sec">Autocomplete</h2><p class="sec-desc">Multi-value chips.</p>
+    <div class="stage"><div class="field autocomplete" data-insp="autocomplete" style="max-width:360px"><span class="lab">Tags</span><div class="ctl"><span class="chip selected">Philosophy <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span><span class="chip selected">Essays <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span><input placeholder="Add tag…"></div></div></div></section>
+
+  <section id="slider"><h2 class="sec">Slider</h2><p class="sec-desc">Reading progress (the exp-bar look).</p>
+    <div class="stage"><div class="slider" data-insp="slider" style="max-width:320px"><div class="track"></div><div class="fill" style="width:46%"></div><div class="thumb" style="left:calc(46% - 12px)"></div></div></div></section>
+
+  <section id="field"><h2 class="sec">Text field</h2><p class="sec-desc">outlined / filled / standard · states; focus pops a hard shadow.</p>
+    <div class="stage">
+      <div class="field" data-insp="field"><span class="lab">Book title</span><div class="ctl"><input placeholder="Search your library"></div><span class="hint">Outlined · empty</span></div>
+      <div class="field focus" data-insp="field"><span class="lab">Note</span><div class="ctl"><input value="The bridge metaphor returns…"></div><span class="hint">Focused</span></div>
+      <div class="field filled" data-insp="field"><span class="lab">Page</span><div class="ctl"><input value="214"></div><span class="hint">Filled</span></div>
+      <div class="field error" data-insp="field"><span class="lab">Chapter</span><div class="ctl"><input value="-2"></div><span class="hint">Enter a valid chapter</span></div>
+      <div class="field standard disabled" data-insp="field"><span class="lab">Source</span><div class="ctl"><input value="Locked" disabled></div><span class="hint">Disabled</span></div>
+    </div></section>
+
+  <section id="toggle"><h2 class="sec">Toggle button</h2><p class="sec-desc">Exclusive selection.</p>
+    <div class="stage"><div class="toggle-group" data-insp="toggle"><span class="tb sel">Day</span><span class="tb">Sepia</span><span class="tb">Night</span></div></div></section>
+
+  <section id="rating"><h2 class="sec">Rating</h2><p class="sec-desc">Sparkle stars.</p>
+    <div class="stage"><div class="rating" data-insp="rating"><svg class="ico ico--filled"><use href="#i-star"/></svg><svg class="ico ico--filled"><use href="#i-star"/></svg><svg class="ico ico--filled"><use href="#i-star"/></svg><svg class="ico ico--filled"><use href="#i-star"/></svg><svg class="ico ico--filled off"><use href="#i-star"/></svg></div></div></section>
+
+  <!-- ============ DATA DISPLAY ============ -->
+  <section id="avatar"><h2 class="sec">Avatar</h2><p class="sec-desc">cover (square) / initials / smiley.</p>
+    <div class="stage">
+      <div class="cell"><span class="avatar avatar--lg square" data-insp="avatar"><svg class="ico"><use href="#i-book"/></svg></span><div class="spec">cover</div></div>
+      <div class="cell"><span class="avatar" data-insp="avatar">MI</span><div class="spec">initials</div></div>
+      <div class="cell"><span class="avatar" data-insp="avatar"><svg class="ico"><use href="#i-smiley"/></svg></span><div class="spec">smiley</div></div>
+    </div></section>
+
+  <section id="badge"><h2 class="sec">Badge</h2><p class="sec-desc">count / dot.</p>
+    <div class="stage"><div class="cell"><span class="badge-wrap" data-insp="badge"><button class="iconbtn"><svg class="ico"><use href="#i-bell"/></svg></button><span class="badge">5</span></span><div class="spec">count</div></div>
+      <div class="cell"><span class="badge-wrap" data-insp="badge"><button class="iconbtn"><svg class="ico"><use href="#i-download"/></svg></button><span class="badge dot"></span></span><div class="spec">dot</div></div></div></section>
+
+  <section id="chip"><h2 class="sec">Chip</h2><p class="sec-desc">outlined / selected / deletable.</p>
+    <div class="stage">
+      <span class="chip" data-insp="chip">Fiction</span>
+      <span class="chip selected" data-insp="chip">Reading now</span>
+      <span class="chip" data-insp="chip">Essays <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span>
+    </div></section>
+
+  <section id="divider"><h2 class="sec">Divider</h2><p class="sec-desc">bold / faint / inset.</p>
+    <div class="stage col" style="gap:12px;max-width:380px"><div>Chapter 7</div><hr class="divider" data-insp="divider"><div>Chapter 8</div><hr class="divider faint"><div>Notes</div></div></section>
+
+  <section id="list"><h2 class="sec">List</h2><p class="sec-desc">Book rows: cover, title/author, progress.</p>
+    <div class="stage col"><div class="list" data-insp="list" style="max-width:460px">
+      <div class="list-item"><span class="avatar square"><svg class="ico"><use href="#i-book"/></svg></span><div class="grow"><div class="pri">The Overstory</div><div class="sec">Richard Powers · 46%</div></div><button class="iconbtn iconbtn--sm ghost"><svg class="ico ico--sm"><use href="#i-headphones"/></svg></button></div>
+      <hr class="divider faint inset">
+      <div class="list-item"><span class="avatar square">SS</span><div class="grow"><div class="pri">A Swim in a Pond in the Rain</div><div class="sec">George Saunders · 12 notes</div></div><div class="meta">★ 5</div></div>
+      <hr class="divider faint inset">
+      <div class="list-item"><span class="avatar square">CK</span><div class="grow"><div class="pri">Tomorrow, and Tomorrow</div><div class="sec">Gabrielle Zevin · finished</div></div><svg class="ico ico--sm"><use href="#i-check"/></svg></div>
+    </div></div></section>
+
+  <section id="table"><h2 class="sec">Table</h2><p class="sec-desc">Reading log.</p>
+    <div class="stage col"><table class="table" data-insp="table"><thead><tr><th>Book</th><th>Status</th><th style="text-align:right">Notes</th><th style="text-align:right">Progress</th></tr></thead>
+      <tbody><tr><td>The Overstory</td><td>Reading</td><td class="num">8</td><td class="num">46%</td></tr><tr><td>Swim in a Pond</td><td>Reading</td><td class="num">12</td><td class="num">71%</td></tr><tr><td>Tomorrow ×3</td><td>Finished</td><td class="num">24</td><td class="num">100%</td></tr></tbody></table></div></section>
+
+  <section id="tooltip"><h2 class="sec">Tooltip</h2><p class="sec-desc">Plain.</p>
+    <div class="stage"><span class="tooltip" data-insp="tooltip">Highlight &amp; add a note</span></div></section>
+
+  <!-- ============ FEEDBACK ============ -->
+  <section id="alert"><h2 class="sec">Alert</h2><p class="sec-desc">Monochrome severity — raised / plain / dashed / inverted (no hue).</p>
+    <div class="stage col" style="gap:14px">
+      <div class="alert success" data-insp="alert"><svg class="ico"><use href="#i-check"/></svg><div><div class="at">Saved to your library</div><div class="ab">“The Overstory” is downloaded for offline reading.</div></div></div>
+      <div class="alert info" data-insp="alert"><svg class="ico"><use href="#i-sparkle"/></svg><div><div class="at">New highlight synced</div><div class="ab">Your note on page 214 is now on all devices.</div></div></div>
+      <div class="alert warning" data-insp="alert"><svg class="ico"><use href="#i-clock"/></svg><div><div class="at">Loan ends in 2 days</div><div class="ab">Renew to keep reading without interruption.</div></div></div>
+      <div class="alert error" data-insp="alert"><svg class="ico"><use href="#i-close"/></svg><div><div class="at">Download failed</div><div class="ab">We couldn't reach the library. Try again.</div></div></div>
+    </div></section>
+
+  <section id="dialog"><h2 class="sec">Dialog</h2><p class="sec-desc">Basic — on a hard shadow.</p>
+    <div class="stage"><div class="dialog" data-insp="dialog"><div class="dt">Delete this note?</div><div class="db">Your handwritten note on page 214 will be removed. This can't be undone.</div><div class="da"><button class="btn btn-outlined btn--sm">Cancel</button><button class="btn btn-contained btn--sm">Delete</button></div></div></div></section>
+
+  <section id="snackbar"><h2 class="sec">Snackbar</h2><p class="sec-desc">With action.</p>
+    <div class="stage"><div class="snackbar" data-insp="snackbar"><span>Note added to page 214</span><span class="sa">UNDO</span></div></div></section>
+
+  <section id="progress"><h2 class="sec">Progress</h2><p class="sec-desc">linear (reading %) / circular.</p>
+    <div class="stage col" style="gap:18px"><div class="row" style="gap:16px"><div class="progress" data-insp="progress" style="max-width:320px"><div class="bar" style="width:46%"></div></div><span class="t-caption">46% · 184 pages left</span></div><div class="spinner" data-insp="progress"></div></div></section>
+
+  <section id="skeleton"><h2 class="sec">Skeleton</h2><p class="sec-desc">Loading placeholder (hatched).</p>
+    <div class="stage col" style="gap:10px;max-width:360px"><div class="row" style="gap:12px"><div class="skeleton" style="width:48px;height:64px;border-radius:8px"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:11px;width:40%"></div></div></div></div></section>
+
+  <!-- ============ SURFACES ============ -->
+  <section id="card"><h2 class="sec">Card</h2><p class="sec-desc">A monochrome value ladder: hard-shadow (white + warm cream drop shadow) · ink (inverse) · cream (warm tonal). Same hierarchy without colour.</p>
+    <div class="stage" style="align-items:stretch">
+      <div class="card shadow" data-insp="card" style="width:230px"><div class="row" style="gap:14px"><span class="avatar avatar--lg square"><svg class="ico ico--lg"><use href="#i-book"/></svg></span><div><div class="t-title">The Overstory</div><div class="t-body2">Richard Powers</div></div></div><div class="progress" style="margin-top:14px"><div class="bar" style="width:46%"></div></div></div>
+      <div class="card ink" data-insp="card" style="width:230px"><div class="t-label">Now playing</div><div class="t-h3" style="margin:6px 0 2px">Ch. 12 · The Trunk</div><div class="t-body2">18 min left</div><div class="row" style="gap:10px;margin-top:14px"><span class="iconbtn filled" style="background:var(--on-ink-card);color:var(--ink)"><svg class="ico"><use href="#i-pause"/></svg></span><div class="progress" style="flex:1;background:transparent;border-color:var(--on-ink-card)"><div class="bar" style="width:62%;background:var(--on-ink-card)"></div></div></div></div>
+      <div class="card cream" data-insp="card" style="width:200px"><span class="t-note">“we are all just<br>walking each other<br>home”</span><div class="t-body2" style="margin-top:8px">— a margin note</div></div>
+    </div></section>
+
+  <section id="paper"><h2 class="sec">Paper</h2><p class="sec-desc">Base outlined surface.</p>
+    <div class="stage"><div class="paper" data-insp="paper" style="padding:18px;width:280px"><div class="t-subtitle">Paper</div><div class="t-body2" style="margin-top:4px">A flat outlined surface other components build on.</div></div></div></section>
+
+  <section id="appbar"><h2 class="sec">App bar</h2><p class="sec-desc">Centered title with circular buttons (the reference layout).</p>
+    <div class="stage col"><div class="appbar" data-insp="appbar" style="max-width:420px;border:var(--stroke) solid var(--ink);border-radius:var(--r-lg)"><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-grid"/></svg></button><div class="ttl">LIBRARY</div><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-smiley"/></svg></button></div></div></section>
+
+  <section id="accordion"><h2 class="sec">Accordion</h2><p class="sec-desc">Expandable.</p>
+    <div class="stage col" style="gap:12px;max-width:460px">
+      <div class="accordion open" data-insp="accordion"><div class="ah">How do reading notes sync?<svg class="ico chev"><use href="#i-chevron-down"/></svg></div><div class="ab">Highlights and margin notes save to your account and appear on every device, even offline.</div></div>
+      <div class="accordion" data-insp="accordion"><div class="ah">Can I listen and read together?<svg class="ico chev"><use href="#i-chevron-down"/></svg></div></div>
+    </div></section>
+
+  <!-- ============ NAVIGATION ============ -->
+  <section id="bottomnav"><h2 class="sec">Bottom navigation</h2><p class="sec-desc">Active item in an ink pill.</p>
+    <div class="stage col"><div class="bottomnav" data-insp="bottomnav" style="max-width:420px;border:var(--stroke) solid var(--ink);border-radius:var(--r-lg)">
+      <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-library"/></svg></span>Library</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-search"/></svg></span>Discover</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-pencil"/></svg></span>Notes</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-headphones"/></svg></span>Listen</div>
+    </div></div></section>
+
+  <section id="drawer"><h2 class="sec">Drawer</h2><p class="sec-desc">Side navigation (outlined active item).</p>
+    <div class="stage"><div class="drawer" data-insp="drawer" style="border:var(--stroke) solid var(--ink);border-radius:var(--r-lg)">
+      <div class="di sel"><svg class="ico"><use href="#i-library"/></svg>My library</div>
+      <div class="di"><svg class="ico"><use href="#i-bookmark"/></svg>Want to read</div>
+      <div class="di"><svg class="ico"><use href="#i-pencil"/></svg>Notes</div>
+      <div class="di"><svg class="ico"><use href="#i-download"/></svg>Downloads</div>
+      <div class="di"><svg class="ico"><use href="#i-settings"/></svg>Settings</div>
+    </div></div></section>
+
+  <section id="tabs"><h2 class="sec">Tabs</h2><p class="sec-desc">Folder tabs + segmented.</p>
+    <div class="stage col" style="gap:18px">
+      <div class="tabs" data-insp="tabs" style="max-width:420px"><div class="tab sel">Reading</div><div class="tab">Want</div><div class="tab">Finished</div></div>
+      <div class="segment"><span class="seg sel">Read</span><span class="seg">Listen</span><span class="seg">Notes</span></div>
+    </div></section>
+
+  <section id="menu"><h2 class="sec">Menu</h2><p class="sec-desc">Dropdown.</p>
+    <div class="stage"><div class="menu" data-insp="menu"><div class="mi"><svg class="ico ico--sm"><use href="#i-highlight"/></svg>Highlight</div><div class="mi"><svg class="ico ico--sm"><use href="#i-pencil"/></svg>Add note</div><div class="mi"><svg class="ico ico--sm"><use href="#i-share"/></svg>Share quote</div></div></div></section>
+
+  <section id="link"><h2 class="sec">Link</h2><p class="sec-desc">Underlined inline link.</p>
+    <div class="stage"><div class="t-body">Jump to your <a class="link" data-insp="link" href="#">last highlight</a> in chapter 8.</div></div></section>
+
+  <section id="stepper"><h2 class="sec">Stepper</h2><p class="sec-desc">Onboarding flow.</p>
+    <div class="stage"><div class="stepper" data-insp="stepper"><div class="step done"><span class="num"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Import</div><div class="bar"></div><div class="step active"><span class="num">2</span>Shelves</div><div class="bar"></div><div class="step"><span class="num">3</span>Done</div></div></div></section>
+
+  <section id="speeddial"><h2 class="sec">Speed dial</h2><p class="sec-desc">FAB with quick actions.</p>
+    <div class="stage"><div class="speeddial" data-insp="speeddial"><span class="mini"><svg class="ico ico--sm"><use href="#i-highlight"/></svg></span><span class="mini"><svg class="ico ico--sm"><use href="#i-pencil"/></svg></span><button class="fab"><svg class="ico"><use href="#i-plus"/></svg></button></div></div></section>
+</main>
+
+<script>
+/* ===== Foundations (Margin / mono tokens) ===== */
+const COLORS=[
+ ['ink','#14110D','','' ],['paper','#FAF7F0','',''],
+ ['primary','#14110D','on-primary','#FAF7F0'],['primary-container','#ECE6D8','on-primary-container','#14110D'],
+ ['secondary','#5B554A','on-secondary','#FAF7F0'],['secondary-container','#E4DECF','on-secondary-container','#2A261E'],
+ ['bg','#F3EFE5','on-bg','#14110D'],['surface','#FFFDF8','on-surface','#14110D'],
+ ['surface-sunken','#F0EBDF','',''],['muted-surface','#ECE6D8','on-muted-surface','#3A352B'],
+ ['ink-card','#14110D','on-ink-card','#FAF7F0'],
+ ['muted','#6B6557','',''],['subtle','#9A9483','',''],['border','#14110D','',''],['border-faint','#D9D3C4','','']];
+const TYPE=[['t-display','Space Grotesk 700 / 44'],['t-h1','Space Grotesk 700 / 36'],['t-h2','Space Grotesk 700 / 28'],['t-title','Space Grotesk 700 / 18'],['t-subtitle','Inter 600 / 15'],['t-body','Inter 400 / 16'],['t-read','Lora serif / 17 · reading'],['t-note','Caveat / 20 · notes'],['t-label','Inter 700 / 12 · caps'],['t-caption','Inter 400 / 12']];
+const SPACING=[['sp-4',4],['sp-8',8],['sp-12',12],['sp-16',16],['sp-20',20],['sp-24',24],['sp-32',32],['sp-48',48],['sp-64',64]];
+const SHAPES=[['xs',8],['sm',12],['md',18],['lg',24],['xl',32],['full',999]];
+colorGrid.innerHTML=COLORS.map(([n,h,on,onh])=>`<div class="sw"><div class="c" style="background:${h}">${on?`<span class="on" style="color:${onh}">${onh}</span>`:''}</div><div class="m"><div class="n">${n}</div><div class="v">${h}${on?` · ${on}`:''}</div></div></div>`).join('');
+typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">${n==='t-note'?'a note in the margin':'Read between the lines'}</div></div>`).join('');
+spacingList.innerHTML=SPACING.map(([n,v])=>`<div class="sprow"><div class="lbl">${n} · ${v}px</div><div class="bar" style="width:${v}px"></div></div>`).join('');
+shapeRow.innerHTML=SHAPES.map(([n,v])=>`<div class="shapebox" style="border-radius:${v}px">${n}</div>`).join('');
+const ICONS=['book','book-open','bookmark','headphones','pencil','highlight','library','download','share','play','pause','heart','star','sparkle','quote','list','grid','smiley','search','bell'];
+iconGrid.innerHTML=ICONS.map(n=>`<div class="it"><svg class="ico ico--lg"><use href="#i-${n}"/></svg><div class="nm">i-${n}</div></div>`).join('');
+const ILL=[['il-openbook','open book'],['il-reader','reader'],['il-listen','listen'],['il-stack','stack']];
+illusRow.innerHTML=ILL.map(([id,l],i)=>`<div class="ix${i===1?' ink':''}"><svg class="illus" style="max-width:170px"><use href="#${id}"/></svg><div class="nm">${id}</div></div>`).join('');
+
+/* ===== SPECS ===== */
+const tkInk={r:'fill',n:'--ink',v:'#14110D',c:'#14110D'},tkOn={r:'on fill',n:'--on-primary',v:'#FAF7F0',c:'#FAF7F0'},tkBorder={r:'outline',n:'--border 2px',v:'#14110D',c:'#14110D'};
+const SPECS={
+ button:{name:'Button',file:'components/Button',desc:'Pill button with a 2px ink outline; contained/outlined/text + sizes + hero. Lifts onto a hard offset shadow on hover, presses flat.',props:[{n:'label',t:'string'},{n:'variant',t:'contained|outlined|text',def:'contained'},{n:'size',t:'sm|md|lg|hero',def:'md'},{n:'disabled',t:'bool',def:'false'}],tokens:[tkInk,tkOn,tkBorder,{r:'press shadow',n:'--shadow-hard',v:'4px 4px 0 ink'}],metrics:[['height','48 · sm 38 · lg 58'],['radius','--r-full'],['contrast','paper on ink ≈ 16:1']]},
+ buttongroup:{name:'Button group',file:'components/ButtonGroup',desc:'Joined segmented actions in one outline.',props:[{n:'items',t:'string[]'},{n:'value',t:'string'}],tokens:[tkBorder,{r:'selected',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['radius','--r-full']]},
+ iconbtn:{name:'Icon button',file:'components/IconButton',desc:'Circular outlined icon button; outlined / filled.',props:[{n:'icon',t:'sprite'},{n:'variant',t:'outlined|filled',def:'outlined'}],tokens:[tkBorder,{r:'filled',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['size','48 · sm 38'],['radius','--r-full']]},
+ fab:{name:'FAB',file:'components/Fab',desc:'Ink FAB on a hard shadow; regular/small/extended.',props:[{n:'icon',t:'sprite'},{n:'label',t:'string?'}],tokens:[tkInk,tkOn,{r:'shadow',n:'--shadow-hard',v:'4px 4px 0'}],metrics:[['size','60 · sm 44'],['radius','--r-lg']]},
+ checkbox:{name:'Checkbox',file:'components/Checkbox',desc:'Square 2px box; unchecked/checked/indeterminate.',props:[{n:'checked',t:'bool'},{n:'indeterminate',t:'bool',def:'false'}],tokens:[tkBorder,{r:'checked',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['box','24'],['radius','--r-xs']]},
+ radio:{name:'Radio',file:'components/Radio',desc:'Circular 2px; selected dot.',props:[{n:'selected',t:'bool'},{n:'name',t:'string'}],tokens:[tkBorder,{r:'dot',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['outer','24'],['inner','12']]},
+ switch:{name:'Switch',file:'components/Switch',desc:'Pill switch, 2px outline; ink thumb.',props:[{n:'on',t:'bool'}],tokens:[tkBorder,{r:'on',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['track','56×32']]},
+ select:{name:'Select',file:'components/Select',desc:'Outlined control opens a menu.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[tkBorder,{r:'surface',n:'--surface',v:'#FFFDF8',c:'#FFFDF8'}],metrics:[['height','52'],['radius','--r-md']]},
+ autocomplete:{name:'Autocomplete',file:'components/Autocomplete',desc:'Free text + chips.',props:[{n:'values',t:'string[]'}],tokens:[{r:'chip',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['minHeight','52']]},
+ slider:{name:'Slider',file:'components/Slider',desc:'Pill track + ink fill (reading progress).',props:[{n:'value',t:'number'}],tokens:[tkBorder,{r:'fill',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['track','14'],['thumb','24']]},
+ field:{name:'Text field',file:'components/TextField',desc:'outlined/filled/standard; focus pops a hard shadow; error = dashed outline.',props:[{n:'label',t:'string'},{n:'value',t:'string'},{n:'variant',t:'outlined|filled|standard',def:'outlined'},{n:'error',t:'string?'},{n:'disabled',t:'bool',def:'false'}],tokens:[tkBorder,{r:'focus',n:'--shadow-hard-sm',v:'3px 3px 0'},{r:'error',n:'dashed outline',v:'treatment'}],metrics:[['height','52'],['radius','--r-md']]},
+ toggle:{name:'Toggle button',file:'components/ToggleButton',desc:'Exclusive selection (reading theme).',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'selected',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['radius','--r-full']]},
+ rating:{name:'Rating',file:'components/Rating',desc:'Sparkle-star rating.',props:[{n:'value',t:'number'},{n:'max',t:'number',def:'5'}],tokens:[{r:'active',n:'--ink',v:'#14110D',c:'#14110D'},{r:'inactive',n:'ink @25%',v:'opacity'}],metrics:[['icon','24']]},
+ avatar:{name:'Avatar',file:'components/Avatar',desc:'Book cover (square) / initials / smiley; 2px outline.',props:[{n:'src',t:'url?'},{n:'initials',t:'string?'},{n:'square',t:'bool',def:'false'}],tokens:[tkBorder,{r:'surface',n:'--surface',v:'#FFFDF8',c:'#FFFDF8'}],metrics:[['size','44 · 32 · 60'],['radius','full / --r-sm']]},
+ badge:{name:'Badge',file:'components/Badge',desc:'count / dot.',props:[{n:'count',t:'number?'},{n:'dot',t:'bool',def:'false'}],tokens:[tkInk,tkOn],metrics:[['size','11 / 20']]},
+ chip:{name:'Chip',file:'components/Chip',desc:'outlined / selected / deletable pill.',props:[{n:'label',t:'string'},{n:'selected',t:'bool',def:'false'},{n:'onDelete',t:'callback?'}],tokens:[tkBorder,{r:'selected',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['height','36'],['radius','--r-full']]},
+ divider:{name:'Divider',file:'components/Divider',desc:'bold (2px ink) / faint / inset.',props:[{n:'faint',t:'bool',def:'false'},{n:'inset',t:'bool',def:'false'}],tokens:[{r:'bold',n:'--ink',v:'#14110D',c:'#14110D'},{r:'faint',n:'--border-faint',v:'#D9D3C4',c:'#D9D3C4'}],metrics:[['height','2 / 1']]},
+ list:{name:'List',file:'components/List',desc:'Book rows: cover + title/author + trailing.',props:[{n:'items',t:'ListItem[]'}],tokens:[{r:'title',n:'--on-surface',v:'#14110D',c:'#14110D'},{r:'sub',n:'--muted',v:'#6B6557',c:'#6B6557'}],metrics:[['min','64']]},
+ table:{name:'Table',file:'components/Table',desc:'Reading log; numeric right-aligned.',props:[{n:'columns',t:'Column[]'},{n:'rows',t:'Row[]'}],tokens:[{r:'head rule',n:'--ink 2px',v:'#14110D',c:'#14110D'},{r:'row rule',n:'--border-faint',v:'#D9D3C4',c:'#D9D3C4'}],metrics:[['cell pad','12']]},
+ tooltip:{name:'Tooltip',file:'components/Tooltip',desc:'Ink label.',props:[{n:'text',t:'string'}],tokens:[tkInk,tkOn],metrics:[['radius','--r-sm']]},
+ alert:{name:'Alert',file:'components/Alert',desc:'Monochrome severity by treatment: success=raised, info=tinted, warning=dashed, error=inverted.',props:[{n:'severity',t:'success|info|warning|error'},{n:'title',t:'string'},{n:'body',t:'string?'}],tokens:[tkBorder,{r:'error fill',n:'--ink',v:'#14110D',c:'#14110D'},{r:'success',n:'--shadow-hard-sm',v:'raised'}],metrics:[['radius','--r-md']]},
+ dialog:{name:'Dialog',file:'components/Dialog',desc:'Basic dialog on a hard shadow.',props:[{n:'title',t:'string'},{n:'body',t:'string'},{n:'actions',t:'Button[]'}],tokens:[tkBorder,{r:'shadow',n:'--shadow-hard',v:'4px 4px 0'}],metrics:[['radius','--r-lg'],['maxWidth','360']]},
+ snackbar:{name:'Snackbar',file:'components/Snackbar',desc:'Ink bar with underlined action.',props:[{n:'message',t:'string'},{n:'action',t:'string?'}],tokens:[tkInk,tkOn],metrics:[['radius','--r-md']]},
+ progress:{name:'Progress',file:'components/Progress',desc:'Reading % (outlined pill) + circular.',props:[{n:'variant',t:'linear|circular'},{n:'value',t:'number?'}],tokens:[tkBorder,{r:'fill',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['linear h','14']]},
+ skeleton:{name:'Skeleton',file:'components/Skeleton',desc:'Hatched loading placeholder.',props:[{n:'width',t:'number|%'},{n:'height',t:'number'}],tokens:[{r:'hatch',n:'--muted-surface',v:'#ECE6D8',c:'#ECE6D8'}],metrics:[['radius','--r-xs']]},
+ card:{name:'Card',file:'components/Card',desc:'flat / shadow / ink (inverse) / cream / tone / sunken — a monochrome value ladder for depth without colour.',props:[{n:'variant',t:'flat|shadow|ink|cream|tone|sunken',def:'flat'},{n:'child',t:'node'}],tokens:[tkBorder,{r:'ink bg',n:'--ink-card',v:'#14110D',c:'#14110D'},{r:'cream',n:'--secondary-container',v:'#E4DECF',c:'#E4DECF'},{r:'tone',n:'--muted-surface',v:'#ECE6D8',c:'#ECE6D8'},{r:'shadow fill',n:'--secondary-container',v:'warm cream',c:'#E4DECF'}],metrics:[['radius','--r-lg'],['pad','20']]},
+ paper:{name:'Paper',file:'components/Paper',desc:'Flat outlined base surface.',props:[{n:'child',t:'node'}],tokens:[tkBorder],metrics:[['radius','--r-md']]},
+ appbar:{name:'App bar',file:'components/AppBar',desc:'Centered all-caps title flanked by circular buttons.',props:[{n:'title',t:'string'},{n:'actions',t:'IconButton[]'}],tokens:[{r:'surface',n:'--surface',v:'#FFFDF8',c:'#FFFDF8'},tkBorder],metrics:[['height','60']]},
+ accordion:{name:'Accordion',file:'components/Accordion',desc:'Expandable; chevron rotates.',props:[{n:'title',t:'string'},{n:'open',t:'bool',def:'false'}],tokens:[tkBorder],metrics:[['radius','--r-md']]},
+ bottomnav:{name:'Bottom navigation',file:'components/BottomNav',desc:'Active item in an ink pill.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'active',n:'--ink',v:'#14110D',c:'#14110D'},{r:'top rule',n:'--ink 2px',v:'#14110D',c:'#14110D'}],metrics:[['height','68']]},
+ drawer:{name:'Drawer',file:'components/Drawer',desc:'Outlined active item.',props:[{n:'items',t:'NavItem[]'},{n:'selected',t:'string'}],tokens:[tkBorder],metrics:[['width','288']]},
+ tabs:{name:'Tabs',file:'components/Tabs',desc:'Folder tabs + segmented.',props:[{n:'tabs',t:'string[]'},{n:'index',t:'number'}],tokens:[tkBorder,{r:'active',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['radius','top --r-md']]},
+ menu:{name:'Menu',file:'components/Menu',desc:'Dropdown on a small hard shadow.',props:[{n:'items',t:'MenuItem[]'}],tokens:[tkBorder,{r:'shadow',n:'--shadow-hard-sm',v:'3px 3px 0'}],metrics:[['item h','approx 40']]},
+ link:{name:'Link',file:'components/Link',desc:'Heavy underlined inline link.',props:[{n:'href',t:'string'},{n:'label',t:'string'}],tokens:[{r:'color',n:'--link',v:'#14110D',c:'#14110D'}],metrics:[['underline','2px']]},
+ stepper:{name:'Stepper',file:'components/Stepper',desc:'done/active/upcoming numbered steps.',props:[{n:'steps',t:'string[]'},{n:'active',t:'number'}],tokens:[tkBorder,{r:'done/active',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['num','30']]},
+ speeddial:{name:'Speed dial',file:'components/SpeedDial',desc:'FAB expanding to mini actions.',props:[{n:'actions',t:'Action[]'}],tokens:[tkInk,tkBorder],metrics:[['mini','44'],['fab','60']]},
+};
+
+/* ===== Copy-as-prompt ===== */
+const LANGS=['React (TypeScript + CSS)','SwiftUI','Jetpack Compose (Kotlin)','Flutter (Dart)','React Native','HTML + CSS'];
+let promptLang=LANGS[0];langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</option>`).join('');langSel.onchange=()=>promptLang=langSel.value;
+const DS_NAME='the "Margin" reading & notes design system (monochrome, hand-drawn; brutalist × editorial — thick ink outlines, hard offset shadows, hand-drawn line illustrations)';
+const TOKEN_GROUPS={
+ 'Color (monochrome — keep every fill paired with its on-*)':['--ink','--paper','--primary','--on-primary','--primary-container','--on-primary-container','--secondary','--on-secondary','--secondary-container','--on-secondary-container','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--ink-card','--on-ink-card','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
+ 'Spacing':['--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
+ 'Shape & stroke':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full','--stroke'],
+ 'Elevation':['--elev-0','--elev-1','--elev-2','--shadow-hard','--shadow-hard-sm'],
+ 'Type families':['--font-display','--font-body','--font-hand','--font-read','--font-mono'],
+ 'Motion':['--dur-fast','--dur-base','--ease','--ease-spring']};
+function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);if(rows.length)out.push(`### ${grp}`,...rows,'');}return out;}
+function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as named constants in ONE theme file, idiomatic to ${promptLang}. Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### Type scale`];TYPE.forEach(([n,m])=>L.push(`- ${n}: ${m}`));
+ L.push('',`### Signature`,`Hand-drawn LINE ILLUSTRATIONS (open book, reader, listen, stack) as inline SVG with stroke:currentColor (so they invert on the ink card). Plus a sparkle doodle and a wavy-underline. Re-implement as token-driven vectors.`,'',`### Rules`,`- Monochrome by design — convey "status" by treatment (raised/dashed/inverted) + icon, NOT hue.`,`- Every fill keeps its on-* pair (WCAG ≥ 4.5:1). Thick 2px ink outlines (--stroke), large radii + pills, flat with a hard offset shadow (--shadow-hard) for emphasis.`);return L.join('\n');}
+function buildPrompt(key){const s=SPECS[key];const L=[`# Add or update the \`${s.name}\` component — ${promptLang}`,'',`A component from ${DS_NAME}. If a component with this role ALREADY EXISTS, modify it IN PLACE to match the spec below (source of truth) — don't duplicate, note breaking changes. Otherwise create it, reusing tokens/atoms and the project's conventions.`,'',`## What it is`,s.desc,'',`## Props`];s.props.forEach(p=>L.push(`- \`${p.n}\`: ${p.t}${p.def?` (default ${p.def})`:''}`));
+ L.push('',`## Design tokens (define/extend in the theme layer; never inline)`);s.tokens.forEach(t=>L.push(`- ${t.n} = ${t.v}   // ${t.r}`));
+ L.push('',`## Metrics`);s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
+ L.push('',`## Requirements`,`- Implement every variant/state listed.`,`- Reference tokens by name; keep each fill paired with its on-* foreground (WCAG ≥ 4.5:1).`,`- Keep the hand-drawn monochrome feel: 2px ink outlines, large radii/pills, hard offset shadow for emphasis, heavy display type. No colour beyond ink/paper/greys.`,`- Output complete, compilable ${promptLang} code + a short usage example.`);return L.join('\n');}
+function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
+function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[`# Install or update the ENTIRE design system — ${promptLang}`,'',`Set up ${DS_NAME} in ${promptLang}. If it doesn't exist, scaffold from scratch; if parts exist, update them IN PLACE to match this spec — modify, don't duplicate; collect breaking changes.`,'',`## Build order`,`1. Implement the **foundation token layer** below (incl. the illustration approach) as the single source of truth.`,`2. Build components against the **shared** layer — may split across workers, never redefine values locally. Keep naming & states consistent.`,`3. Reconcile: a components index + a pass that every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
+ keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
+ L.push('','## Rules',`- One source of truth for tokens; reference by name, never inline.`,`- Monochrome (status by treatment, not hue); keep on-* pairs (WCAG ≥ 4.5:1); 2px outlines, hard offset shadow, hand-drawn illustrations.`,`- Output: the theme file, each component, and the illustrations, each with a short usage example.`);return L.join('\n');}
+function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
+function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t);}
+document.querySelectorAll('main section[id]').forEach(sec=>{const key=sec.id;if(!SPECS[key])return;const h=sec.querySelector('h2.sec');if(!h||h.querySelector('.sec-prompt'))return;const b=document.createElement('button');b.className='sec-prompt';b.type='button';b.textContent='Copy as prompt';b.addEventListener('click',()=>copyPrompt(key));h.appendChild(b);});
+
+/* ===== Dev Mode + Inspector ===== */
+function toggleDev(){const on=document.body.classList.toggle('dev');devToggle.classList.toggle('on',on);devToggle.textContent=on?'◧ Dev Mode · ON':'◧ Dev Mode';if(!on)closeInspector();}
+function closeInspector(){document.body.classList.remove('inspecting');document.querySelectorAll('.insp-sel').forEach(e=>e.classList.remove('insp-sel'));}
+document.addEventListener('click',e=>{if(e.target.closest('#inspector')||e.target.closest('#topctl'))return;if(!document.body.classList.contains('dev'))return;const el=e.target.closest('[data-insp]');if(el&&SPECS[el.dataset.insp])selectComp(el,el.dataset.insp);});
+function selectComp(el,key){document.querySelectorAll('.insp-sel').forEach(x=>x.classList.remove('insp-sel'));el.classList.add('insp-sel');document.body.classList.add('inspecting');const s=SPECS[key];
+ const props=s.props.map(p=>`<div class="prop"><span class="pn">${p.n}</span> <span class="pt">${p.t}</span>${p.def?` <span class="pdef">= ${p.def}</span>`:''}</div>`).join('');
+ const toks=s.tokens.map(t=>`<div class="tok" onclick="copyVal('${t.v}')"><div class="tsw" style="background:${t.c||'var(--surface)'}"></div><div><div class="tn">${t.n}</div><div class="tr">${t.r}</div></div><div class="tv">${t.v}</div></div>`).join('');
+ const mets=s.metrics.map(([k,v])=>`<div class="metric"><span class="mk">${k}</span><span>${v}</span></div>`).join('');
+ inspectorBody.innerHTML=`<div class="nm">${s.name}</div><div class="file">${s.file}</div><div class="desc">${s.desc}</div><h4>Properties</h4>${props}<h4>Design tokens · click to copy</h4>${toks}<h4>Metrics</h4>${mets}<button class="copyprompt" onclick="copyPrompt('${key}')">⧉ Copy as prompt</button>`;}
+function copyVal(v){navigator.clipboard&&navigator.clipboard.writeText(v);toast('Copied '+v);}
+function toast(msg){const c=document.getElementById('copied');c.textContent=msg;c.classList.add('show');setTimeout(()=>c.classList.remove('show'),1300);}
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "mobile-design-system",
+  "description": "Token-based mobile design systems delivered as self-contained HTML + CSS — a living component catalogue and a two-screen concept that you and your AI can both read, inspect, and build from.",
+  "owner": { "name": "rikucherry1993", "url": "https://github.com/rikucherry1993" },
+  "plugins": [
+    {
+      "name": "mobile-design-system",
+      "source": "./",
+      "description": "Generate a brand-new mobile app's design system as self-contained HTML + CSS: a token layer + a living component catalogue (Dev Mode + Copy-as-prompt) + a two-screen concept — a shared interface for you and any agent. Framework-agnostic; greenfield only."
+    }
+  ]
+}

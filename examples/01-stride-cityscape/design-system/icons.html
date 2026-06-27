@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride · Icons &amp; Illustrations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{font-family:var(--font-body);background:var(--background);color:var(--on-surface);padding:40px}
+  a.back{font:600 13px var(--font-body);color:var(--primary);text-decoration:none}
+  h1{font:800 30px var(--font-brand);margin:14px 0 4px}
+  h2{font:700 18px var(--font-brand);margin:30px 0 10px}
+  p.sub{color:var(--on-surface-variant);font-size:14px;margin-bottom:20px;max-width:660px;line-height:1.6}
+  .iconGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px}
+  .it{background:var(--surface-container-low);border-radius:var(--r-md);padding:18px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:9px;color:var(--on-surface)}
+  .it .nm{font:11px var(--font-mono);color:var(--on-surface-variant)}
+  .illusGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .illusCard{background:var(--surface-container-low);border-radius:var(--r-xl);padding:14px;box-shadow:var(--elev-1)}
+  .illusCard .nm{font:12px var(--font-mono);color:var(--on-surface-variant);margin-top:8px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- CANONICAL ICON SPRITE — copied into index.html & concept.html so each file is self-contained.
+     Outlined geometry in the style of Material Symbols / Lucide. Token-driven via .ico. Never emoji. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V13h6v9"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2-1.5-2-3.4-2.3 1a7.5 7.5 0 0 0-1.7-1l-.3-2.6h-4l-.3 2.6a7.5 7.5 0 0 0-1.7 1l-2.3-1-2 3.4L4.6 11a7.5 7.5 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7.5 7.5 0 0 0 1.7 1l.3 2.6h4l.3-2.6a7.5 7.5 0 0 0 1.7-1l2.3 1 2-3.4z"/></symbol>
+  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 21l1.1-6.5L2.6 9.8l6.5-.9z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <!-- domain: city fitness -->
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></symbol>
+  <symbol id="i-run" viewBox="0 0 24 24"><circle cx="16" cy="5" r="2"/><path d="M5 21l3-5 3 1 1-5 3 3 3 1M11 12l-2-3 4-2 2 3 2 1"/></symbol>
+  <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4" r="2"/><path d="M11 21l1-6-2-2 1-5 3 3 2 1M10 13l-3 1-1 4"/></symbol>
+  <symbol id="i-steps" viewBox="0 0 24 24"><path d="M7 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM6 14c0-3 .5-5 2-6M17 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM16 6c0 3-.5 5-2 6"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 .5 1 1.5 1.5 2 1 .5-2-1-3-1-6z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.4 5.4 0 0 0-7.7 0L12 6.7l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21.2l8.8-8.9a5.4 5.4 0 0 0 0-7.7z"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9 2h6"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8 19h7a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h7"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
+  <symbol id="i-distance" viewBox="0 0 24 24"><path d="M3 12h18M3 9v6M21 9v6M7 12l3-3M7 12l3 3"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M9 21h6M12 13v4"/></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 20l6-11 4 7 2-3 6 7z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+</svg>
+
+<a class="back" href="index.html">← Back to style guide</a>
+<h1>Icons</h1>
+<p class="sub">Token-driven inline SVG sprite: <code>stroke:currentColor; stroke-width:var(--icon-stroke)</code>, so the set reskins with the theme (Material/outlined, 1.9 stroke). Use with <code>&lt;svg class="ico"&gt;&lt;use href="#i-run"/&gt;&lt;/svg&gt;</code>. Never emoji.</p>
+<div class="iconGrid" id="iconGrid"></div>
+
+<h1 style="margin-top:40px">Illustrations</h1>
+<p class="sub">The signature: wide flat <b>city-skyline blob illustrations</b> as inline SVG. The blob gradient and skyline silhouette are <b>token-driven</b> — set <code>--illus-1 / --illus-2 / --illus-sil</code> via <code>.illus--day / .illus--dusk / .illus--teal</code>, so they re-theme with everything else. Each instance gets unique gradient ids (helper below). Use them wide, edge-to-edge, as screen heroes.</p>
+<div class="illusGrid" id="illusGrid"></div>
+
+<script>
+const ICONS=['menu','search','home','back','chevron-right','chevron-down','close','check','plus','bell','user','settings','more-v','play','pause','calendar','star','share','activity','run','walk','steps','flame','heart','timer','route','pin','map','distance','trophy','wind','mountain','bolt'];
+iconGrid.innerHTML=ICONS.map(n=>`<div class="it"><svg class="ico ico--lg"><use href="#i-${n}"/></svg><div class="nm">i-${n}</div></div>`).join('');
+
+/* City-skyline blob illustration — token-driven; unique ids per instance. */
+let _uid=0;
+function cityScene(variant){const u=++_uid,g='cg'+u,c='cc'+u;
+ const blob='M36 132C24 78 78 36 150 34C214 32 262 20 318 46C372 70 380 140 356 182C332 224 256 232 184 226C120 221 64 226 44 188C30 160 44 158 36 132Z';
+ return `<svg class="illus illus--${variant}" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="City skyline">
+  <defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--illus-1)"/><stop offset="1" stop-color="var(--illus-2)"/></linearGradient>
+  <clipPath id="${c}"><path d="${blob}"/></clipPath></defs>
+  <path d="${blob}" fill="url(#${g})"/>
+  <g clip-path="url(#${c})">
+    <circle cx="306" cy="74" r="30" fill="var(--sun)"/>
+    <g fill="var(--cloud)"><ellipse cx="118" cy="92" rx="26" ry="15"/><ellipse cx="150" cy="86" rx="20" ry="13"/><ellipse cx="95" cy="97" rx="15" ry="10"/></g>
+    <g fill="var(--illus-sil)">
+      <rect x="72" y="150" width="22" height="80"/><rect x="96" y="126" width="16" height="104"/>
+      <rect x="114" y="162" width="20" height="68"/><path d="M150 122l8-10 8 10v108h-16z"/>
+      <rect x="170" y="146" width="24" height="84"/><rect x="198" y="132" width="18" height="98"/>
+      <rect x="250" y="94" width="6" height="136"/><ellipse cx="253" cy="112" rx="11" ry="6"/><rect x="251.5" y="74" width="3" height="22"/>
+      <rect x="276" y="150" width="26" height="80"/><path d="M304 150a9 9 0 0 1 18 0v80h-18z"/><rect x="326" y="164" width="18" height="66"/>
+    </g>
+  </g></svg>`;}
+illusGrid.innerHTML=[['day','illus--day (sunrise)'],['dusk','illus--dusk (Toronto dusk)'],['teal','illus--teal (brand)']]
+  .map(([v,l])=>`<div class="illusCard">${cityScene(v)}<div class="nm">.${l.split(' ')[0]}</div></div>`).join('');
+</script>
+</body>
+</html>

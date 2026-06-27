@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atrium · Concept — Exhibitions + Artwork</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{font-family:var(--font-body);background:var(--bg);color:var(--on-surface);min-height:100vh;margin:0;padding:34px 24px 60px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .back{align-self:flex-start;font:600 13px var(--font-body);color:var(--primary);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .caption{font:12px var(--font-mono);color:var(--subtle);text-align:center;max-width:620px;line-height:1.7}
+  .two{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .col .label{font:600 11px var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
+  .phone{width:380px;max-width:100%;background:var(--surface);border-radius:44px;box-shadow:var(--elev-3);border:1px solid var(--border-faint);overflow:hidden;position:relative}
+  .screen{height:806px;overflow:auto;background:var(--bg);position:relative}
+  .screen::-webkit-scrollbar{width:0}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:140px;height:26px;background:rgb(0 0 0 / .10);border-radius:0 0 16px 16px;z-index:8}
+  .pad{padding:0 20px}
+  .topbar{display:flex;align-items:center;gap:8px;padding:38px 14px 6px}
+  .sec-h{font:600 13px var(--font-body);color:var(--muted);margin:22px 4px 12px;display:flex;align-items:center;justify-content:space-between}
+  .sec-h .more{font:600 12px var(--font-body);color:var(--primary)}
+  /* exhibition tone card (art + a tone panel that harmonises with the art) */
+  .excard{border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--elev-2);margin-top:6px}
+  .excard .body{padding:16px 18px 18px;position:relative}
+  .excard .ttl{font:600 23px/1.1 var(--font-display);letter-spacing:-.01em;margin:6px 0 10px}
+  .excard .det{font:600 13px var(--font-body);display:inline-flex;align-items:center;gap:6px}
+  .excard .thumb{position:absolute;right:16px;bottom:14px;width:54px;height:54px;border-radius:var(--r-xs);overflow:hidden;box-shadow:0 4px 12px rgb(0 0 0 / .3)}
+  .metarow{display:flex;align-items:center;gap:14px;margin-top:10px;font:600 12px var(--font-body);opacity:.86}
+  /* carousel tiles */
+  .exc{flex:0 0 150px}
+  .exc .win{height:180px;border-radius:var(--r-lg);position:relative}
+  .exc .t{font:600 15px/1.2 var(--font-display);margin-top:7px}
+  /* tickets */
+  .tick{display:flex;align-items:center;gap:14px;padding:12px 0}
+  .tick .thumb{flex:0 0 54px}.tick .thumb .win{height:72px;border-radius:var(--r-sm)}
+  .stars{display:inline-flex;gap:2px;color:var(--accent)}
+  .price{font:700 16px var(--font-display);color:var(--on-surface)}
+  /* === detail (light editorial) === */
+  .plate{margin:8px 0 4px}
+  .plate .win{height:380px}
+  .metab{display:flex;gap:22px;margin:14px 0}
+  .metab .m .k{font:600 10px var(--font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--subtle)}
+  .metab .m .v{font:600 14px var(--font-display);color:var(--on-surface);margin-top:2px}
+  .topbar2{position:absolute;top:0;left:0;right:0;z-index:4;display:flex;align-items:center;gap:8px;padding:36px 14px 0}
+  .ctabar{position:sticky;bottom:0;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--border-faint);padding:12px 18px 16px;display:flex;gap:12px;align-items:center}
+</style>
+</head>
+<body>
+<a class="back" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg>Back to style guide</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="paintGrain"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0"/></filter>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.5V19l4 2v-8.5z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 16a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2zM3 16a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+</svg>
+
+<div class="two">
+
+  <!-- ════════ SCREEN 1 · Exhibitions (light base, per-exhibition tones) ════════ -->
+  <div class="col">
+    <div class="label">First view · Exhibitions</div>
+    <div class="phone"><div class="notch"></div><div class="screen">
+      <div class="topbar pad">
+        <button class="iconbtn"><svg class="ico"><use href="#i-filter"/></svg></button>
+        <div style="flex:1"></div>
+        <span class="row" style="gap:5px;color:var(--muted);font:600 13px var(--font-body)"><svg class="ico ico--sm"><use href="#i-pin"/></svg>Paris</span>
+      </div>
+      <div class="pad">
+        <div class="t-h2" style="margin:2px 0 2px">Exhibitions</div>
+        <div class="t-body2" style="margin-bottom:8px">Now showing — each room, its own light</div>
+
+        <!-- NAVY exhibition (dark portrait → deep navy panel) -->
+        <div class="excard tone-navy">
+          <div class="artwin" data-art="portrait" style="height:210px"></div>
+          <div class="body">
+            <div class="t-overline" style="color:inherit;opacity:.66">Art — Exhibitions — Current</div>
+            <div class="ttl">Vincent van Gogh<br>Solo Exhibition</div>
+            <span class="det">Details <svg class="ico ico--sm"><use href="#i-arrow"/></svg></span>
+            <div class="metarow"><span class="row" style="gap:5px"><svg class="ico ico--sm"><use href="#i-eye"/></svg>2,213</span><span class="row" style="gap:5px"><svg class="ico ico--sm"><use href="#i-heart"/></svg>63</span><span class="row" style="gap:5px"><svg class="ico ico--sm"><use href="#i-clock"/></svg>Closing in 48 days</span></div>
+            <div class="thumb"><div class="artwin" data-art="starry" style="height:100%"></div></div>
+          </div>
+        </div>
+
+        <!-- CLAY exhibition (warm landscape → terracotta panel) -->
+        <div class="excard tone-clay" style="margin-top:14px">
+          <div class="artwin" data-art="wheatfield" style="height:190px"></div>
+          <div class="body">
+            <div class="t-overline" style="color:inherit;opacity:.7">Art — Exhibitions — Current</div>
+            <div class="ttl">Fields of Provence</div>
+            <span class="det">Details <svg class="ico ico--sm"><use href="#i-arrow"/></svg></span>
+            <div class="metarow"><span class="row" style="gap:5px"><svg class="ico ico--sm"><use href="#i-clock"/></svg>Through Apr 2</span><span>· West wing</span></div>
+            <div class="thumb"><div class="artwin" data-art="sunflowers" style="height:100%"></div></div>
+          </div>
+        </div>
+
+        <!-- carousel -->
+        <div class="sec-h">More to see <span class="more">All</span></div>
+        <div class="scrollrow">
+          <div class="exc"><div class="artwin win" data-art="starry"></div><div class="t">Night &amp; Light</div><div class="t-caption">Post-Impressionism</div></div>
+          <div class="exc"><div class="artwin win" data-art="sunflowers"></div><div class="t">Still Life</div><div class="t-caption">Flowers</div></div>
+          <div class="exc"><div class="artwin win" data-art="portrait"></div><div class="t">Faces</div><div class="t-caption">Portraiture</div></div>
+        </div>
+
+        <!-- tickets -->
+        <div class="sec-h">Buy tickets</div>
+        <div class="stack">
+          <div class="tick"><div class="thumb"><div class="artwin win" data-art="portrait"></div></div><div style="flex:1"><div style="font:600 15px var(--font-display)">Van Gogh · Solo</div><div class="t-caption">Dec 12 – Mar 15 · National Museum</div><div class="stars" style="margin-top:3px"><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm" style="opacity:.3"><use href="#i-star"/></svg></div></div><div style="text-align:right"><div class="price">$30</div><button class="btn btn-contained btn--sm" style="margin-top:6px">Tickets</button></div></div>
+          <hr class="divider">
+          <div class="tick"><div class="thumb"><div class="artwin win" data-art="wheatfield"></div></div><div style="flex:1"><div style="font:600 15px var(--font-display)">Fields of Provence</div><div class="t-caption">Through Apr 2 · West wing</div><div class="stars" style="margin-top:3px"><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg><svg class="ico ico--sm ico--filled"><use href="#i-star"/></svg></div></div><div style="text-align:right"><div class="price">$24</div><button class="btn btn-contained btn--sm" style="margin-top:6px">Tickets</button></div></div>
+        </div>
+        <div style="height:16px"></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ════════ SCREEN 2 · Artwork detail (light editorial — like a catalogue plate) ════════ -->
+  <div class="col">
+    <div class="label">Detail · Artwork (light)</div>
+    <div class="phone"><div class="notch"></div><div class="screen">
+      <div class="topbar2"><button class="iconbtn"><svg class="ico"><use href="#i-close"/></svg></button><div style="flex:1"></div><button class="iconbtn"><svg class="ico"><use href="#i-share"/></svg></button><button class="iconbtn"><svg class="ico"><use href="#i-bookmark"/></svg></button></div>
+      <div class="pad" style="padding-top:78px;padding-bottom:96px">
+        <div class="t-overline" style="color:var(--accent)">Gallery 4 · West wing</div>
+        <div class="t-h1" style="font-size:46px;line-height:.98;margin:4px 0 0">Sunflowers</div>
+        <!-- the plate (framed painting) -->
+        <div class="artframe plate"><div class="mat"><div class="artwin win" data-art="sunflowers"></div></div></div>
+        <div style="text-align:center;margin-top:6px">
+          <div style="font:600 22px var(--font-display)">Vincent van Gogh</div>
+          <div class="t-body2">Dutch, 1853 – 1890</div>
+        </div>
+        <div class="metab" style="justify-content:center">
+          <div class="m" style="text-align:center"><div class="k">Origin</div><div class="v">Arles</div></div>
+          <div class="m" style="text-align:center"><div class="k">Date</div><div class="v">1888</div></div>
+          <div class="m" style="text-align:center"><div class="k">Medium</div><div class="v">Oil on canvas</div></div>
+        </div>
+        <hr class="divider">
+        <p class="t-body dropcap" style="margin-top:14px">Van Gogh painted the sunflowers in a burst of optimism, awaiting Gauguin's arrival in Arles. The blooms — some fresh, some already wilting — sit against a wall of the same yellow, a study in a single colour pushed to its limit. He called the series simply <em style="font-family:var(--font-display)">la lumière</em>: light made matter.</p>
+        <div class="sec-h">More in this gallery <span class="more">See all</span></div>
+        <div class="scrollrow">
+          <div class="exc"><div class="artwin win" data-art="starry"></div><div class="t-caption" style="margin-top:6px">Starry Night · 1889</div></div>
+          <div class="exc"><div class="artwin win" data-art="wheatfield"></div><div class="t-caption" style="margin-top:6px">Wheatfield · 1890</div></div>
+          <div class="exc"><div class="artwin win" data-art="portrait"></div><div class="t-caption" style="margin-top:6px">Self-Portrait · 1889</div></div>
+        </div>
+      </div>
+      <div class="ctabar">
+        <button class="btn btn-contained btn--lg" style="flex:1"><svg class="ico ico--sm"><use href="#i-headphones"/></svg>Listen · 3:20</button>
+        <button class="iconbtn filled"><svg class="ico"><use href="#i-pin"/></svg></button>
+      </div>
+    </div></div>
+  </div>
+
+</div>
+
+<div class="caption">Two concept screens — Exhibitions (a light plaster base where each exhibition takes a <b>tone that harmonises with its artwork</b>: deep <b>navy</b> for the dark portrait, <b>terracotta</b> for the warm landscape) and a light editorial Artwork plate (framed painting, serif title, Origin/Date/Medium, a drop-cap essay). Paintings are drawn inline-SVG with canvas grain — no n/a placeholders. Toggle the after-hours dark theme in <code>styles.css</code>.</div>
+
+<script>
+let _aid=0;
+function artwork(name){
+  const u=++_aid, id=s=>`aw${u}${s}`, W=320, H=400;
+  const grain=`<rect width="${W}" height="${H}" filter="url(#paintGrain)" opacity=".4" style="mix-blend-mode:overlay"/>`;
+  const vign=`<defs><radialGradient id="${id('v')}" cx="50%" cy="40%" r="78%"><stop offset="60%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".24"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('v')})"/>`;
+  let g='';
+  if(name==='sunflowers'){
+    const fl=[[120,150,30],[188,142,32],[152,206,26],[214,200,24],[100,212,22]];
+    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2=".2" y2="1"><stop offset="0" stop-color="#74A39A"/><stop offset="1" stop-color="#E7C260"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><rect y="300" width="${W}" height="100" fill="#C9982C" opacity=".92"/><path d="M118 300 q42 -16 84 0 l12 96 h-108z" fill="#E7C147"/><path d="M118 300 q42 -16 84 0" fill="none" stroke="#94661B" stroke-width="4"/><path d="M150 232 q6 38 2 70 M188 174 q-4 60 -34 122" stroke="#5E6E2C" stroke-width="6" fill="none"/>`+fl.map(([x,y,r])=>{let p='';for(let i=0;i<12;i++){const a=i/12*Math.PI*2,px=(x+Math.cos(a)*(r+3)).toFixed(1),py=(y+Math.sin(a)*(r+3)).toFixed(1);p+=`<ellipse cx="${px}" cy="${py}" rx="9" ry="5" fill="#F1C249" transform="rotate(${(a*57.3).toFixed(0)} ${px} ${py})"/>`;}return `<g><circle cx="${x}" cy="${y}" r="${r+9}" fill="#E0A52A"/>${p}<circle cx="${x}" cy="${y}" r="${r-6}" fill="#6B481C"/></g>`;}).join('');
+  } else if(name==='starry'){
+    const st=[[40,70],[92,40],[150,80],[212,52],[282,100],[60,150],[300,60]];
+    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#15224E"/><stop offset="1" stop-color="#37527E"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><path d="M30 130 q70 -54 150 -6 q46 34 -16 64 q-58 26 -78 -16" fill="none" stroke="#6E8FCB" stroke-width="7" opacity=".55"/><path d="M70 122 q40 -26 86 0" fill="none" stroke="#CBB86A" stroke-width="4" opacity=".5"/><circle cx="258" cy="84" r="46" fill="#EFD06A" opacity=".22"/><circle cx="258" cy="84" r="32" fill="#EFD16C"/>${st.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13" fill="#F0DE8E" opacity=".22"/><circle cx="${x}" cy="${y}" r="6" fill="#F2E193"/>`).join('')}<path d="M0 320 q80 -34 160 -2 t160 -2 v84 h-320z" fill="#1A2A50"/><path d="M66 372 c -12 -66 8 -132 18 -164 c 10 32 28 98 16 164z" fill="#10211B"/>`;
+  } else if(name==='portrait'){
+    g=`<defs><radialGradient id="${id('b')}" cx="46%" cy="40%" r="80%"><stop offset="0" stop-color="#6E5F4A"/><stop offset="1" stop-color="#2C2824"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><path d="M52 400 c 8 -96 60 -130 108 -130 c 48 0 100 34 108 130z" fill="#3A332A"/><path d="M120 300 q40 16 80 0 l-6 -40 h-68z" fill="#B98E64"/><ellipse cx="160" cy="150" rx="54" ry="64" fill="#CBA079"/><path d="M106 150 c -10 -78 118 -94 112 -8 c -12 -34 -44 -44 -56 -44 c -26 0 -48 14 -56 52z" fill="#2A2118"/><path d="M134 150 q9 -7 18 0 M170 150 q9 -7 18 0" stroke="#3A2C20" stroke-width="3" fill="none"/><path d="M156 168 l6 18 l-8 4" stroke="#9A6E4E" stroke-width="2.5" fill="none"/><path d="M148 196 q12 9 26 0" stroke="#7A463A" stroke-width="3" fill="none"/>`;
+  } else {
+    let wh='';for(let i=0;i<46;i++){const x=i*7+3,s=(i%3-1)*3,h=18+(i%6)*5;wh+=`<path d="M${x} 258 q${s} -${(h/2).toFixed(0)} ${(s*1.5).toFixed(0)} -${h}" stroke="#A87C20" stroke-width="2" fill="none"/>`;}
+    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5E7E96"/><stop offset="1" stop-color="#AEC2BF"/></linearGradient></defs><rect width="${W}" height="240" fill="url(#${id('b')})"/><path d="M0 214 q90 -26 180 -6 t140 4 v40 h-320z" fill="#7E8B66"/><rect y="250" width="${W}" height="150" fill="#D7AC3A"/>${wh}<path d="M150 400 l22 -150 h-8 l-34 150z" fill="#C99A28"/><path d="M60 120 q6 -7 12 0 q6 -7 12 0 M210 96 q6 -7 12 0 q6 -7 12 0 M150 140 q5 -6 10 0 q5 -6 10 0" stroke="#1A1A12" stroke-width="2.5" fill="none"/>`;
+  }
+  return `<svg class="art" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${name} painting">${g}${grain}${vign}</svg>`;
+}
+document.querySelectorAll('[data-art]').forEach(el=>el.insertAdjacentHTML('afterbegin',artwork(el.dataset.art)));
+</script>
+</body>
+</html>

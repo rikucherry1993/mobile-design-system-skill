@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+
+# local Claude config (personal settings, permissions)
+.claude/

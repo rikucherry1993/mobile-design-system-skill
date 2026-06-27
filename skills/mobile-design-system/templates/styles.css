@@ -1,0 +1,134 @@
+/* =========================================================================
+   <App> Design System — shared tokens + component classes
+   TEMPLATE: replace token values from your reference UI / style brief.
+   Keep names SEMANTIC (roles), reference tokens everywhere — no magic values.
+   ========================================================================= */
+:root{
+  /* ---- Color: brand/seed → semantic roles (edit values) ----
+     HARMONY BY CONSTRUCTION — two rules that keep every palette readable & tasteful:
+     1. PAIRING: every fill/surface role ships a foreground partner (--on-*) chosen
+        TOGETHER so text on it is ≥4.5:1 (≥3:1 large). Never add a fill without its --on-*.
+        Verify the ratio with math at author time (see design-principles.md §1) — no eyeballing.
+     2. TINTED NEUTRALS: grays lean toward the brand temperature (here cool-blue), never
+        pure #888. Tinted neutrals read as hand-mixed; pure gray reads as machine default. */
+  --primary:#2F6BFF;       --on-primary:#FFFFFF;      --primary-strong:#1E4FD6;
+  --secondary:#6E56CF;     --on-secondary:#FFFFFF;
+  --accent:#11A8BE;        --on-accent:#04282E;
+
+  --bg:#F4F6FB;            --on-bg:#161A29;
+  --surface:#FFFFFF;       --on-surface:#161A29;
+  --surface-sunken:#EDEFF6;                            /* recessed fields/wells */
+  --muted-surface:#EDEFF6; --on-muted-surface:#444B61; /* chips, subtle fills */
+
+  --muted:#586079; --subtle:#9097A8;                   /* secondary / tertiary ink (tinted) */
+  --border:#E2E6F0; --border-faint:#EEF0F7;            /* tinted, not pure gray */
+  --hairline:rgb(22 26 41 / .07);                      /* 1px crisp separators */
+
+  --success:#1F9D57; --on-success:#FFFFFF;
+  --error:#E5484D;   --on-error:#FFFFFF;
+  --warning:#E08C00; --on-warning:#2A1A00;
+  --info:#2F6BFF;    --on-info:#FFFFFF;
+  --link:var(--primary);
+
+  /* ---- Spacing scale (one scale, used everywhere) ---- */
+  --sp-2:2px; --sp-4:4px; --sp-8:8px; --sp-12:12px; --sp-16:16px;
+  --sp-20:20px; --sp-24:24px; --sp-32:32px; --sp-48:48px;
+  --opt-1:1px; --opt-3:3px;  /* fine OPTICAL-adjust steps, off the grid — for nudging
+                                icons/baselines into optical (not mathematical) alignment */
+
+  /* ---- Radius ---- */
+  --r-sm:6px; --r-md:10px; --r-lg:16px; --r-full:999px;
+
+  /* ---- Elevation: SOFT, TINTED, LAYERED shadows ----
+     Flat gray drop-shadows look generic. Tint the shadow toward the ink/brand and
+     layer a tight contact shadow + a soft ambient one. Set all to `none` for a flat theme. */
+  --shadow-ink:22 26 41;  /* ink RGB, fed into rgb()/alpha below */
+  --elev-1:0 1px 2px rgb(var(--shadow-ink)/.07), 0 2px 6px rgb(var(--shadow-ink)/.06);
+  --elev-2:0 2px 4px rgb(var(--shadow-ink)/.06), 0 8px 24px rgb(var(--shadow-ink)/.12);
+
+  /* ---- Craft details (separate "product" from "color blocks") ---- */
+  --ring:rgb(47 107 255 / .40);
+  --focus-ring:0 0 0 2px var(--surface), 0 0 0 4px var(--ring); /* 2px ring + offset gap */
+
+  /* ---- Expression layer (optional — what makes it feel designed, not generic):
+     a signature accent + a soft surface wash. Add an illustration/mascot slot per brief. */
+  --signature:var(--accent);
+  --wash:linear-gradient(180deg, color-mix(in srgb, var(--primary) 6%, var(--surface)), var(--surface));
+
+  /* ---- Type: a DISPLAY personality + a TEXT workhorse (give display real character;
+     swap per brief). Sizes follow a ~1.25 modular scale; tracking tightens as size grows. */
+  --font-display:'Fraunces',Georgia,'Songti SC',serif;
+  --font-body:'Inter',-apple-system,'Segoe UI',Roboto,'PingFang SC',sans-serif;
+
+  /* ---- Motion ---- */
+  --dur-fast:120ms; --dur-base:240ms; --ease:cubic-bezier(.2,.8,.2,1);
+  --ease-spring:cubic-bezier(.34,1.4,.5,1); /* slight overshoot — motion with character */
+
+  /* ---- Icons (inline SVG sprite; theme via currentColor + stroke width) ----
+     Outlined/stroke style by default. Tune per platform/theme:
+       Material/Android → --icon-stroke:2     iOS (SF-like) → 1.6, more rounding
+     NEVER use emoji for UI icons — see templates/icons.html for the sprite. */
+  --icon-size:24px; --icon-stroke:2;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ---- Typography scale (~1.25 modular: 16→20→25→31→39). Tracking & leading are
+   TUNED per step — tight on big display, airy on body, wide on small caps/labels. */
+.t-display{font:700 34px/1.08 var(--font-display);letter-spacing:-.02em;color:var(--on-surface)}
+.t-title  {font:700 22px/1.2 var(--font-body);letter-spacing:-.01em;color:var(--on-surface)}
+.t-body   {font:400 16px/1.55 var(--font-body);color:var(--on-surface)}
+.t-label  {font:600 12px/1.3 var(--font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* =========================================================================
+   COMPONENT CLASSES — starter atomics. Add/extend per project.
+   Each block should reference tokens only.
+   ========================================================================= */
+
+/* Button */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-8);
+  border-radius:var(--r-md);cursor:pointer;font:600 16px var(--font-body);
+  min-height:48px;padding:0 var(--sp-16);border:1px solid transparent;transition:filter var(--dur-fast) var(--ease)}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{filter:brightness(.95)}
+.btn-secondary{background:var(--surface);color:var(--primary);border-color:var(--primary)}
+.btn-danger{background:var(--surface);color:var(--error);border-color:var(--error)}
+.btn.disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible{outline:none;box-shadow:var(--focus-ring)} /* crafted 2px focus ring */
+
+/* Chip / Tag */
+.chip{display:inline-flex;align-items:center;gap:var(--sp-4);height:30px;padding:0 var(--sp-12);
+  border-radius:var(--r-full);font:600 13px var(--font-body);background:var(--border-faint);color:var(--on-surface)}
+.chip.selected{background:var(--primary);color:var(--on-primary)}
+
+/* Card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  box-shadow:var(--elev-1);padding:var(--sp-16)}
+
+/* Tab bar (segmented) */
+.tabbar{display:inline-flex;background:var(--border-faint);border-radius:var(--r-md);padding:var(--sp-4)}
+.tabbar .tab{padding:var(--sp-8) var(--sp-16);border-radius:var(--r-sm);font:600 14px var(--font-body);color:var(--muted);cursor:pointer}
+.tabbar .tab.sel{background:var(--surface);color:var(--primary);box-shadow:var(--elev-1)}
+
+/* Bottom navigation */
+.bottomnav{display:flex;align-items:center;height:58px;background:var(--surface);
+  border-top:1px solid var(--border);border-radius:var(--r-lg) var(--r-lg) 0 0;box-shadow:0 -8px 24px rgba(15,23,42,.04)}
+.bottomnav .ni{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--subtle)}
+.bottomnav .ni.sel{color:var(--primary)}
+
+/* Top app bar */
+.appbar{height:48px;display:flex;align-items:center;padding:0 var(--sp-8);background:var(--surface);color:var(--on-surface)}
+.appbar .ttl{flex:1;font:700 18px var(--font-display);text-align:center}
+.appbar .icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+
+/* Icon — inline SVG sprite ref: <svg class="ico"><use href="#i-home"/></svg>
+   Style is fully token-driven, so icons re-theme with the rest of the system. */
+.ico{width:var(--icon-size);height:var(--icon-size);display:inline-block;vertical-align:middle;
+  fill:none;stroke:currentColor;stroke-width:var(--icon-stroke);stroke-linecap:round;stroke-linejoin:round}
+.ico--sm{--icon-size:18px}
+.ico--lg{--icon-size:28px}
+.ico--filled{fill:currentColor;stroke:none}
+
+/* horizontal scroll row that does NOT clip child shadows */
+.scrollrow{display:flex;gap:var(--sp-8);overflow-x:auto;overflow-y:hidden;padding-bottom:6px}
+.scrollrow::-webkit-scrollbar{height:0}

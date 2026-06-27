@@ -1,0 +1,10 @@
+{
+  "name": "mobile-design-system",
+  "version": "0.2.0",
+  "description": "Bootstrap a brand-new mobile app's design system as self-contained HTML + CSS — a token layer plus a full component catalogue (a living style guide with a Figma-style Dev Mode inspector and per-component Copy-as-prompt) and a two-screen concept. Glanceable like a webpage, structured like a spec: a shared interface you and any agent can read, inspect, and build from. Reference guideline chosen by platform (Material 3 / Apple HIG / Material + MUI); framework-agnostic; greenfield only.",
+  "author": { "name": "rikucherry1993" },
+  "homepage": "https://github.com/rikucherry1993/mobile-design-system-skill",
+  "repository": "https://github.com/rikucherry1993/mobile-design-system-skill",
+  "license": "MIT",
+  "keywords": ["design-system", "mobile", "ui", "design-tokens", "html", "material", "ios", "skill"]
+}

@@ -1,0 +1,354 @@
+/* =========================================================================
+   Margin · Reading & Notes — Design System (tokens + component classes)
+   Reference guideline: Cross-platform → Material 3 token model + MUI components.
+   Theme: "Inkprint" — monochrome, hand-drawn. Library archetypes: BRUTALIST ×
+   EDITORIAL — thick black outlines, hard offset shadows, expressive heavy display
+   type, hand-drawn line illustrations + sparkle/doodle accents, a handwriting face
+   for reading notes. Ink on warm paper; an inverse "ink card" (black/white).
+
+   HARMONY BY CONSTRUCTION: every fill ships a paired on-* foreground (here mostly
+   ink↔paper), each pair WCAG-checked by math. Monochrome on purpose — "status" is
+   shown by treatment (fill/outline/icon), not hue. Tokens everywhere.
+   ========================================================================= */
+:root{
+  /* ---- Color: monochrome ink-on-paper ---- */
+  --ink:#14110D; --paper:#FAF7F0;
+  --primary:#14110D;             --on-primary:#FAF7F0;         /* ink button, paper text ~16:1 */
+  --primary-strong:#000000;
+  --primary-container:#ECE6D8;   --on-primary-container:#14110D;
+  --secondary:#5B554A;           --on-secondary:#FAF7F0;        /* warm grey ink */
+  --secondary-container:#E4DECF; --on-secondary-container:#2A261E;
+  --accent:#14110D;              --on-accent:#FAF7F0;           /* mono — accent = ink */
+
+  --bg:#F3EFE5;                  --on-bg:#14110D;
+  --surface:#FFFDF8;            --on-surface:#14110D;          /* paper, ink ≈ 16:1 */
+  --surface-sunken:#F0EBDF;
+  --muted-surface:#ECE6D8;      --on-muted-surface:#3A352B;
+  --ink-card:#14110D;           --on-ink-card:#FAF7F0;          /* inverse dark card */
+
+  --muted:#6B6557; --subtle:#9A9483;
+  --border:#14110D;             /* THICK BLACK outline — the signature */
+  --border-faint:#D9D3C4; --hairline:rgb(20 17 13 / .12);
+
+  /* status — monochrome; differentiate by treatment + icon, not colour */
+  --success:#14110D; --on-success:#FAF7F0;
+  --error:#14110D;   --on-error:#FAF7F0;
+  --warning:#14110D; --on-warning:#FAF7F0;
+  --info:#14110D;    --on-info:#FAF7F0;
+  --link:#14110D;
+
+  /* ---- Spacing (4dp) + optical ---- */
+  --sp-2:2px; --sp-4:4px; --sp-8:8px; --sp-12:12px; --sp-16:16px;
+  --sp-20:20px; --sp-24:24px; --sp-32:32px; --sp-48:48px; --sp-64:64px;
+  --opt-1:1px; --opt-3:3px;
+
+  /* ---- Shape — large + pills (hand-drawn rounded) ---- */
+  --r-none:0; --r-xs:8px; --r-sm:12px; --r-md:18px; --r-lg:24px; --r-xl:32px; --r-full:999px;
+  --stroke:2px;            /* the outline weight — the look */
+
+  /* ---- Elevation — flat brutalist + a HARD offset shadow signature ---- */
+  --elev-0:none;
+  --elev-1:0 1px 2px rgb(20 17 13 / .08);
+  --elev-2:0 3px 10px rgb(20 17 13 / .12);
+  /* Hard shadow = an OUTLINED offset block (warm cream fill + ink outline) — the manga "empty
+     drop-shadow". The fill is --secondary-container so it reads as a distinct WARM tone against
+     white surfaces (depth, not a black blob). Never merges with a solid-ink fill; auto-themes. */
+  --shadow-hard:5px 5px 0 0 var(--secondary-container), 5px 5px 0 2px var(--ink);
+  --shadow-hard-sm:3px 3px 0 0 var(--secondary-container), 3px 3px 0 2px var(--ink);
+
+  /* ---- State layers ---- */
+  --state-hover:.06; --state-press:.10; --state-disabled:.38;
+
+  /* ---- Craft ---- */
+  --ring:rgb(20 17 13 / .9);
+  --focus-ring:0 0 0 2px var(--surface), 0 0 0 4px var(--ink);
+
+  /* ---- Type: heavy display + body + handwriting (notes) + serif (reading) ---- */
+  --font-display:'Space Grotesk','Inter',-apple-system,sans-serif;
+  --font-body:'Inter',-apple-system,'Segoe UI',Roboto,'PingFang SC',sans-serif;
+  --font-hand:'Caveat','Segoe Script',cursive;           /* reading notes / annotations */
+  --font-read:'Lora','Iowan Old Style',Georgia,serif;     /* book reading content */
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+
+  /* ---- Motion ---- */
+  --dur-fast:120ms; --dur-base:240ms; --ease:cubic-bezier(.2,.8,.2,1); --ease-spring:cubic-bezier(.34,1.5,.5,1);
+
+  /* ---- Icons (heavier stroke to match the hand-drawn outline look) ---- */
+  --icon-size:24px; --icon-stroke:2.1;
+
+  /* ---- Hand-drawn texture: paper grain + a "roughen" filter for line wobble ---- */
+  --paper-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacity:.42;   /* subtle; bump for more tooth */
+}
+
+/* ---- Dark theme = inverse (paper becomes ink) ---- */
+:root[data-theme="dark"]{
+  --primary:#FAF7F0; --on-primary:#14110D; --primary-strong:#FFFFFF;
+  --primary-container:#2C281F; --on-primary-container:#FAF7F0;
+  --secondary:#C8C1B1; --on-secondary:#14110D; --secondary-container:#33302A; --on-secondary-container:#E4DECF;
+  --accent:#FAF7F0; --on-accent:#14110D;
+  --bg:#100E0A; --on-bg:#FAF7F0;
+  --surface:#16140F; --on-surface:#FAF7F0; --surface-sunken:#0C0A07;
+  --muted-surface:#23211B; --on-muted-surface:#D8D2C4;
+  --ink-card:#FAF7F0; --on-ink-card:#14110D;
+  --muted:#A39D8E; --subtle:#6E695C;
+  --border:#FAF7F0; --border-faint:#2C2922; --hairline:rgb(250 247 240 / .14);
+  --success:#FAF7F0; --on-success:#14110D; --error:#FAF7F0; --on-error:#14110D; --warning:#FAF7F0; --on-warning:#14110D; --info:#FAF7F0; --on-info:#14110D;
+  --link:#FAF7F0; --ink:#FAF7F0;   /* --shadow-hard auto-inverts via --surface/--ink */
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* paper grain — a fixed, subtle tooth over everything (overlay blend works light & dark) */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
+  background-image:var(--paper-grain);background-size:180px;mix-blend-mode:overlay;opacity:var(--grain-opacity)}
+
+/* =========================================================================
+   TYPOGRAPHY — heavy display, plain body, handwriting notes, serif reading
+   ========================================================================= */
+.t-display{font:700 44px/1.02 var(--font-display);letter-spacing:-.02em;color:var(--on-surface)}
+.t-h1{font:700 36px/1.06 var(--font-display);letter-spacing:-.02em;color:var(--on-surface)}
+.t-h2{font:700 28px/1.12 var(--font-display);letter-spacing:-.01em;color:var(--on-surface)}
+.t-h3{font:700 22px/1.2 var(--font-display);color:var(--on-surface)}
+.t-title{font:700 18px/1.3 var(--font-display);color:var(--on-surface)}
+.t-subtitle{font:600 15px/1.4 var(--font-body);color:var(--on-surface)}
+.t-body{font:400 16px/1.6 var(--font-body);color:var(--on-surface)}
+.t-body2{font:400 14px/1.55 var(--font-body);color:var(--muted)}
+.t-read{font:400 17px/1.7 var(--font-read);color:var(--on-surface)}     /* book text */
+.t-note{font:600 20px/1.3 var(--font-hand);color:var(--on-surface)}      /* reading notes */
+.t-label{font:700 12px/1.3 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.t-caption{font:400 12px/1.4 var(--font-body);color:var(--subtle)}
+.t-num{font:700 30px/1 var(--font-display);letter-spacing:-.01em;color:var(--on-surface)}
+.u-wavy{text-decoration:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='8'><path d='M0 5 Q 10 0 20 5 T 40 5' fill='none' stroke='%2314110D' stroke-width='2'/></svg>");background-repeat:repeat-x;background-position:0 100%;padding-bottom:6px}
+
+/* =========================================================================
+   INPUTS
+   ========================================================================= */
+/* Button — contained / outlined / text; pill; hard-shadow press */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-8);
+  height:48px;padding:0 var(--sp-24);border-radius:var(--r-full);cursor:pointer;
+  font:700 15px var(--font-display);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);
+  transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
+.btn .ico{--icon-size:18px}
+.btn-contained{background:var(--ink);color:var(--on-primary)}
+.btn-contained:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.btn-contained:active{box-shadow:none;transform:translate(2px,2px)}
+.btn-outlined{background:var(--surface);color:var(--ink)}
+.btn-outlined:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.btn-outlined:active{box-shadow:none;transform:translate(2px,2px)}
+.btn-tonal{background:var(--secondary-container);color:var(--on-secondary-container)}   /* soft warm action — adds a mid tone between contained & outlined */
+.btn-tonal:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.btn-tonal:active{box-shadow:none;transform:translate(2px,2px)}
+.btn-text{background:transparent;border-color:transparent;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.btn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+.btn.disabled,.btn:disabled{opacity:var(--state-disabled);cursor:not-allowed;box-shadow:none;transform:none}
+.btn--sm{height:38px;padding:0 var(--sp-16);font-size:13px}
+.btn--lg{height:58px;padding:0 var(--sp-32);font-size:17px}
+.btn--hero{height:62px;width:100%;box-shadow:var(--shadow-hard)}    /* hero CTA — always-on outlined drop shadow */
+
+.btn-group{display:inline-flex;border:var(--stroke) solid var(--ink);border-radius:var(--r-full);overflow:hidden}
+.btn-group .btn{border:none;border-radius:0;height:44px}
+.btn-group .btn+.btn{border-left:var(--stroke) solid var(--ink)}
+.btn-group .btn.sel{background:var(--ink);color:var(--on-primary)}
+
+/* Icon button — circular, outlined (like the reference) */
+.iconbtn{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-full);
+  border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
+.iconbtn:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.iconbtn:active{box-shadow:none;transform:translate(2px,2px)}
+.iconbtn.filled{background:var(--ink);color:var(--on-primary)}
+.iconbtn.ghost{border-color:transparent;box-shadow:none}
+.iconbtn--sm{width:38px;height:38px}
+.iconbtn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+
+/* FAB */
+.fab{display:inline-flex;align-items:center;gap:var(--sp-8);height:60px;min-width:60px;justify-content:center;padding:0 var(--sp-20);
+  border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);background:var(--ink);color:var(--on-primary);cursor:pointer;font:700 15px var(--font-display);box-shadow:var(--shadow-hard);transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
+.fab:active{box-shadow:none;transform:translate(3px,3px)}
+.fab--sm{height:44px;min-width:44px;border-radius:var(--r-md)}
+
+/* Checkbox — square, 2px, ink check */
+.check{display:inline-flex;align-items:center;gap:var(--sp-12);cursor:pointer;font:400 16px var(--font-body);color:var(--on-surface)}
+.check .box{width:24px;height:24px;border-radius:var(--r-xs);border:var(--stroke) solid var(--ink);display:inline-flex;align-items:center;justify-content:center;color:transparent;background:var(--surface)}
+.check.checked .box{background:var(--ink);color:var(--on-primary)}
+.check.indeterminate .box{background:var(--ink)}.check.indeterminate .box::after{content:"";width:12px;height:2.5px;background:var(--on-primary)}
+
+/* Radio */
+.radio{display:inline-flex;align-items:center;gap:var(--sp-12);cursor:pointer;font:400 16px var(--font-body);color:var(--on-surface)}
+.radio .dot{width:24px;height:24px;border-radius:var(--r-full);border:var(--stroke) solid var(--ink);display:inline-flex;align-items:center;justify-content:center;background:var(--surface)}
+.radio.sel .dot::after{content:"";width:12px;height:12px;border-radius:var(--r-full);background:var(--ink)}
+
+/* Switch — pill, 2px outline */
+.switch{width:56px;height:32px;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);position:relative;cursor:pointer;transition:background var(--dur-base) var(--ease)}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:var(--r-full);background:var(--ink);transition:transform var(--dur-base) var(--ease-spring)}
+.switch.on{background:var(--ink)}.switch.on::after{transform:translateX(24px);background:var(--on-primary)}
+
+/* Text field */
+.field{display:flex;flex-direction:column;gap:6px;min-width:240px}
+.field .lab{font:700 12px var(--font-body);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.field .ctl{display:flex;align-items:center;gap:var(--sp-8);height:52px;padding:0 var(--sp-16);border-radius:var(--r-md);background:var(--surface);border:var(--stroke) solid var(--ink);color:var(--on-surface)}
+.field .ctl input{border:none;outline:none;background:none;flex:1;font:400 16px var(--font-body);color:var(--on-surface)}
+.field .ctl input::placeholder{color:var(--subtle)}
+.field.filled .ctl{background:var(--muted-surface)}
+.field.standard .ctl{background:none;border:none;border-bottom:var(--stroke) solid var(--ink);border-radius:0;padding:0}
+.field.focus .ctl{box-shadow:var(--shadow-hard-sm)}
+.field.error .ctl{border-style:dashed}
+.field .hint{font:400 12px var(--font-body);color:var(--muted)}
+.field.error .hint{font-weight:700}
+.field.disabled{opacity:var(--state-disabled)}
+
+/* Select / Autocomplete shells */
+.select .ctl{cursor:pointer;justify-content:space-between}
+.autocomplete .ctl{flex-wrap:wrap;height:auto;min-height:52px;padding:7px var(--sp-12)}
+
+/* Slider — pill track, ink fill (the exp-bar look) */
+.slider{position:relative;height:28px;display:flex;align-items:center;min-width:220px}
+.slider .track{height:14px;width:100%;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink)}
+.slider .fill{position:absolute;height:14px;border-radius:var(--r-full);background:var(--ink);border:var(--stroke) solid var(--ink);left:0}
+.slider .thumb{position:absolute;width:24px;height:24px;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink)}
+
+/* Toggle button group */
+.toggle-group{display:inline-flex;border:var(--stroke) solid var(--ink);border-radius:var(--r-full);overflow:hidden}
+.toggle-group .tb{padding:9px var(--sp-16);font:700 13px var(--font-display);color:var(--ink);background:var(--surface);cursor:pointer;border:none}
+.toggle-group .tb+.tb{border-left:var(--stroke) solid var(--ink)}
+.toggle-group .tb.sel{background:var(--ink);color:var(--on-primary)}
+
+/* Rating — sparkle stars */
+.rating{display:inline-flex;gap:var(--opt-3);color:var(--ink)}
+.rating .off{opacity:.25}
+
+/* =========================================================================
+   DATA DISPLAY
+   ========================================================================= */
+.avatar{width:44px;height:44px;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;font:700 15px var(--font-display);overflow:hidden;flex:0 0 auto}
+.avatar.square{border-radius:var(--r-sm)}
+.avatar--sm{width:32px;height:32px;font-size:12px}.avatar--lg{width:60px;height:60px;font-size:20px}
+.avatar img{width:100%;height:100%;object-fit:cover}
+
+.badge-wrap{position:relative;display:inline-flex}
+.badge{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:var(--r-full);background:var(--ink);color:var(--on-primary);font:700 11px var(--font-display);display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--surface)}
+.badge.dot{min-width:11px;height:11px;padding:0;top:-1px;right:-1px}
+
+.chip{display:inline-flex;align-items:center;gap:var(--sp-4);height:36px;padding:0 var(--sp-16);border-radius:var(--r-full);font:700 13px var(--font-display);background:var(--surface);color:var(--ink);border:var(--stroke) solid var(--ink);cursor:pointer}
+.chip.selected{background:var(--ink);color:var(--on-primary)}
+.chip .x{display:inline-flex;cursor:pointer}
+
+.divider{height:var(--stroke);background:var(--ink);border:0;width:100%;opacity:.9}
+.divider.faint{height:1px;background:var(--border-faint);opacity:1}
+.divider.inset{margin-left:var(--sp-16)}
+
+.list{display:flex;flex-direction:column}
+.list-item{display:flex;align-items:center;gap:var(--sp-16);padding:var(--sp-12) var(--sp-4);min-height:64px}
+.list-item .grow{flex:1;min-width:0}
+.list-item .pri{font:700 16px var(--font-display);color:var(--on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-item .sec{font:400 14px var(--font-body);color:var(--muted);margin-top:2px}
+.list-item .meta{font:700 13px var(--font-display);color:var(--ink)}
+
+.table{width:100%;border-collapse:collapse;font:400 14px var(--font-body)}
+.table th{text-align:left;font:700 11px var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:var(--sp-12);border-bottom:var(--stroke) solid var(--ink)}
+.table td{padding:var(--sp-12);border-bottom:1px solid var(--border-faint);color:var(--on-surface)}
+.table td.num{font-family:var(--font-mono);text-align:right}
+
+.tooltip{display:inline-block;background:var(--ink);color:var(--on-primary);font:600 12px var(--font-body);padding:7px 11px;border-radius:var(--r-sm)}
+
+/* =========================================================================
+   FEEDBACK — monochrome: severity by treatment + icon, not colour
+   ========================================================================= */
+.alert{display:flex;gap:var(--sp-12);align-items:flex-start;padding:var(--sp-12) var(--sp-16);border-radius:var(--r-md);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink)}
+.alert .ico{flex:0 0 auto;margin-top:1px}
+.alert .at{font:700 14px var(--font-display)}.alert .ab{font:400 13px var(--font-body);margin-top:2px}
+.alert.success{box-shadow:var(--shadow-hard-sm)}          /* raised = good */
+.alert.info{background:var(--muted-surface);border-style:solid}
+.alert.warning{border-style:dashed}                        /* dashed = caution */
+.alert.error{background:var(--ink);color:var(--on-primary);border-color:var(--ink)}  /* inverted = error */
+
+.dialog{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);padding:var(--sp-24);max-width:360px;box-shadow:var(--shadow-hard)}
+.dialog .dt{font:700 24px var(--font-display);color:var(--on-surface)}
+.dialog .db{font:400 14px/1.6 var(--font-body);color:var(--muted);margin:var(--sp-12) 0 var(--sp-20)}
+.dialog .da{display:flex;justify-content:flex-end;gap:var(--sp-8)}
+
+.snackbar{display:inline-flex;align-items:center;gap:var(--sp-16);background:var(--ink);color:var(--on-primary);padding:var(--sp-12) var(--sp-16);border-radius:var(--r-md);font:600 14px var(--font-body)}
+.snackbar .sa{font-weight:700;text-decoration:underline;cursor:pointer}
+
+.progress{height:14px;width:100%;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);overflow:hidden}
+.progress .bar{height:100%;border-radius:var(--r-full);background:var(--ink);margin:-1px}
+.spinner{width:30px;height:30px;border-radius:var(--r-full);border:3px solid var(--border-faint);border-top-color:var(--ink);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.skeleton{background:repeating-linear-gradient(45deg,var(--muted-surface),var(--muted-surface) 8px,var(--surface) 8px,var(--surface) 16px);border-radius:var(--r-xs);border:1px solid var(--border-faint)}
+
+.backdrop{background:rgb(20 17 13 / .5)}
+
+/* =========================================================================
+   SURFACES
+   ========================================================================= */
+.paper{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-md)}
+.card{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);padding:var(--sp-20)}
+.card.shadow{box-shadow:var(--shadow-hard)}   /* outlined "stacked-paper" drop shadow */
+.card.flat{box-shadow:none}
+.card.ink{background:var(--ink-card);color:var(--on-ink-card);border-color:var(--ink)}
+.card.ink .t-body2,.card.ink .t-caption,.card.ink .t-label{color:color-mix(in srgb,var(--on-ink-card) 70%,transparent)}
+/* warm tonal card layers (monochrome value ladder: bg cream → surface white → these warm tones → ink) */
+.card.tone{background:var(--muted-surface)}
+.card.cream{background:var(--secondary-container)}
+.card.sunken{background:var(--surface-sunken)}
+
+.appbar{height:60px;display:flex;align-items:center;gap:var(--sp-8);padding:0 var(--sp-12);background:var(--surface);color:var(--on-surface)}
+.appbar .ttl{flex:1;font:700 20px var(--font-display);text-align:center;letter-spacing:.02em}
+
+.accordion{border:var(--stroke) solid var(--ink);border-radius:var(--r-md);overflow:hidden;background:var(--surface)}
+.accordion .ah{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-16);cursor:pointer;font:700 15px var(--font-display);color:var(--on-surface)}
+.accordion .ab{padding:0 var(--sp-16) var(--sp-16);font:400 14px/1.6 var(--font-body);color:var(--muted)}
+.accordion .ah .chev{transition:transform var(--dur-base) var(--ease)}.accordion.open .ah .chev{transform:rotate(180deg)}
+
+/* =========================================================================
+   NAVIGATION
+   ========================================================================= */
+.bottomnav{display:flex;align-items:center;height:68px;background:var(--surface);border-top:var(--stroke) solid var(--ink)}
+.bottomnav .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--muted);font:700 11px var(--font-display)}
+.bottomnav .ni.sel{color:var(--ink)}
+.bottomnav .ni.sel .pill{background:var(--ink);color:var(--on-primary)}
+.bottomnav .ni .pill{width:44px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-full);transition:background var(--dur-base) var(--ease)}
+
+.drawer{width:288px;background:var(--surface);border-right:var(--stroke) solid var(--ink);padding:var(--sp-16);display:flex;flex-direction:column;gap:4px}
+.drawer .di{display:flex;align-items:center;gap:var(--sp-12);padding:var(--sp-12);border-radius:var(--r-md);color:var(--on-surface);font:700 15px var(--font-display);cursor:pointer;border:var(--stroke) solid transparent}
+.drawer .di.sel{border-color:var(--ink)}
+.drawer .di:hover:not(.sel){background:var(--muted-surface)}
+
+.tabs{display:flex;gap:var(--sp-8);border-bottom:var(--stroke) solid var(--ink)}
+.tabs .tab{padding:var(--sp-12) var(--sp-16);font:700 14px var(--font-display);color:var(--muted);cursor:pointer;border:var(--stroke) solid transparent;border-bottom:none;border-radius:var(--r-md) var(--r-md) 0 0;margin-bottom:calc(var(--stroke)*-1)}
+.tabs .tab.sel{color:var(--ink);border-color:var(--ink);background:var(--surface)}
+.segment{display:inline-flex;background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-full);padding:3px}
+.segment .seg{padding:var(--sp-8) var(--sp-16);border-radius:var(--r-full);font:700 13px var(--font-display);color:var(--ink);cursor:pointer}
+.segment .seg.sel{background:var(--ink);color:var(--on-primary)}
+
+.menu{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-hard-sm);padding:var(--sp-8);min-width:210px}
+.menu .mi{display:flex;align-items:center;gap:var(--sp-12);padding:var(--sp-8) var(--sp-12);border-radius:var(--r-sm);font:600 14px var(--font-body);color:var(--on-surface);cursor:pointer}
+.menu .mi:hover{background:var(--muted-surface)}
+
+.link{color:var(--link);font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
+
+.stepper{display:flex;align-items:center;gap:var(--sp-8)}
+.stepper .step{display:flex;align-items:center;gap:var(--sp-8);color:var(--muted);font:700 13px var(--font-display)}
+.stepper .step .num{width:30px;height:30px;border-radius:var(--r-full);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:13px}
+.stepper .step.done .num,.stepper .step.active .num{background:var(--ink);color:var(--on-primary)}
+.stepper .bar{flex:1;height:var(--stroke);background:var(--ink);min-width:24px}
+
+.speeddial{display:flex;flex-direction:column;align-items:center;gap:var(--sp-12)}
+.speeddial .mini{width:44px;height:44px;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);color:var(--ink);display:flex;align-items:center;justify-content:center}
+
+/* =========================================================================
+   ICON + DOODLES + ILLUSTRATION + utilities
+   ========================================================================= */
+.ico{width:var(--icon-size);height:var(--icon-size);display:inline-block;vertical-align:middle;
+  fill:none;stroke:currentColor;stroke-width:var(--icon-stroke);stroke-linecap:round;stroke-linejoin:round}
+.ico--sm{--icon-size:18px}.ico--lg{--icon-size:30px}.ico--filled{fill:currentColor;stroke:none}
+.sparkle{display:inline-block;color:var(--ink);filter:url(#rough2)}
+/* hand-drawn line art: stroke=currentColor + a roughen filter for wobble & uneven weight */
+.illus{display:block;width:100%;height:auto;color:var(--ink);filter:url(#rough)}
+.illus *{vector-effect:non-scaling-stroke}
+.illus--r2{filter:url(#rough2)}   /* alt seed so adjacent illustrations don't wobble identically */
+
+.scrollrow{display:flex;gap:var(--sp-12);overflow-x:auto;overflow-y:hidden;padding:4px 4px 12px}
+.scrollrow::-webkit-scrollbar{height:0}
+.row{display:flex;align-items:center}.stack{display:flex;flex-direction:column}

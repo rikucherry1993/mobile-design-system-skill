@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atrium · Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);display:flex}
+nav.side{position:sticky;top:0;align-self:flex-start;height:100vh;width:218px;flex:0 0 218px;background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;overflow:auto}
+nav.side .brand{font:600 22px var(--font-display);color:var(--primary);margin-bottom:2px;display:flex;align-items:center;gap:8px}
+nav.side .tag{font:400 11px var(--font-body);color:var(--subtle);margin:0 0 16px 2px}
+nav.side a{display:block;padding:5px 10px;border-radius:8px;font-size:13px;color:var(--muted);text-decoration:none}
+nav.side a:hover{background:var(--bg);color:var(--primary)}
+nav.side a.concept-link{margin:0 0 8px;padding:11px;font-weight:600;color:var(--on-primary);background:var(--primary);border-radius:12px;box-shadow:var(--elev-1)}
+nav.side a.concept-link:hover{background:var(--primary-strong);color:var(--on-primary)}
+nav.side .grp{font:600 10px var(--font-body);letter-spacing:.9px;text-transform:uppercase;color:var(--subtle);margin:16px 0 5px 10px}
+main{flex:1;padding:40px 48px 140px;max-width:1080px}
+section{margin-bottom:54px;scroll-margin-top:20px}
+h2.sec{font:600 26px var(--font-display);color:var(--on-surface);margin-bottom:5px}
+.sec-desc{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:700px;line-height:1.65}
+.stage{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;display:flex;flex-wrap:wrap;gap:26px;align-items:center;box-shadow:var(--elev-1)}
+.stage.col{flex-direction:column;align-items:stretch}
+.cell{display:flex;flex-direction:column;align-items:center;gap:9px}
+.spec{font:11px var(--font-mono);color:var(--subtle)}
+.colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.sw{border:1px solid var(--border-faint);border-radius:var(--r-md);overflow:hidden;background:var(--surface)}
+.sw .c{height:56px;display:flex;align-items:flex-end;justify-content:flex-end;padding:6px}.sw .c .on{font:600 11px var(--font-mono)}
+.sw .m{padding:8px 10px}.sw .n{font-size:12px;font-weight:600}.sw .v{font:11px var(--font-mono);color:var(--subtle)}
+.typerow{display:flex;align-items:baseline;gap:18px;padding:12px 0;border-bottom:1px solid var(--border-faint)}
+.typerow .tk{width:150px;flex:0 0 150px;font:11px var(--font-mono);color:var(--subtle)}
+.sprow{display:flex;align-items:center;gap:12px;margin-bottom:7px}
+.sprow .bar{background:var(--accent);height:14px;border-radius:3px}.sprow .lbl{width:150px;font:12px var(--font-mono);color:var(--muted)}
+.elevrow{display:flex;gap:24px;flex-wrap:wrap}
+.elevbox{width:130px;height:80px;border-radius:var(--r-md);background:var(--surface);display:flex;align-items:center;justify-content:center;font:11px var(--font-mono);color:var(--subtle)}
+.iconGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.iconGrid .it{background:var(--surface);border:1px solid var(--border-faint);border-radius:var(--r-md);padding:14px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--on-surface)}
+.iconGrid .it .nm{font:11px var(--font-mono);color:var(--subtle)}
+
+#topctl{position:fixed;top:16px;right:20px;z-index:50;display:flex;gap:10px;align-items:center}
+#themeSel,#langSel{font:600 12px var(--font-body);border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--muted)}
+.ds-btn{font:600 12px var(--font-body);background:var(--surface);border:1px solid var(--primary);color:var(--primary);border-radius:8px;padding:8px 12px;cursor:pointer}
+.ds-btn:hover{background:color-mix(in srgb,var(--primary) 8%,transparent)}
+#devToggle{font:600 13px var(--font-body);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;cursor:pointer;color:var(--muted)}
+#devToggle.on{background:var(--primary);border-color:var(--primary-strong);color:var(--on-primary)}
+.sec-prompt{font:600 11px var(--font-body);border:1px solid color-mix(in srgb,var(--primary) 40%,transparent);background:var(--surface);color:var(--primary);border-radius:8px;padding:4px 10px;margin-left:12px;cursor:pointer;vertical-align:middle}
+body.dev [data-insp]:hover{outline:2px dashed var(--accent);outline-offset:3px;cursor:pointer}
+.insp-sel{outline:2px solid var(--primary)!important;outline-offset:3px}
+#inspector{position:fixed;top:0;right:0;width:344px;height:100vh;background:var(--surface);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgb(42 39 34 / .10);transform:translateX(100%);transition:transform .28s var(--ease);z-index:49;overflow:auto;padding:58px 20px 40px}
+body.inspecting #inspector{transform:translateX(0)}
+body.inspecting main{margin-right:344px}
+#inspector .iclose{position:absolute;top:16px;right:16px;border:none;background:none;font-size:18px;color:var(--muted);cursor:pointer}
+#inspector .nm{font:600 21px var(--font-display);color:var(--on-surface)}
+#inspector .file{font:12px var(--font-mono);color:var(--subtle);margin-top:2px}
+#inspector .desc{font-size:13px;color:var(--muted);line-height:1.6;margin-top:10px}
+#inspector h4{font:600 11px var(--font-body);letter-spacing:.6px;text-transform:uppercase;color:var(--subtle);margin:20px 0 8px}
+.prop{padding:8px 0;border-bottom:1px solid var(--border-faint)}.prop .pn{font:600 13px var(--font-mono)}.prop .pt{font:11px var(--font-mono);color:var(--info)}.prop .pdef{font:11px var(--font-mono);color:var(--subtle)}.prop .pd{font-size:12px;color:var(--muted);margin-top:3px}
+.tok{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;cursor:pointer}.tok:hover{background:var(--bg)}
+.tok .tsw{width:22px;height:22px;border-radius:6px;border:1px solid var(--border);flex:0 0 22px}.tok .tn{font:600 12px var(--font-mono)}.tok .tr{font-size:11px;color:var(--muted)}.tok .tv{margin-left:auto;font:11px var(--font-mono);color:var(--subtle)}
+.metric{display:flex;justify-content:space-between;font:12px var(--font-mono);padding:5px 0;border-bottom:1px dashed var(--border-faint)}.metric .mk{color:var(--muted)}
+.copyprompt{width:100%;margin-top:16px;font:600 13px var(--font-body);background:var(--primary);color:var(--on-primary);border:none;border-radius:10px;padding:11px;cursor:pointer}
+.copied{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:var(--surface);font-size:12px;padding:8px 16px;border-radius:8px;opacity:0;transition:.2s;z-index:60;pointer-events:none}.copied.show{opacity:.95}
+</style>
+</head>
+<body>
+
+<!-- ICON SPRITE (copied from icons.html — self-contained under file://) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="paintGrain"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0"/></filter>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.6 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H2.5a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 4.3 6.6l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V2.5a2 2 0 0 1 4 0v.1A1.6 1.6 0 0 0 15 4.3a1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1h.2a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.5V19l4 2v-8.5z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 16a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2zM3 16a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2z"/></symbol>
+  <symbol id="i-audio" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/></symbol>
+  <symbol id="i-frame" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="9" cy="9" r="1.4"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8l-2.5 5.5L8 16l2.5-5.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h7"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M4 12h16"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></symbol>
+</svg>
+
+<div id="topctl">
+  <button class="ds-btn" onclick="copyFullSystem()" title="Copy a prompt to install or update the whole design system">⤓ Install design system</button>
+  <select id="themeSel" title="Preview theme" onchange="document.documentElement.setAttribute('data-theme',this.value)"><option value="">Light · plaster</option><option value="dark">Dark · after-hours</option></select>
+  <select id="langSel" title="Copy-as-prompt target"></select>
+  <button id="devToggle" onclick="toggleDev()">◧ Dev Mode</button>
+</div>
+<aside id="inspector"><button class="iclose" onclick="closeInspector()">✕</button><div id="inspectorBody"></div></aside>
+<div class="copied" id="copied">Copied</div>
+
+<nav class="side">
+  <div class="brand"><svg class="ico" style="color:var(--primary)"><use href="#i-frame"/></svg>Atrium</div>
+  <div class="tag">Museum &amp; gallery guide · Mineral</div>
+  <a class="concept-link" href="concept.html">◳ &nbsp;Concept preview &nbsp;→</a>
+  <div class="grp">Foundations</div>
+  <a href="#colors">Colors</a><a href="#type">Typography</a><a href="#spacing">Spacing</a><a href="#elevation">Elevation</a><a href="#icons">Icons</a><a href="#artworks">Artworks</a>
+  <div class="grp">Inputs</div>
+  <a href="#button">Button</a><a href="#buttongroup">Button group</a><a href="#iconbtn">Icon button</a><a href="#fab">FAB</a><a href="#checkbox">Checkbox</a><a href="#radio">Radio</a><a href="#switch">Switch</a><a href="#select">Select</a><a href="#autocomplete">Autocomplete</a><a href="#slider">Slider</a><a href="#field">Text field</a><a href="#toggle">Toggle button</a><a href="#rating">Rating</a>
+  <div class="grp">Data display</div>
+  <a href="#avatar">Avatar</a><a href="#badge">Badge</a><a href="#chip">Chip</a><a href="#divider">Divider</a><a href="#list">List</a><a href="#table">Table</a><a href="#tooltip">Tooltip</a>
+  <div class="grp">Feedback</div>
+  <a href="#alert">Alert</a><a href="#dialog">Dialog</a><a href="#snackbar">Snackbar</a><a href="#progress">Progress</a><a href="#skeleton">Skeleton</a>
+  <div class="grp">Surfaces</div>
+  <a href="#card">Card</a><a href="#paper">Paper</a><a href="#appbar">App bar</a><a href="#accordion">Accordion</a>
+  <div class="grp">Navigation</div>
+  <a href="#bottomnav">Bottom nav</a><a href="#drawer">Drawer</a><a href="#tabs">Tabs</a><a href="#menu">Menu</a><a href="#link">Link</a><a href="#stepper">Stepper</a><a href="#speeddial">Speed dial</a>
+</nav>
+
+<main>
+  <header style="margin-bottom:40px">
+    <div class="t-overline">Cross-platform · Material 3 tokens + MUI components</div>
+    <div class="t-h1" style="margin-top:8px">Atrium Design System</div>
+    <p class="sec-desc" style="margin-top:10px">A calm, mineral system for a museum &amp; gallery guide — a palette in the spirit of Le Corbusier's architectural keyboard (slate, ochre, plaster, umber). Every fill ships a contrast-checked <code>--on-*</code> partner; the source of truth is <code>styles.css</code>. Toggle <b>Dev Mode</b> to inspect, or <b>⤓ Install design system</b> to scaffold/update it all.</p>
+  </header>
+
+  <section id="colors"><h2 class="sec">Colors</h2><p class="sec-desc">Semantic roles on a light plaster base — each fill shows its paired <code>--on-*</code> (top-right), WCAG-verified. The last three are <b>exhibition tones</b> (<code>.tone-navy / .tone-clay / .tone-sage</code>): per-page background colours that let each exhibition harmonise with its artwork (deep navy for dark works, terracotta for warm, sage for green). See the concept.</p><div class="colors" id="colorGrid"></div></section>
+
+  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc">Editorial <b>Spectral</b> serif for display, clean <b>Inter</b> for text, <b>IBM Plex Mono</b> for figures — a catalogue-like hierarchy.</p><div id="typeList"></div></section>
+
+  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">One 4dp-grid scale, plus fine <code>--opt-*</code> optical nudges.</p><div id="spacingList"></div></section>
+
+  <section id="elevation"><h2 class="sec">Elevation</h2><p class="sec-desc">Soft, ink-tinted, layered shadows — restrained for a calm, architectural surface.</p>
+    <div class="stage"><div class="elevrow">
+      <div class="elevbox" style="box-shadow:var(--elev-1)">--elev-1</div>
+      <div class="elevbox" style="box-shadow:var(--elev-2)">--elev-2</div>
+      <div class="elevbox" style="box-shadow:var(--elev-3)">--elev-3</div>
+    </div></div></section>
+
+  <section id="icons"><h2 class="sec">Icons</h2><p class="sec-desc">Token-driven inline SVG sprite (full set in <a class="link" href="icons.html">icons.html</a>) — outlined, refined 1.7 stroke. Never emoji.</p><div class="iconGrid" id="iconGrid"></div></section>
+
+  <section id="artworks"><h2 class="sec">Artworks</h2><p class="sec-desc">Imagery is <b>drawn, not placeholder</b> — painterly inline-SVG pieces with a canvas-grain filter for 质感. Shown in a gallery <b>frame</b> (mat + thin frame line + inner glass). Use them as full-bleed heroes, exhibition cards, and ticket thumbnails. Swap in real public-domain images by replacing the SVG with an <code>&lt;img&gt;</code> in the same <code>.artwin</code>.</p>
+    <div class="stage" style="gap:22px;align-items:flex-start">
+      <div class="cell"><div class="artframe" style="width:150px"><div class="mat"><div class="artwin" data-art="sunflowers" style="height:170px"></div></div></div><div class="spec">framed · sunflowers</div></div>
+      <div class="cell"><div class="artwin" data-art="starry" style="width:130px;height:170px;border-radius:var(--r-md)"></div><div class="spec">.artwin · starry</div></div>
+      <div class="cell"><div class="artwin" data-art="portrait" style="width:130px;height:170px;border-radius:var(--r-md)"></div><div class="spec">portrait</div></div>
+      <div class="cell"><div class="artwin" data-art="wheatfield" style="width:130px;height:170px;border-radius:var(--r-md)"></div><div class="spec">wheatfield</div></div>
+    </div></section>
+
+  <!-- ============ INPUTS ============ -->
+  <section id="button"><h2 class="sec">Button<button class="sec-prompt" onclick="copyPrompt('button')">Copy as prompt</button></h2><p class="sec-desc">variant: contained / outlined / text · color · size · states.</p>
+    <div class="stage">
+      <div class="cell"><button class="btn btn-contained" data-insp="button">Start tour</button><div class="spec">contained</div></div>
+      <div class="cell"><button class="btn btn-outlined" data-insp="button">View map</button><div class="spec">outlined</div></div>
+      <div class="cell"><button class="btn btn-text" data-insp="button">Details</button><div class="spec">text</div></div>
+      <div class="cell"><button class="btn btn-contained c-error" data-insp="button">Remove</button><div class="spec">error</div></div>
+      <div class="cell"><button class="btn btn-contained disabled" data-insp="button">Sold out</button><div class="spec">disabled</div></div>
+      <div class="cell"><button class="btn btn-contained btn--sm" data-insp="button">Small</button><div class="spec">size sm</div></div>
+      <div class="cell"><button class="btn btn-contained btn--lg" data-insp="button">Buy ticket</button><div class="spec">size lg</div></div>
+    </div></section>
+
+  <section id="buttongroup"><h2 class="sec">Button group</h2><p class="sec-desc">Joined related actions.</p>
+    <div class="stage"><div class="btn-group" data-insp="buttongroup"><button class="btn btn-outlined">Floor 1</button><button class="btn btn-outlined">Floor 2</button><button class="btn btn-outlined">Floor 3</button></div></div></section>
+
+  <section id="iconbtn"><h2 class="sec">Icon button</h2><p class="sec-desc">standard / filled.</p>
+    <div class="stage">
+      <div class="cell"><button class="iconbtn" data-insp="iconbtn"><svg class="ico"><use href="#i-search"/></svg></button><div class="spec">standard</div></div>
+      <div class="cell"><button class="iconbtn filled" data-insp="iconbtn"><svg class="ico"><use href="#i-play"/></svg></button><div class="spec">filled</div></div>
+      <div class="cell"><button class="iconbtn" data-insp="iconbtn"><svg class="ico"><use href="#i-bookmark"/></svg></button><div class="spec">standard</div></div>
+    </div></section>
+
+  <section id="fab"><h2 class="sec">FAB</h2><p class="sec-desc">regular / small / extended.</p>
+    <div class="stage">
+      <div class="cell"><button class="fab" data-insp="fab"><svg class="ico"><use href="#i-scan"/></svg></button><div class="spec">regular</div></div>
+      <div class="cell"><button class="fab fab--sm" data-insp="fab"><svg class="ico ico--sm"><use href="#i-scan"/></svg></button><div class="spec">small</div></div>
+      <div class="cell"><button class="fab" data-insp="fab"><svg class="ico"><use href="#i-scan"/></svg>Scan label</button><div class="spec">extended</div></div>
+    </div></section>
+
+  <section id="checkbox"><h2 class="sec">Checkbox</h2><p class="sec-desc">unchecked / checked / indeterminate.</p>
+    <div class="stage">
+      <label class="check" data-insp="checkbox"><span class="box"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Step-free route</label>
+      <label class="check checked" data-insp="checkbox"><span class="box"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Audio descriptions</label>
+      <label class="check indeterminate" data-insp="checkbox"><span class="box"></span>All collections</label>
+    </div></section>
+
+  <section id="radio"><h2 class="sec">Radio group</h2><p class="sec-desc">selected / unselected.</p>
+    <div class="stage">
+      <label class="radio sel" data-insp="radio"><span class="dot"></span>30-min highlights</label>
+      <label class="radio" data-insp="radio"><span class="dot"></span>1-hour tour</label>
+      <label class="radio" data-insp="radio"><span class="dot"></span>Full collection</label>
+    </div></section>
+
+  <section id="switch"><h2 class="sec">Switch</h2><p class="sec-desc">off / on.</p>
+    <div class="stage">
+      <div class="cell"><span class="switch" data-insp="switch"></span><div class="spec">off</div></div>
+      <div class="cell"><span class="switch on" data-insp="switch"></span><div class="spec">on</div></div>
+    </div></section>
+
+  <section id="select"><h2 class="sec">Select</h2><p class="sec-desc">Closed control + open menu.</p>
+    <div class="stage col" style="gap:18px">
+      <div class="field select" data-insp="select" style="max-width:300px"><span class="lab">Collection</span><div class="ctl"><span>Modern &amp; Contemporary</span><svg class="ico ico--sm" style="color:var(--muted)"><use href="#i-chevron-down"/></svg></div></div>
+      <div class="menu" style="max-width:300px"><div class="mi">All collections</div><div class="mi"><svg class="ico ico--sm"><use href="#i-check"/></svg>Modern &amp; Contemporary</div><div class="mi">Impressionism</div><div class="mi">Antiquities</div></div>
+    </div></section>
+
+  <section id="autocomplete"><h2 class="sec">Autocomplete</h2><p class="sec-desc">Multi-value input with chips.</p>
+    <div class="stage"><div class="field autocomplete" data-insp="autocomplete" style="max-width:360px"><span class="lab">Interests</span><div class="ctl"><span class="chip selected">Sculpture <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span><span class="chip selected">Photography <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span><input placeholder="Add interest…"></div></div></div></section>
+
+  <section id="slider"><h2 class="sec">Slider</h2><p class="sec-desc">continuous; single value.</p>
+    <div class="stage"><div class="slider" data-insp="slider" style="max-width:320px"><div class="track"></div><div class="fill" style="width:40%"></div><div class="thumb" style="left:calc(40% - 9px)"></div></div></div></section>
+
+  <section id="field"><h2 class="sec">Text field<button class="sec-prompt" onclick="copyPrompt('field')">Copy as prompt</button></h2><p class="sec-desc">variant: outlined / filled / standard · states: empty / focus / filled / error / disabled.</p>
+    <div class="stage">
+      <div class="field" data-insp="field"><span class="lab">Search the collection</span><div class="ctl"><input placeholder="Artist, work, or gallery"></div><span class="hint">Outlined · empty</span></div>
+      <div class="field focus" data-insp="field"><span class="lab">Audio guide no.</span><div class="ctl"><input value="214"></div><span class="hint">Outlined · focused</span></div>
+      <div class="field filled" data-insp="field"><span class="lab">Membership ID</span><div class="ctl"><input value="ATR-4471"></div><span class="hint">Filled</span></div>
+      <div class="field error" data-insp="field"><span class="lab">Visitors</span><div class="ctl"><input value="0"></div><span class="hint">Enter at least 1 visitor</span></div>
+      <div class="field standard disabled" data-insp="field"><span class="lab">Entry date</span><div class="ctl"><input value="Locked" disabled></div><span class="hint">Standard · disabled</span></div>
+    </div></section>
+
+  <section id="toggle"><h2 class="sec">Toggle button</h2><p class="sec-desc">Exclusive selection.</p>
+    <div class="stage"><div class="toggle-group" data-insp="toggle"><span class="tb sel">List</span><span class="tb">Map</span></div></div></section>
+
+  <section id="rating"><h2 class="sec">Rating</h2><p class="sec-desc">Read-only / interactive.</p>
+    <div class="stage"><div class="rating" data-insp="rating"><svg class="ico ico--filled on"><use href="#i-star"/></svg><svg class="ico ico--filled on"><use href="#i-star"/></svg><svg class="ico ico--filled on"><use href="#i-star"/></svg><svg class="ico ico--filled on"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg></div></div></section>
+
+  <!-- ============ DATA DISPLAY ============ -->
+  <section id="avatar"><h2 class="sec">Avatar</h2><p class="sec-desc">artwork thumb (square) / initials · sizes.</p>
+    <div class="stage">
+      <div class="cell"><span class="avatar avatar--lg square" data-insp="avatar" style="padding:0;overflow:hidden"><span class="artwin" data-art="sunflowers" style="width:100%;height:100%;display:block"></span></span><div class="spec">lg · artwork</div></div>
+      <div class="cell"><span class="avatar" data-insp="avatar">CM</span><div class="spec">md</div></div>
+      <div class="cell"><span class="avatar avatar--sm" data-insp="avatar">AR</span><div class="spec">sm</div></div>
+    </div></section>
+
+  <section id="badge"><h2 class="sec">Badge</h2><p class="sec-desc">count / dot.</p>
+    <div class="stage">
+      <div class="cell"><span class="badge-wrap" data-insp="badge"><button class="iconbtn"><svg class="ico"><use href="#i-bookmark"/></svg></button><span class="badge">7</span></span><div class="spec">count</div></div>
+      <div class="cell"><span class="badge-wrap" data-insp="badge"><button class="iconbtn"><svg class="ico"><use href="#i-bell"/></svg></button><span class="badge dot"></span></span><div class="spec">dot</div></div>
+    </div></section>
+
+  <section id="chip"><h2 class="sec">Chip<button class="sec-prompt" onclick="copyPrompt('chip')">Copy as prompt</button></h2><p class="sec-desc">filled / outlined / selected / deletable.</p>
+    <div class="stage">
+      <span class="chip" data-insp="chip">Sculpture</span>
+      <span class="chip outlined" data-insp="chip">Floor 2</span>
+      <span class="chip selected" data-insp="chip">Has audio</span>
+      <span class="chip" data-insp="chip">Impressionism <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span>
+    </div></section>
+
+  <section id="divider"><h2 class="sec">Divider</h2><p class="sec-desc">full / inset.</p>
+    <div class="stage col" style="gap:14px;max-width:380px"><div>Today's tour</div><hr class="divider" data-insp="divider"><div>Gallery 2 · West wing</div><hr class="divider inset"><div>Gallery 3 · Sculpture court</div></div></section>
+
+  <section id="list"><h2 class="sec">List</h2><p class="sec-desc">Two-line items: artwork thumb, title/artist, audio length.</p>
+    <div class="stage col"><div class="list" data-insp="list" style="max-width:460px">
+      <div class="list-item"><span class="avatar square" style="padding:0;overflow:hidden"><span class="artwin" data-art="portrait" style="width:100%;height:100%;display:block"></span></span><div class="grow"><div class="pri">Water Lilies</div><div class="sec">Claude Monet · Gallery 4</div></div><div class="meta">3:20</div></div>
+      <hr class="divider inset">
+      <div class="list-item"><span class="avatar square">RO</span><div class="grow"><div class="pri">The Thinker</div><div class="sec">Auguste Rodin · Sculpture court</div></div><div class="meta">2:45</div></div>
+      <hr class="divider inset">
+      <div class="list-item"><span class="avatar square">KH</span><div class="grow"><div class="pri">The Two Fridas</div><div class="sec">Frida Kahlo · Gallery 7</div></div><div class="meta">4:10</div></div>
+    </div></div></section>
+
+  <section id="table"><h2 class="sec">Table</h2><p class="sec-desc">Exhibit index; audio length right-aligned.</p>
+    <div class="stage col"><table class="table" data-insp="table">
+      <thead><tr><th>Work</th><th>Artist</th><th>Gallery</th><th style="text-align:right">Audio</th></tr></thead>
+      <tbody>
+        <tr><td>Water Lilies</td><td>Monet</td><td>4 · West</td><td class="num">3:20</td></tr>
+        <tr><td>The Thinker</td><td>Rodin</td><td>Court</td><td class="num">2:45</td></tr>
+        <tr><td>Composition VIII</td><td>Kandinsky</td><td>6 · East</td><td class="num">3:55</td></tr>
+      </tbody>
+    </table></div></section>
+
+  <section id="tooltip"><h2 class="sec">Tooltip</h2><p class="sec-desc">Plain.</p>
+    <div class="stage"><span class="tooltip" data-insp="tooltip">Audio available in 6 languages</span></div></section>
+
+  <!-- ============ FEEDBACK ============ -->
+  <section id="alert"><h2 class="sec">Alert</h2><p class="sec-desc">severity: success / info / warning / error.</p>
+    <div class="stage col" style="gap:14px">
+      <div class="alert success" data-insp="alert"><svg class="ico"><use href="#i-check"/></svg><div><div class="at">Ticket confirmed</div><div class="ab">Your timed entry for 2:00 PM today is saved to Wallet.</div></div></div>
+      <div class="alert info" data-insp="alert"><svg class="ico"><use href="#i-info"/></svg><div><div class="at">New exhibition</div><div class="ab">"Light &amp; Form" opens this week in the East wing.</div></div></div>
+      <div class="alert warning" data-insp="alert"><svg class="ico"><use href="#i-clock"/></svg><div><div class="at">Closing in 45 minutes</div><div class="ab">Last entry to the Sculpture court is at 4:30 PM.</div></div></div>
+      <div class="alert error" data-insp="alert"><svg class="ico"><use href="#i-info"/></svg><div><div class="at">Gallery 5 closed</div><div class="ab">Temporarily closed for re-hanging — your route was updated.</div></div></div>
+    </div></section>
+
+  <section id="dialog"><h2 class="sec">Dialog</h2><p class="sec-desc">Basic confirmation.</p>
+    <div class="stage"><div class="dialog" data-insp="dialog"><div class="dtitle">Start the highlights tour?</div><div class="dbody">A 30-minute route through 8 key works, with audio at each stop. You can pause or switch routes any time.</div><div class="dactions"><button class="btn btn-text">Not now</button><button class="btn btn-contained">Start tour</button></div></div></div></section>
+
+  <section id="snackbar"><h2 class="sec">Snackbar</h2><p class="sec-desc">With action.</p>
+    <div class="stage"><div class="snackbar" data-insp="snackbar"><span>Saved “The Thinker” to your visit</span><span class="sa">UNDO</span></div></div></section>
+
+  <section id="progress"><h2 class="sec">Progress</h2><p class="sec-desc">linear (determinate) / circular (indeterminate).</p>
+    <div class="stage col" style="gap:18px">
+      <div class="row" style="gap:16px"><div class="progress" data-insp="progress" style="max-width:320px"><div class="bar" style="width:50%"></div></div><span class="t-caption">Stop 4 of 8 on this tour</span></div>
+      <div class="spinner" data-insp="progress"></div>
+    </div></section>
+
+  <section id="skeleton"><h2 class="sec">Skeleton</h2><p class="sec-desc">Loading placeholder.</p>
+    <div class="stage col" style="gap:10px;max-width:360px" data-insp="skeleton">
+      <div class="row" style="gap:12px"><div class="skeleton" style="width:44px;height:44px;border-radius:8px"></div><div style="flex:1"><div class="skeleton" style="height:12px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:10px;width:40%"></div></div></div>
+      <div class="skeleton" style="height:12px;width:100%"></div>
+    </div></section>
+
+  <!-- ============ SURFACES ============ -->
+  <section id="card"><h2 class="sec">Card<button class="sec-prompt" onclick="copyPrompt('card')">Copy as prompt</button></h2><p class="sec-desc">outlined / elevated / wash. A real exhibition card, not a blank box.</p>
+    <div class="stage" style="align-items:stretch">
+      <div class="card wash" data-insp="card" style="width:260px"><div class="t-overline">Now showing</div><div class="t-h4" style="margin:6px 0 4px">Light &amp; Form</div><div class="t-body2">East wing · through 12 Sept</div></div>
+      <div class="card elevated" data-insp="card" style="width:240px"><div class="row" style="gap:12px"><span class="avatar square" style="padding:0;overflow:hidden"><span class="artwin" data-art="portrait" style="width:100%;height:100%;display:block"></span></span><div><div class="t-h5">Water Lilies</div><div class="t-body2">Monet · Gallery 4</div></div></div></div>
+      <div class="card outlined" data-insp="card" style="width:220px"><div class="t-subtitle">Next tour</div><div class="t-body2" style="margin-top:4px">2:00 PM · Highlights</div></div>
+    </div></section>
+
+  <section id="paper"><h2 class="sec">Paper</h2><p class="sec-desc">Base surface primitive (no shadow).</p>
+    <div class="stage"><div class="paper" data-insp="paper" style="padding:20px;width:280px"><div class="t-subtitle">Paper</div><div class="t-body2" style="margin-top:4px">A flat surface other components build on.</div></div></div></section>
+
+  <section id="appbar"><h2 class="sec">App bar</h2><p class="sec-desc">Top bar with title + actions.</p>
+    <div class="stage col"><div class="appbar" data-insp="appbar" style="max-width:420px;border-radius:var(--r-md)"><button class="iconbtn"><svg class="ico"><use href="#i-menu"/></svg></button><div class="ttl">Explore</div><button class="iconbtn"><svg class="ico"><use href="#i-search"/></svg></button><button class="iconbtn"><svg class="ico"><use href="#i-bookmark"/></svg></button></div></div></section>
+
+  <section id="accordion"><h2 class="sec">Accordion</h2><p class="sec-desc">Expandable section.</p>
+    <div class="stage col" style="gap:12px;max-width:460px">
+      <div class="accordion open" data-insp="accordion"><div class="ah">Is the audio guide included?<svg class="ico chev"><use href="#i-chevron-down"/></svg></div><div class="ab">Yes — every ticket includes the full audio guide in six languages, playable on your own phone with headphones.</div></div>
+      <div class="accordion" data-insp="accordion"><div class="ah">Are the galleries step-free?<svg class="ico chev"><use href="#i-chevron-down"/></svg></div></div>
+    </div></section>
+
+  <!-- ============ NAVIGATION ============ -->
+  <section id="bottomnav"><h2 class="sec">Bottom navigation</h2><p class="sec-desc">Primary app navigation.</p>
+    <div class="stage col"><div class="bottomnav" data-insp="bottomnav" style="max-width:420px;border-radius:var(--r-md);border:1px solid var(--border-faint)">
+      <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-compass"/></svg></span>Explore</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-map"/></svg></span>Map</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-route"/></svg></span>Tours</div>
+      <div class="ni"><span class="pill"><svg class="ico"><use href="#i-bookmark"/></svg></span>Saved</div>
+    </div></div></section>
+
+  <section id="drawer"><h2 class="sec">Drawer</h2><p class="sec-desc">Side navigation.</p>
+    <div class="stage"><div class="drawer" data-insp="drawer" style="border-radius:var(--r-md)">
+      <div class="di sel"><svg class="ico"><use href="#i-compass"/></svg>Explore</div>
+      <div class="di"><svg class="ico"><use href="#i-map"/></svg>Floor map</div>
+      <div class="di"><svg class="ico"><use href="#i-route"/></svg>Tours</div>
+      <div class="di"><svg class="ico"><use href="#i-ticket"/></svg>Tickets</div>
+      <div class="di"><svg class="ico"><use href="#i-settings"/></svg>Settings</div>
+    </div></div></section>
+
+  <section id="tabs"><h2 class="sec">Tabs</h2><p class="sec-desc">Underline tabs + segmented control.</p>
+    <div class="stage col" style="gap:20px">
+      <div class="tabs" data-insp="tabs" style="max-width:420px"><div class="tab sel">Highlights</div><div class="tab">Exhibitions</div><div class="tab">Events</div></div>
+      <div class="segment"><span class="seg sel">List</span><span class="seg">Map</span><span class="seg">Floor</span></div>
+    </div></section>
+
+  <section id="menu"><h2 class="sec">Menu</h2><p class="sec-desc">Dropdown.</p>
+    <div class="stage"><div class="menu" data-insp="menu"><div class="mi"><svg class="ico ico--sm"><use href="#i-play"/></svg>Play audio</div><div class="mi"><svg class="ico ico--sm"><use href="#i-bookmark"/></svg>Save to visit</div><div class="mi"><svg class="ico ico--sm"><use href="#i-pin"/></svg>Show on map</div></div></div></section>
+
+  <section id="link"><h2 class="sec">Link</h2><p class="sec-desc">Inline navigation.</p>
+    <div class="stage"><div class="t-body">Read the full <a class="link" data-insp="link" href="#">label for “Water Lilies”</a>.</div></div></section>
+
+  <section id="stepper"><h2 class="sec">Stepper</h2><p class="sec-desc">Multi-step flow.</p>
+    <div class="stage"><div class="stepper" data-insp="stepper">
+      <div class="step done"><span class="num"><svg class="ico ico--sm"><use href="#i-check"/></svg></span>Tickets</div><div class="bar"></div>
+      <div class="step active"><span class="num">2</span>Visitors</div><div class="bar"></div>
+      <div class="step"><span class="num">3</span>Pay</div>
+    </div></div></section>
+
+  <section id="speeddial"><h2 class="sec">Speed dial</h2><p class="sec-desc">FAB with quick actions.</p>
+    <div class="stage"><div class="speeddial" data-insp="speeddial"><span class="mini"><svg class="ico ico--sm"><use href="#i-scan"/></svg></span><span class="mini"><svg class="ico ico--sm"><use href="#i-pin"/></svg></span><button class="fab"><svg class="ico"><use href="#i-plus"/></svg></button></div></div></section>
+</main>
+
+<script>
+/* ===== Drawn painterly artworks (inline SVG + canvas grain) — fills any [data-art] ===== */
+let _aid=0;
+function artwork(name){
+  const u=++_aid, id=s=>`aw${u}${s}`, W=320, H=400;
+  const grain=`<rect width="${W}" height="${H}" filter="url(#paintGrain)" opacity=".4" style="mix-blend-mode:overlay"/>`;
+  const vign=`<defs><radialGradient id="${id('v')}" cx="50%" cy="40%" r="78%"><stop offset="60%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".24"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('v')})"/>`;
+  let g='';
+  if(name==='sunflowers'){
+    const fl=[[120,150,30],[188,142,32],[152,206,26],[214,200,24],[100,212,22]];
+    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2=".2" y2="1"><stop offset="0" stop-color="#74A39A"/><stop offset="1" stop-color="#E7C260"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><rect y="300" width="${W}" height="100" fill="#C9982C" opacity=".92"/><path d="M118 300 q42 -16 84 0 l12 96 h-108z" fill="#E7C147"/><path d="M118 300 q42 -16 84 0" fill="none" stroke="#94661B" stroke-width="4"/><path d="M150 232 q6 38 2 70 M188 174 q-4 60 -34 122" stroke="#5E6E2C" stroke-width="6" fill="none"/>`+fl.map(([x,y,r])=>{let p='';for(let i=0;i<12;i++){const a=i/12*Math.PI*2,px=(x+Math.cos(a)*(r+3)).toFixed(1),py=(y+Math.sin(a)*(r+3)).toFixed(1);p+=`<ellipse cx="${px}" cy="${py}" rx="9" ry="5" fill="#F1C249" transform="rotate(${(a*57.3).toFixed(0)} ${px} ${py})"/>`;}return `<g><circle cx="${x}" cy="${y}" r="${r+9}" fill="#E0A52A"/>${p}<circle cx="${x}" cy="${y}" r="${r-6}" fill="#6B481C"/></g>`;}).join('');
+  } else if(name==='starry'){
+    const st=[[40,70],[92,40],[150,80],[212,52],[282,100],[60,150],[300,60]];
+    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#15224E"/><stop offset="1" stop-color="#37527E"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><path d="M30 130 q70 -54 150 -6 q46 34 -16 64 q-58 26 -78 -16" fill="none" stroke="#6E8FCB" stroke-width="7" opacity=".55"/><path d="M70 122 q40 -26 86 0" fill="none" stroke="#CBB86A" stroke-width="4" opacity=".5"/><circle cx="258" cy="84" r="46" fill="#EFD06A" opacity=".22"/><circle cx="258" cy="84" r="32" fill="#EFD16C"/>${st.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13" fill="#F0DE8E" opacity=".22"/><circle cx="${x}" cy="${y}" r="6" fill="#F2E193"/>`).join('')}<path d="M0 320 q80 -34 160 -2 t160 -2 v84 h-320z" fill="#1A2A50"/><path d="M66 372 c -12 -66 8 -132 18 -164 c 10 32 28 98 16 164z" fill="#10211B"/>`;
+  } else if(name==='portrait'){
+    g=`<defs><radialGradient id="${id('b')}" cx="46%" cy="40%" r="80%"><stop offset="0" stop-color="#6E5F4A"/><stop offset="1" stop-color="#2C2824"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><path d="M52 400 c 8 -96 60 -130 108 -130 c 48 0 100 34 108 130z" fill="#3A332A"/><path d="M120 300 q40 16 80 0 l-6 -40 h-68z" fill="#B98E64"/><ellipse cx="160" cy="150" rx="54" ry="64" fill="#CBA079"/><path d="M106 150 c -10 -78 118 -94 112 -8 c -12 -34 -44 -44 -56 -44 c -26 0 -48 14 -56 52z" fill="#2A2118"/><path d="M134 150 q9 -7 18 0 M170 150 q9 -7 18 0" stroke="#3A2C20" stroke-width="3" fill="none"/><path d="M156 168 l6 18 l-8 4" stroke="#9A6E4E" stroke-width="2.5" fill="none"/><path d="M148 196 q12 9 26 0" stroke="#7A463A" stroke-width="3" fill="none"/>`;
+  } else {
+    let wh='';for(let i=0;i<46;i++){const x=i*7+3,s=(i%3-1)*3,h=18+(i%6)*5;wh+=`<path d="M${x} 258 q${s} -${(h/2).toFixed(0)} ${(s*1.5).toFixed(0)} -${h}" stroke="#A87C20" stroke-width="2" fill="none"/>`;}
+    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5E7E96"/><stop offset="1" stop-color="#AEC2BF"/></linearGradient></defs><rect width="${W}" height="240" fill="url(#${id('b')})"/><path d="M0 214 q90 -26 180 -6 t140 4 v40 h-320z" fill="#7E8B66"/><rect y="250" width="${W}" height="150" fill="#D7AC3A"/>${wh}<path d="M150 400 l22 -150 h-8 l-34 150z" fill="#C99A28"/><path d="M60 120 q6 -7 12 0 q6 -7 12 0 M210 96 q6 -7 12 0 q6 -7 12 0 M150 140 q5 -6 10 0 q5 -6 10 0" stroke="#1A1A12" stroke-width="2.5" fill="none"/>`;
+  }
+  return `<svg class="art" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${name} painting">${g}${grain}${vign}</svg>`;
+}
+document.querySelectorAll('[data-art]').forEach(el=>el.insertAdjacentHTML('afterbegin',artwork(el.dataset.art)));
+
+/* ===== Foundations data (Atrium / mineral tokens) ===== */
+const COLORS=[
+  ['primary','#4E6A78','on-primary','#FFFFFF'],['primary-strong','#3C5562','',''],
+  ['primary-container','#DCE4E7','on-primary-container','#1F2E36'],
+  ['secondary','#7A6A57','on-secondary','#FFFFFF'],['accent','#C08A2E','on-accent','#2A1D06'],
+  ['bg','#F2EEE4','on-bg','#2A2722'],['surface','#F8F5EE','on-surface','#2A2722'],
+  ['surface-sunken','#EAE5D8','',''],['muted','#6B6457','',''],['subtle','#9A9384','',''],['border','#DED8C9','',''],
+  ['success','#4E7351','on-success','#FFFFFF'],['error','#A83E32','on-error','#FFFFFF'],
+  ['warning','#B5841F','on-warning','#271A03'],['info','#3F6275','on-info','#FFFFFF'],
+  ['tone-navy','#1C2533','on-tone-navy','#ECE7DC'],['tone-clay','#A04A38','on-tone-clay','#FBEFE6'],['tone-sage','#4E5C4F','on-tone-sage','#F0ECE0']];
+const TYPE=[['t-h1','Spectral 600 / 42'],['t-h2','Spectral 600 / 33'],['t-h3','Spectral 600 / 26'],['t-h4','Inter 700 / 21'],['t-h5','Inter 700 / 17'],['t-subtitle','Inter 600 / 15'],['t-body','Inter 400 / 16'],['t-body2','Inter 400 / 14'],['t-caption','Inter 400 / 12'],['t-overline','Inter 600 / 11 · caps']];
+const SPACING=[['sp-4',4],['sp-8',8],['sp-12',12],['sp-16',16],['sp-20',20],['sp-24',24],['sp-32',32],['sp-48',48],['sp-64',64]];
+colorGrid.innerHTML=COLORS.map(([n,h,on,onh])=>`<div class="sw"><div class="c" style="background:${h}">${on?`<span class="on" style="color:${onh}">${onh}</span>`:''}</div><div class="m"><div class="n">${n}</div><div class="v">${h}${on?` · ${on}`:''}</div></div></div>`).join('');
+typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">Form, light and stone</div></div>`).join('');
+spacingList.innerHTML=SPACING.map(([n,v])=>`<div class="sprow"><div class="lbl">${n} · ${v}px</div><div class="bar" style="width:${v}px"></div></div>`).join('');
+const ICONS=['compass','map','route','frame','pin','headphones','audio','ticket','scan','bookmark','play','pause','calendar','clock','info','star','user','search','globe','settings'];
+iconGrid.innerHTML=ICONS.map(n=>`<div class="it"><svg class="ico ico--lg"><use href="#i-${n}"/></svg><div class="nm">i-${n}</div></div>`).join('');
+
+/* ===== SPECS: one entry per component (drives Inspector + Copy-as-prompt) ===== */
+const SPECS={
+ button:{name:'Button',file:'components/Button',desc:'Primary action. variant: contained/outlined/text; color: primary/secondary/error; size: sm/md/lg; states: default/hover/focus/disabled.',
+  props:[{n:'label',t:'string'},{n:'variant',t:'contained|outlined|text',def:'contained'},{n:'color',t:'primary|secondary|error',def:'primary'},{n:'size',t:'sm|md|lg',def:'md'},{n:'disabled',t:'bool',def:'false'},{n:'onPress',t:'callback'}],
+  tokens:[{r:'fill (contained)',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'label',n:'--on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'hover fill',n:'--primary-strong',v:'#3C5562',c:'#3C5562'},{r:'focus ring',n:'--focus-ring',v:'2px ring + gap'},{r:'shadow',n:'--elev-1',v:'soft tinted'}],
+  metrics:[['radius','--r-sm (8)'],['minHeight','44 · sm 34 · lg 52'],['padding','h 20'],['contrast','white on primary = 5.7:1']]},
+ buttongroup:{name:'Button group',file:'components/ButtonGroup',desc:'Joined related actions sharing one border.',props:[{n:'items',t:'string[]'},{n:'value',t:'string'}],tokens:[{r:'border',n:'--primary @42%',v:'rgba',c:'#4E6A78'}],metrics:[['radius','ends --r-sm'],['overlap','-1px']]},
+ iconbtn:{name:'Icon button',file:'components/IconButton',desc:'Compact icon-only action. standard/filled.',props:[{n:'icon',t:'sprite id'},{n:'variant',t:'standard|filled',def:'standard'}],tokens:[{r:'filled bg',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'filled fg',n:'--on-primary-container',v:'#1F2E36',c:'#1F2E36'}],metrics:[['size','44×44'],['radius','--r-full']]},
+ fab:{name:'FAB',file:'components/Fab',desc:'Floating primary action. regular/small/extended.',props:[{n:'icon',t:'sprite id'},{n:'label',t:'string?'},{n:'size',t:'regular|small',def:'regular'}],tokens:[{r:'fill',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'fg',n:'--on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'shadow',n:'--elev-2',v:'soft'}],metrics:[['size','56 · sm 40'],['radius','--r-lg'],['motion','--ease-spring on hover']]},
+ checkbox:{name:'Checkbox',file:'components/Checkbox',desc:'unchecked/checked/indeterminate.',props:[{n:'checked',t:'bool'},{n:'indeterminate',t:'bool',def:'false'}],tokens:[{r:'checked fill',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'border',n:'--subtle',v:'#9A9384',c:'#9A9384'}],metrics:[['box','20'],['radius','--r-xs']]},
+ radio:{name:'Radio',file:'components/Radio',desc:'Single-choice within a group.',props:[{n:'selected',t:'bool'},{n:'name',t:'string'}],tokens:[{r:'dot',n:'--primary',v:'#4E6A78',c:'#4E6A78'}],metrics:[['outer','20'],['inner','10']]},
+ switch:{name:'Switch',file:'components/Switch',desc:'Binary toggle with spring thumb.',props:[{n:'on',t:'bool'}],tokens:[{r:'on track',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'off track',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'}],metrics:[['track','46×28'],['motion','--ease-spring']]},
+ select:{name:'Select',file:'components/Select',desc:'Closed control opens a menu of options.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'}],metrics:[['height','48'],['radius','--r-sm']]},
+ autocomplete:{name:'Autocomplete',file:'components/Autocomplete',desc:'Free text + multi-select chips.',props:[{n:'values',t:'string[]'},{n:'onAdd',t:'callback'}],tokens:[{r:'chip',n:'--primary',v:'#4E6A78',c:'#4E6A78'}],metrics:[['minHeight','48']]},
+ slider:{name:'Slider',file:'components/Slider',desc:'Continuous value selection.',props:[{n:'value',t:'number'},{n:'min',t:'number'},{n:'max',t:'number'}],tokens:[{r:'fill',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'track',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'}],metrics:[['thumb','18'],['track','4']]},
+ field:{name:'Text field',file:'components/TextField',desc:'variant outlined/filled/standard; states empty/focus/filled/error/disabled.',props:[{n:'label',t:'string'},{n:'value',t:'string'},{n:'variant',t:'outlined|filled|standard',def:'outlined'},{n:'error',t:'string?'},{n:'disabled',t:'bool',def:'false'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'},{r:'focus',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'error',n:'--error',v:'#A83E32',c:'#A83E32'}],metrics:[['height','48'],['radius','--r-sm'],['focus','3px ring']]},
+ toggle:{name:'Toggle button',file:'components/ToggleButton',desc:'Exclusive selection between options.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'selected',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'}],metrics:[['radius','--r-sm']]},
+ rating:{name:'Rating',file:'components/Rating',desc:'Star rating, read-only or interactive.',props:[{n:'value',t:'number'},{n:'max',t:'number',def:'5'}],tokens:[{r:'active',n:'--accent',v:'#C08A2E',c:'#C08A2E'},{r:'inactive',n:'--subtle',v:'#9A9384',c:'#9A9384'}],metrics:[['icon','24']]},
+ avatar:{name:'Avatar',file:'components/Avatar',desc:'Artwork thumbnail (square) or initials; sizes sm/md/lg.',props:[{n:'src',t:'url?'},{n:'initials',t:'string?'},{n:'square',t:'bool',def:'false'},{n:'size',t:'sm|md|lg',def:'md'}],tokens:[{r:'bg',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'fg',n:'--on-primary-container',v:'#1F2E36',c:'#1F2E36'}],metrics:[['size','40 · 28 · 56'],['radius','--r-full · square --r-sm']]},
+ badge:{name:'Badge',file:'components/Badge',desc:'Count or dot overlay.',props:[{n:'count',t:'number?'},{n:'dot',t:'bool',def:'false'}],tokens:[{r:'bg',n:'--error',v:'#A83E32',c:'#A83E32'},{r:'fg',n:'--on-error',v:'#FFFFFF',c:'#FFFFFF'}],metrics:[['size','18'],['border','2px surface']]},
+ chip:{name:'Chip',file:'components/Chip',desc:'filled/outlined/selected/deletable.',props:[{n:'label',t:'string'},{n:'variant',t:'filled|outlined',def:'filled'},{n:'selected',t:'bool',def:'false'},{n:'onDelete',t:'callback?'}],tokens:[{r:'bg (filled)',n:'--muted-surface',v:'#EAE5D8',c:'#EAE5D8'},{r:'fg',n:'--on-muted-surface',v:'#514B40',c:'#514B40'},{r:'selected',n:'--primary',v:'#4E6A78',c:'#4E6A78'}],metrics:[['height','32'],['radius','--r-full']]},
+ divider:{name:'Divider',file:'components/Divider',desc:'full/inset hairline rule.',props:[{n:'inset',t:'bool',def:'false'}],tokens:[{r:'line',n:'--border',v:'#DED8C9',c:'#DED8C9'}],metrics:[['height','1'],['inset','16']]},
+ list:{name:'List',file:'components/List',desc:'Two-line items: leading thumb, title/artist, trailing audio length.',props:[{n:'items',t:'ListItem[]'},{n:'lines',t:'1|2|3',def:'2'}],tokens:[{r:'primary',n:'--on-surface',v:'#2A2722',c:'#2A2722'},{r:'secondary',n:'--muted',v:'#6B6457',c:'#6B6457'}],metrics:[['minHeight','56'],['gap','12']]},
+ table:{name:'Table',file:'components/Table',desc:'Header + rows; numeric columns right-aligned, monospace.',props:[{n:'columns',t:'Column[]'},{n:'rows',t:'Row[]'}],tokens:[{r:'header',n:'--subtle',v:'#9A9384',c:'#9A9384'},{r:'row border',n:'--border-faint',v:'#EAE6DB',c:'#EAE6DB'}],metrics:[['cell pad','12'],['figures','--font-mono']]},
+ tooltip:{name:'Tooltip',file:'components/Tooltip',desc:'Inverse-surface label.',props:[{n:'text',t:'string'}],tokens:[{r:'bg',n:'--on-surface',v:'#2A2722',c:'#2A2722'},{r:'fg',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'}],metrics:[['radius','--r-xs'],['pad','6 · 10']]},
+ alert:{name:'Alert',file:'components/Alert',desc:'severity success/info/warning/error; soft tinted surface + matching border.',props:[{n:'severity',t:'success|info|warning|error'},{n:'title',t:'string'},{n:'body',t:'string?'}],tokens:[{r:'success',n:'--success',v:'#4E7351',c:'#4E7351'},{r:'info',n:'--info',v:'#3F6275',c:'#3F6275'},{r:'warning',n:'--warning',v:'#B5841F',c:'#B5841F'},{r:'error',n:'--error',v:'#A83E32',c:'#A83E32'}],metrics:[['radius','--r-sm'],['fill','12% tint']]},
+ dialog:{name:'Dialog',file:'components/Dialog',desc:'Modal confirmation with title/body/actions.',props:[{n:'title',t:'string'},{n:'body',t:'string'},{n:'actions',t:'Button[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'shadow',n:'--elev-3',v:'soft'}],metrics:[['radius','--r-lg'],['maxWidth','360'],['pad','24']]},
+ snackbar:{name:'Snackbar',file:'components/Snackbar',desc:'Transient message with optional action.',props:[{n:'message',t:'string'},{n:'action',t:'string?'}],tokens:[{r:'bg',n:'--on-surface',v:'#2A2722',c:'#2A2722'},{r:'action',n:'--accent',v:'#C08A2E',c:'#C08A2E'}],metrics:[['radius','--r-sm']]},
+ progress:{name:'Progress',file:'components/Progress',desc:'linear (determinate) + circular (indeterminate).',props:[{n:'variant',t:'linear|circular'},{n:'value',t:'number?'}],tokens:[{r:'bar',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'track',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'}],metrics:[['linear h','6'],['spinner','28']]},
+ skeleton:{name:'Skeleton',file:'components/Skeleton',desc:'Shimmer placeholder shown while content loads.',props:[{n:'variant',t:'text|circle|rect',def:'text'},{n:'width',t:'number|%'},{n:'height',t:'number'}],tokens:[{r:'base',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'},{r:'sheen',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'}],metrics:[['radius','--r-xs'],['anim','1.3s shimmer']]},
+ card:{name:'Card',file:'components/Card',desc:'outlined/elevated/wash surface container.',props:[{n:'variant',t:'outlined|elevated|wash',def:'outlined'},{n:'child',t:'node'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'},{r:'wash',n:'--wash',v:'gradient'},{r:'shadow',n:'--elev-1',v:'soft'}],metrics:[['radius','--r-lg (16)'],['pad','20']]},
+ paper:{name:'Paper',file:'components/Paper',desc:'Flat base surface primitive.',props:[{n:'child',t:'node'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border-faint',v:'#EAE6DB',c:'#EAE6DB'}],metrics:[['radius','--r-md']]},
+ appbar:{name:'App bar',file:'components/AppBar',desc:'Top bar: leading icon, title, trailing actions.',props:[{n:'title',t:'string'},{n:'actions',t:'IconButton[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border-faint',v:'#EAE6DB',c:'#EAE6DB'}],metrics:[['height','56']]},
+ accordion:{name:'Accordion',file:'components/Accordion',desc:'Expandable header + body; chevron rotates.',props:[{n:'title',t:'string'},{n:'open',t:'bool',def:'false'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'}],metrics:[['radius','--r-sm'],['pad','16']]},
+ bottomnav:{name:'Bottom navigation',file:'components/BottomNav',desc:'Primary nav; selected item gets a slate pill.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'selected',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'pill',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'inactive',n:'--subtle',v:'#9A9384',c:'#9A9384'}],metrics:[['height','64']]},
+ drawer:{name:'Drawer',file:'components/Drawer',desc:'Side navigation list.',props:[{n:'items',t:'NavItem[]'},{n:'selected',t:'string'}],tokens:[{r:'selected',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'fg',n:'--on-primary-container',v:'#1F2E36',c:'#1F2E36'}],metrics:[['width','280']]},
+ tabs:{name:'Tabs',file:'components/Tabs',desc:'Underline tabs + segmented control variant.',props:[{n:'tabs',t:'string[]'},{n:'index',t:'number'}],tokens:[{r:'active',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'inactive',n:'--muted',v:'#6B6457',c:'#6B6457'}],metrics:[['indicator','2'],['pad','12 · 16']]},
+ menu:{name:'Menu',file:'components/Menu',desc:'Dropdown of actions.',props:[{n:'items',t:'MenuItem[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'shadow',n:'--elev-2',v:'soft'}],metrics:[['radius','--r-sm'],['minWidth','200']]},
+ link:{name:'Link',file:'components/Link',desc:'Inline text navigation.',props:[{n:'href',t:'string'},{n:'label',t:'string'}],tokens:[{r:'color',n:'--link',v:'#4E6A78',c:'#4E6A78'}],metrics:[['underline','35% on rest']]},
+ stepper:{name:'Stepper',file:'components/Stepper',desc:'Horizontal multi-step progress: done/active/upcoming.',props:[{n:'steps',t:'string[]'},{n:'active',t:'number'}],tokens:[{r:'done',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'active ring',n:'--ring',v:'rgba',c:'#4E6A78'}],metrics:[['num','26']]},
+ speeddial:{name:'Speed dial',file:'components/SpeedDial',desc:'FAB that expands to quick actions.',props:[{n:'actions',t:'Action[]'}],tokens:[{r:'fab',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'mini',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'}],metrics:[['mini','40'],['fab','56']]},
+};
+
+/* ===== Copy-as-prompt — per component (add-or-update) + one "Install design system" prompt =====
+   No framework was named, so no Flutter default. */
+const LANGS=['React (TypeScript + CSS)','SwiftUI','Jetpack Compose (Kotlin)','Flutter (Dart)','React Native','HTML + CSS'];
+let promptLang=LANGS[0];
+langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</option>`).join('');
+langSel.onchange=()=>promptLang=langSel.value;
+const DS_NAME='the "Atrium" museum & gallery guide design system (mineral & architectural, Le Corbusier–inspired palette)';
+
+const TOKEN_GROUPS={
+ 'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
+ 'Spacing':['--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
+ 'Radius':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full'],
+ 'Elevation':['--elev-0','--elev-1','--elev-2','--elev-3'],
+ 'Craft & expression':['--ring','--focus-ring','--signature','--wash','--hero-wash'],
+ 'Type families':['--font-display','--font-body','--font-mono'],
+ 'Motion':['--dur-fast','--dur-base','--dur-slow','--ease','--ease-spring'],
+ 'Icons':['--icon-size','--icon-stroke']};
+function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];
+ for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
+  if(rows.length)out.push(`### ${grp}`,...rows,'');}
+ return out;}
+function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as a named constant in ONE theme/config file, idiomatic to ${promptLang}. Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### Type scale (text styles)`];
+ TYPE.forEach(([n,m])=>L.push(`- ${n}: ${m}`));
+ L.push('',`### Rules`,`- Every fill stays paired with its --on-* foreground; pairs are WCAG-checked (body ≥ 4.5:1). Don't break a pair.`,`- Neutrals are intentionally tinted warm (plaster) and accents stay in one mineral band — preserve them; shadows are soft and tinted, not flat grey.`);
+ return L.join('\n');}
+
+/* Single component — ADD if missing, UPDATE in place if it already exists */
+function buildPrompt(key){const s=SPECS[key];const L=[
+  `# Add or update the \`${s.name}\` component — ${promptLang}`,'',
+  `A component from ${DS_NAME}. You are most likely working inside a codebase that already uses it: if a component with this role ALREADY EXISTS, modify it IN PLACE to match the spec below (this spec is the source of truth) — don't duplicate, and note any breaking prop/token change with a migration note. If it doesn't exist yet, create it, reusing existing tokens/atoms and following the project's file layout & naming.`,'',
+  `## What it is`,s.desc,'',`## Props`];
+  s.props.forEach(p=>L.push(`- \`${p.n}\`: ${p.t}${p.def?` (default ${p.def})`:''}${p.d?` — ${p.d}`:''}`));
+  L.push('',`## Design tokens (define/extend them in the foundation layer; never inline)`);
+  s.tokens.forEach(t=>L.push(`- ${t.n} = ${t.v}   // ${t.r}`));
+  L.push('',`## Metrics`); s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
+  L.push('',`## Requirements`,`- Implement every variant/state listed.`,`- Reference tokens by name; keep each fill paired with its --on-* foreground (WCAG ≥ 4.5:1).`,`- Match the calm, mineral, architectural feel: warm plaster surfaces, restrained radii, soft tinted shadows, generous whitespace.`,`- Output complete, compilable ${promptLang} code + a short usage example.`);
+  return L.join('\n');}
+function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
+
+/* Whole system — install from scratch OR update all to match; foundation-first, then components
+   against the SHARED token layer (Pencil's spawn-agents rule: split work but read shared variables). */
+function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[
+ `# Install or update the ENTIRE design system — ${promptLang}`,'',
+ `Set up ${DS_NAME} in ${promptLang}. If it doesn't exist yet, scaffold it from scratch; if parts already exist, update them IN PLACE to match this spec (the source of truth) — modify, don't duplicate; collect breaking changes with migration notes.`,'',
+ `## Build order`,`1. Implement the **foundation token layer** below as the single source of truth.`,`2. Then build the components. They're independent — you may split them across parallel workers — but **every component imports the shared token layer from step 1**; never redefine colors/sizes locally, or the set drifts. Keep naming & states consistent across all of them.`,`3. Reconcile: one components index/barrel + a pass confirming every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
+ keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
+ L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); preserve warm plaster neutrals & soft tinted shadows.`,`- Output: the token file, then each component, each with a short usage example.`);
+ return L.join('\n');}
+function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
+
+function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t);}
+
+/* every SPECS-backed component section gets a "Copy as prompt" button (skip if one's already there) */
+document.querySelectorAll('main section[id]').forEach(sec=>{const key=sec.id;if(!SPECS[key])return;
+  const h=sec.querySelector('h2.sec');if(!h||h.querySelector('.sec-prompt'))return;
+  const b=document.createElement('button');b.className='sec-prompt';b.type='button';b.textContent='Copy as prompt';
+  b.addEventListener('click',()=>copyPrompt(key));h.appendChild(b);});
+
+/* ===== Dev Mode + Inspector ===== */
+function toggleDev(){const on=document.body.classList.toggle('dev');devToggle.classList.toggle('on',on);devToggle.textContent=on?'◧ Dev Mode · ON':'◧ Dev Mode';if(!on)closeInspector();}
+function closeInspector(){document.body.classList.remove('inspecting');document.querySelectorAll('.insp-sel').forEach(e=>e.classList.remove('insp-sel'));}
+document.addEventListener('click',e=>{
+  if(e.target.closest('#inspector')||e.target.closest('#topctl'))return;
+  if(!document.body.classList.contains('dev'))return;
+  const el=e.target.closest('[data-insp]'); if(el&&SPECS[el.dataset.insp]){selectComp(el,el.dataset.insp);}
+});
+function selectComp(el,key){
+  document.querySelectorAll('.insp-sel').forEach(x=>x.classList.remove('insp-sel'));el.classList.add('insp-sel');
+  document.body.classList.add('inspecting');const s=SPECS[key];
+  const props=s.props.map(p=>`<div class="prop"><span class="pn">${p.n}</span> <span class="pt">${p.t}</span>${p.def?` <span class="pdef">= ${p.def}</span>`:''}${p.d?`<div class="pd">${p.d}</div>`:''}</div>`).join('');
+  const toks=s.tokens.map(t=>`<div class="tok" onclick="copyVal('${t.v}')"><div class="tsw" style="background:${t.c||'var(--bg)'}"></div><div><div class="tn">${t.n}</div><div class="tr">${t.r}</div></div><div class="tv">${t.v}</div></div>`).join('');
+  const mets=s.metrics.map(([k,v])=>`<div class="metric"><span class="mk">${k}</span><span>${v}</span></div>`).join('');
+  inspectorBody.innerHTML=`<div class="nm">${s.name}</div><div class="file">${s.file}</div><div class="desc">${s.desc}</div><h4>Properties</h4>${props}<h4>Design tokens · click to copy</h4>${toks}<h4>Metrics</h4>${mets}<button class="copyprompt" onclick="copyPrompt('${key}')">⧉ Copy as prompt</button>`;
+}
+function copyVal(v){navigator.clipboard&&navigator.clipboard.writeText(v);toast('Copied '+v);}
+function toast(msg){const c=document.getElementById('copied');c.textContent=msg;c.classList.add('show');setTimeout(()=>c.classList.remove('show'),1300);}
+</script>
+</body>
+</html>

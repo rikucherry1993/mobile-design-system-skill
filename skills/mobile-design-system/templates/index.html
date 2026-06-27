@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App · Design System</title>
+<!-- swap the font to match your type tokens -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* page chrome (style-guide layout only; components/tokens live in styles.css) */
+body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);display:flex}
+nav.side{position:sticky;top:0;align-self:flex-start;height:100vh;width:210px;flex:0 0 210px;background:var(--surface);border-right:1px solid var(--border);padding:22px 16px;overflow:auto}
+nav.side .brand{font:700 20px var(--font-display);color:var(--primary);margin-bottom:18px}
+nav.side a{display:block;padding:6px 10px;border-radius:8px;font-size:13px;color:var(--muted);text-decoration:none}
+nav.side a:hover{background:var(--bg);color:var(--primary)}
+nav.side a.concept-link{margin:0 0 6px;padding:10px;font-weight:700;color:var(--on-primary);background:var(--primary);border-radius:10px}
+nav.side a.concept-link:hover{filter:brightness(.95);color:var(--on-primary)}
+nav.side .grp{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--subtle);margin:16px 0 6px 10px}
+main{flex:1;padding:36px 44px 120px;max-width:1060px}
+section{margin-bottom:56px;scroll-margin-top:20px}
+h2.sec{font:700 24px var(--font-display);color:var(--primary);margin-bottom:6px}
+.sec-desc{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:680px;line-height:1.6}
+.stage{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px;display:flex;flex-wrap:wrap;gap:28px;align-items:center}
+.cell{display:flex;flex-direction:column;align-items:center;gap:8px}
+.spec{font:11px ui-monospace,monospace;color:var(--subtle)}
+.colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.sw{border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+.sw .c{height:60px}.sw .m{padding:8px 10px}.sw .n{font-size:12px;font-weight:600}.sw .v{font:11px ui-monospace,monospace;color:var(--subtle)}
+.typerow{display:flex;align-items:baseline;gap:18px;padding:10px 0;border-bottom:1px solid var(--border)}
+.typerow .tk{width:120px;flex:0 0 120px;font:11px ui-monospace,monospace;color:var(--subtle)}
+.sprow{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.sprow .bar{background:var(--primary);height:12px;border-radius:3px}.sprow .lbl{width:150px;font:12px ui-monospace,monospace;color:var(--muted)}
+.iconGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.iconGrid .it{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--on-surface)}
+.iconGrid .it .nm{font:11px ui-monospace,monospace;color:var(--subtle)}
+
+/* top controls + Dev Mode + Inspector + Copy-as-prompt */
+#topctl{position:fixed;top:16px;right:20px;z-index:50;display:flex;gap:10px;align-items:center}
+#langSel{font:600 12px var(--font-body);border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--muted)}
+.ds-btn{font:600 12px var(--font-body);background:var(--surface);border:1px solid var(--primary);color:var(--primary);border-radius:8px;padding:8px 12px;cursor:pointer}
+.ds-btn:hover{background:color-mix(in srgb,var(--primary) 8%,transparent)}
+#devToggle{font:600 13px var(--font-body);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;cursor:pointer;color:var(--muted)}
+#devToggle.on{background:var(--primary);border-color:var(--primary-strong);color:var(--on-primary)}
+.sec-prompt{font:600 11px var(--font-body);border:1px solid var(--primary);background:var(--surface);color:var(--primary);border-radius:8px;padding:3px 9px;margin-left:12px;cursor:pointer;vertical-align:middle}
+body.dev [data-insp]:hover{outline:2px dashed var(--accent);outline-offset:3px;cursor:pointer}
+.insp-sel{outline:2px solid var(--primary)!important;outline-offset:3px}
+#inspector{position:fixed;top:0;right:0;width:340px;height:100vh;background:var(--surface);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgba(15,23,42,.08);transform:translateX(100%);transition:transform .28s var(--ease);z-index:49;overflow:auto;padding:58px 20px 40px}
+body.inspecting #inspector{transform:translateX(0)}
+body.inspecting main{margin-right:340px}
+#inspector .iclose{position:absolute;top:16px;right:16px;border:none;background:none;font-size:18px;color:var(--muted);cursor:pointer}
+#inspector .nm{font:700 20px var(--font-display);color:var(--primary)}
+#inspector .file{font:12px ui-monospace,monospace;color:var(--subtle);margin-top:2px}
+#inspector .desc{font-size:13px;color:var(--muted);line-height:1.6;margin-top:10px}
+#inspector h4{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--subtle);margin:20px 0 8px}
+.prop{padding:8px 0;border-bottom:1px solid var(--border-faint)}.prop .pn{font:600 13px ui-monospace,monospace}.prop .pt{font:11px ui-monospace,monospace;color:var(--accent)}.prop .pdef{font:11px ui-monospace,monospace;color:var(--subtle)}.prop .pd{font-size:12px;color:var(--muted);margin-top:3px}
+.tok{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;cursor:pointer}.tok:hover{background:var(--bg)}
+.tok .tsw{width:22px;height:22px;border-radius:6px;border:1px solid var(--border);flex:0 0 22px}.tok .tn{font:600 12px ui-monospace,monospace}.tok .tr{font-size:11px;color:var(--muted)}.tok .tv{margin-left:auto;font:11px ui-monospace,monospace;color:var(--subtle)}
+.metric{display:flex;justify-content:space-between;font:12px ui-monospace,monospace;padding:5px 0;border-bottom:1px dashed var(--border-faint)}.metric .mk{color:var(--muted)}
+.copyprompt{width:100%;margin-top:16px;font:600 13px var(--font-body);background:var(--primary);color:var(--on-primary);border:none;border-radius:10px;padding:11px;cursor:pointer}
+.copied{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--on-surface);color:var(--surface);font-size:12px;padding:8px 16px;border-radius:8px;opacity:0;transition:.2s;z-index:60;pointer-events:none}.copied.show{opacity:.95}
+</style>
+</head>
+<body>
+
+<!-- ICON SPRITE — copied from icons.html so index.html is self-contained under file://.
+     Use anywhere with: <svg class="ico"><use href="#i-home"/></svg>
+     Style/theme via styles.css (.ico + --icon-size/--icon-stroke). Never emoji for UI. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-more-h" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.5V19l4 2v-8.5z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+</svg>
+
+<div id="topctl">
+  <button class="ds-btn" onclick="copyFullSystem()" title="Copy a prompt to install or update the whole design system">⤓ Install design system</button>
+  <select id="langSel" title="Copy-as-prompt target"></select>
+  <button id="devToggle" onclick="toggleDev()">◧ Dev Mode</button>
+</div>
+<aside id="inspector"><button class="iclose" onclick="closeInspector()">✕</button><div id="inspectorBody"></div></aside>
+<div class="copied" id="copied">Copied</div>
+
+<nav class="side">
+  <div class="brand">App DS</div>
+  <!-- Concept mockup is reachable straight from here (own page; links back to the guide). -->
+  <a class="concept-link" href="concept.html">◳ &nbsp;Concept preview &nbsp;→</a>
+  <div class="grp">Foundations</div>
+  <a href="#colors">Colors</a><a href="#type">Typography</a><a href="#spacing">Spacing</a><a href="#icons">Icons</a>
+  <div class="grp">Atomic</div>
+  <a href="#button">Button</a><a href="#chip">Chip</a>
+  <div class="grp">Composed</div>
+  <a href="#card">Card</a>
+  <!-- add nav links as you add sections -->
+</nav>
+
+<main>
+  <header style="margin-bottom:40px"><div class="t-display">App Design System</div>
+    <p class="sec-desc" style="margin-top:8px">Tokens + components, source of truth in <code>styles.css</code>. Toggle <b>Dev Mode</b> to inspect any component; use <b>Copy as prompt</b> to implement it in any language.</p></header>
+
+  <section id="colors"><h2 class="sec">Colors</h2><p class="sec-desc">Semantic color roles.</p><div class="colors" id="colorGrid"></div></section>
+  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc">Type scale.</p><div id="typeList"></div></section>
+  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">Spacing scale.</p><div id="spacingList"></div></section>
+  <section id="icons"><h2 class="sec">Icons</h2>
+    <p class="sec-desc">Token-driven inline SVG sprite — <code>stroke:currentColor; stroke-width:var(--icon-stroke)</code>, so the whole set reskins with the theme. Use <code>&lt;svg class="ico"&gt;&lt;use href="#i-home"/&gt;&lt;/svg&gt;</code>. Drawn in the style of classic open sets (Lucide/Feather, Material Symbols); never emoji.</p>
+    <div class="iconGrid" id="iconGrid"></div></section>
+
+  <!-- ===== one section per component; data-insp="<specKey>" makes it inspectable ===== -->
+  <section id="button"><h2 class="sec">Button</h2><p class="sec-desc">Primary action.</p>
+    <div class="stage">
+      <div class="cell"><div class="btn btn-primary" data-insp="button">Primary</div><div class="spec">primary</div></div>
+      <div class="cell"><div class="btn btn-secondary" data-insp="button">Secondary</div><div class="spec">secondary</div></div>
+      <div class="cell"><div class="btn btn-danger" data-insp="button">Danger</div><div class="spec">danger</div></div>
+      <div class="cell"><div class="btn btn-primary disabled" data-insp="button">Disabled</div><div class="spec">disabled</div></div>
+    </div></section>
+
+  <section id="chip"><h2 class="sec">Chip</h2><p class="sec-desc">Filter / tag.</p>
+    <div class="stage">
+      <div class="cell"><span class="chip" data-insp="chip">Unselected</span><div class="spec">default</div></div>
+      <div class="cell"><span class="chip selected" data-insp="chip">Selected</span><div class="spec">selected</div></div>
+    </div></section>
+
+  <section id="card"><h2 class="sec">Card</h2><p class="sec-desc">Surface container.</p>
+    <div class="stage"><div class="card" data-insp="card" style="width:240px"><div class="t-title">Card title</div><div class="t-body" style="margin-top:6px">Body text on a surface.</div></div></div></section>
+</main>
+
+<script>
+/* ===== Foundations data (edit to match your tokens) ===== */
+const COLORS=[['primary','#2563EB'],['primary-strong','#1D4ED8'],['on-primary','#FFFFFF'],['secondary','#7C3AED'],['accent','#06B6D4'],['bg','#F6F7F9'],['surface','#FFFFFF'],['on-surface','#0F172A'],['muted','#64748B'],['border','#E2E8F0'],['success','#16A34A'],['error','#EF4444'],['warning','#F59E0B']];
+const TYPE=[['t-display','700 / 32'],['t-title','700 / 20'],['t-body','400 / 15'],['t-label','600 / 13']];
+const SPACING=[['sp-2',2],['sp-4',4],['sp-8',8],['sp-12',12],['sp-16',16],['sp-20',20],['sp-24',24],['sp-32',32],['sp-48',48]];
+colorGrid.innerHTML=COLORS.map(([n,h])=>`<div class="sw"><div class="c" style="background:${h}"></div><div class="m"><div class="n">${n}</div><div class="v">${h}</div></div></div>`).join('');
+typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">The quick brown fox</div></div>`).join('');
+spacingList.innerHTML=SPACING.map(([n,v])=>`<div class="sprow"><div class="lbl">${n} · ${v}px</div><div class="bar" style="width:${Math.max(v,1)*4}px"></div></div>`).join('');
+const ICONS=['menu','search','home','settings','back','chevron-right','chevron-down','close','check','plus','heart','bookmark','share','bell','user','more-h','more-v','edit','trash','camera','image','calendar','clock','star','filter','mail','lock'];
+iconGrid.innerHTML=ICONS.map(n=>`<div class="it"><svg class="ico ico--lg"><use href="#i-${n}"/></svg><div class="nm">i-${n}</div></div>`).join('');
+
+/* ===== SPECS: one entry per component (drives Inspector + Copy-as-prompt). ADD YOURS. =====
+   token entry: {r:role, n:tokenName, v:value, c:swatchColorIfColorToken} */
+const SPECS={
+  button:{ name:'Button', file:'components/button', desc:'Primary action button. Variants: primary/secondary/danger; states: default/hover/disabled.',
+    props:[{n:'label',t:'String'},{n:'onPress',t:'callback'},{n:'variant',t:'primary|secondary|danger',def:'primary'},{n:'disabled',t:'bool',def:'false'}],
+    tokens:[{r:'fill (primary)',n:'primary',v:'#2563EB',c:'#2563EB'},{r:'label (primary)',n:'on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'outline (secondary)',n:'primary',v:'#2563EB',c:'#2563EB'},{r:'label type',n:'t-label/16',v:'Inter 600 / 16'}],
+    metrics:[['radius','--r-md (10)'],['minHeight','48'],['padding','h 16']] },
+  chip:{ name:'Chip', file:'components/chip', desc:'Compact filter/tag. States: default/selected.',
+    props:[{n:'label',t:'String'},{n:'selected',t:'bool',def:'false'},{n:'onTap',t:'callback'}],
+    tokens:[{r:'bg (default)',n:'border-faint',v:'#F1F5F9',c:'#F1F5F9'},{r:'bg (selected)',n:'primary',v:'#2563EB',c:'#2563EB'},{r:'text (selected)',n:'on-primary',v:'#FFFFFF',c:'#FFFFFF'}],
+    metrics:[['radius','--r-full'],['height','30'],['padding','h 12']] },
+  card:{ name:'Card', file:'components/card', desc:'Surface container with elevation.',
+    props:[{n:'child',t:'Widget'},{n:'onTap',t:'callback?'}],
+    tokens:[{r:'surface',n:'surface',v:'#FFFFFF',c:'#FFFFFF'},{r:'border',n:'border',v:'#E2E8F0',c:'#E2E8F0'},{r:'elevation',n:'elev-1',v:'shadow'}],
+    metrics:[['radius','--r-lg (16)'],['padding','16']] },
+};
+
+/* ===== Copy-as-prompt — per component + one "Install design system" prompt =====
+   Every prompt is written to ADD-if-missing OR UPDATE-in-place-if-it-already-exists (the common
+   case is changing an existing system, not greenfield). No default framework: REORDER LANGS so the
+   user's stated target is FIRST; if none was given, leave order as-is — do NOT assume Flutter. */
+const LANGS=['Flutter (Dart)','React (TypeScript + CSS)','SwiftUI','Jetpack Compose (Kotlin)','React Native','HTML + CSS'];
+let promptLang=LANGS[0];
+langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</option>`).join('');
+langSel.onchange=()=>promptLang=langSel.value;
+
+/* token groups → values read LIVE from :root (names absent in this theme are skipped) */
+const TOKEN_GROUPS={
+ 'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
+ 'Spacing':['--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
+ 'Radius':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full'],
+ 'Elevation':['--elev-0','--elev-1','--elev-2','--elev-3'],
+ 'Craft & expression':['--ring','--focus-ring','--signature','--wash'],
+ 'Type families':['--font-display','--font-body','--font-mono'],
+ 'Motion':['--dur-fast','--dur-base','--dur-slow','--ease','--ease-spring'],
+ 'Icons':['--icon-size','--icon-stroke']};
+function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];
+ for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
+  if(rows.length)out.push(`### ${grp}`,...rows,'');}
+ return out;}
+/* token layer body, reused by the full-system prompt */
+function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as a named constant in ONE theme/config file, idiomatic to ${promptLang} (theme object / ThemeData / asset catalog / CSS :root…). Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### Type scale (text styles)`];
+ (typeof TYPE!=='undefined'?TYPE:[]).forEach(([n,m])=>L.push(`- ${n}: ${m}`));
+ L.push('',`### Rules`,`- Every fill stays paired with its --on-* foreground; the pairs are WCAG-checked (body ≥ 4.5:1). Don't break a pair.`,`- Neutrals are intentionally tinted toward the brand — preserve the tint; shadows are soft and tinted, not flat grey.`);
+ return L.join('\n');}
+
+/* Single component — ADD if missing, UPDATE in place if it already exists */
+function buildPrompt(key){const s=SPECS[key];const L=[
+  `# Add or update the \`${s.name}\` component — ${promptLang}`,'',
+  `A component from this design system. You are most likely working inside a codebase that already uses it: if a component with this role ALREADY EXISTS, modify it IN PLACE to match the spec below (this spec is the source of truth) — don't duplicate, and note any breaking prop/token change with a migration note. If it doesn't exist yet, create it, reusing existing tokens/atoms and following the project's file layout & naming.`,'',
+  `## What it is`,s.desc,'',`## Props`];
+  s.props.forEach(p=>L.push(`- \`${p.n}\`: ${p.t}${p.def?` (default ${p.def})`:''}${p.d?` — ${p.d}`:''}`));
+  L.push('',`## Design tokens (define/extend them in the foundation layer; never inline)`);
+  s.tokens.forEach(t=>L.push(`- ${t.n} = ${t.v}   // ${t.r}`));
+  L.push('',`## Metrics`); s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
+  L.push('',`## Requirements`,`- Implement every variant/state listed.`,`- Reference tokens by name; keep each fill paired with its --on-* foreground (WCAG ≥ 4.5:1).`,`- Output complete, compilable ${promptLang} code + a short usage example.`);
+  return L.join('\n');}
+function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
+
+/* Whole system — install from scratch OR update all to match; foundation-first, then components
+   built against the SHARED token layer (Pencil's spawn-agents rule: split work, but every agent
+   reads the shared variables so nothing drifts; never re-hardcode values per component). */
+function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[
+ `# Install or update the ENTIRE design system — ${promptLang}`,'',
+ `Set up this design system in ${promptLang}. If it doesn't exist yet, scaffold it from scratch; if parts already exist, update them IN PLACE to match this spec (the source of truth) — modify, don't duplicate; collect breaking changes with migration notes.`,'',
+ `## Build order`,`1. Implement the **foundation token layer** below as the single source of truth.`,`2. Then build the components. They're independent — you may split them across parallel workers — but **every component imports the shared token layer from step 1**; never redefine colors/sizes locally, or the set drifts. Keep naming & states consistent across all of them.`,`3. Reconcile: one components index/barrel + a pass confirming every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
+ keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
+ L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); preserve tinted neutrals & soft tinted shadows.`,`- Output: the token file, then each component, each with a short usage example.`);
+ return L.join('\n');}
+function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
+
+function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t);}
+
+/* every SPECS-backed component section auto-gets a "Copy as prompt" button — so none are missed.
+   (Add a SPECS entry + a <section id="<key>"> and the button appears; no per-section markup needed.) */
+document.querySelectorAll('main section[id]').forEach(sec=>{const key=sec.id;if(!SPECS[key])return;
+  const h=sec.querySelector('h2.sec');if(!h||h.querySelector('.sec-prompt'))return;
+  const b=document.createElement('button');b.className='sec-prompt';b.type='button';b.textContent='Copy as prompt';
+  b.addEventListener('click',()=>copyPrompt(key));h.appendChild(b);});
+
+/* ===== Dev Mode + Inspector ===== */
+function toggleDev(){const on=document.body.classList.toggle('dev');devToggle.classList.toggle('on',on);devToggle.textContent=on?'◧ Dev Mode · ON':'◧ Dev Mode';if(!on)closeInspector();}
+function closeInspector(){document.body.classList.remove('inspecting');document.querySelectorAll('.insp-sel').forEach(e=>e.classList.remove('insp-sel'));}
+document.addEventListener('click',e=>{
+  if(e.target.closest('#inspector')||e.target.closest('#topctl'))return;
+  if(!document.body.classList.contains('dev'))return;
+  const el=e.target.closest('[data-insp]'); if(el&&SPECS[el.dataset.insp]){selectComp(el,el.dataset.insp);}
+});
+function selectComp(el,key){
+  document.querySelectorAll('.insp-sel').forEach(x=>x.classList.remove('insp-sel'));el.classList.add('insp-sel');
+  document.body.classList.add('inspecting');const s=SPECS[key];
+  const props=s.props.map(p=>`<div class="prop"><span class="pn">${p.n}</span> <span class="pt">${p.t}</span>${p.def?` <span class="pdef">= ${p.def}</span>`:''}${p.d?`<div class="pd">${p.d}</div>`:''}</div>`).join('');
+  const toks=s.tokens.map(t=>`<div class="tok" onclick="copyVal('${t.v}')"><div class="tsw" style="background:${t.c||'var(--bg)'}"></div><div><div class="tn">${t.n}</div><div class="tr">${t.r}</div></div><div class="tv">${t.v}</div></div>`).join('');
+  const mets=s.metrics.map(([k,v])=>`<div class="metric"><span class="mk">${k}</span><span>${v}</span></div>`).join('');
+  inspectorBody.innerHTML=`<div class="nm">${s.name}</div><div class="file">${s.file}</div><div class="desc">${s.desc}</div><h4>Properties</h4>${props}<h4>Design tokens · click to copy</h4>${toks}<h4>Metrics</h4>${mets}<button class="copyprompt" onclick="copyPrompt('${key}')">📋 Copy as prompt</button>`;
+}
+function copyVal(v){navigator.clipboard&&navigator.clipboard.writeText(v);toast('Copied '+v);}
+function toast(msg){const c=document.getElementById('copied');c.textContent=msg;c.classList.add('show');setTimeout(()=>c.classList.remove('show'),1300);}
+</script>
+</body>
+</html>
