@@ -9,6 +9,7 @@ All notable changes to this skill are documented here. This project follows
 - **PATCH** — wording/prompt tuning, template fixes, doc updates; no behavior change for the user.
 
 ## [Unreleased]
+- Listed in the official Claude Code plugin directory.
 
 ## [0.2.0] — 2026-06-27
 - **Packaged as an installable Claude Code plugin** — added `.claude-plugin/plugin.json` + `marketplace.json`; the skill now lives at `skills/mobile-design-system/` (canonical plugin layout).
