@@ -21,39 +21,11 @@ markdown, lighter than a design tool.
 
 ---
 
-## A shared layer, not a chain of handoffs
-
-The usual design-to-build loop is a chain of translations:
-
-> **human → artifact → human → artifact → …** &nbsp;(brief → mockup → spec → tickets → code → review…)
-
-Each handoff loses intent and takes time. This skill replaces the chain with one shared, machine- and
-human-readable layer:
-
-> **human → protocol → AI → product**
-
-That layer is the generated HTML — a token set plus a complete, inspectable component catalogue. You
-read it at a glance; the AI reads the same file to build, extend, and re-theme. No round-tripping through
-a design tool, and no ad-hoc colors an agent can't reuse.
-
-## What it produces
-
-**1. The output is also the interface.**
-A self-contained `design-system/` — `.html` + `.css`, opens via `file://`, no build. Glanceable like a
-webpage, structured like a spec: every value is a **named token**, every component lists its props and
-the tokens it uses, with a **"Copy as prompt"** to implement it in Flutter / React Native / SwiftUI /
-Compose / Web. Rewrite `:root` to re-theme the whole catalogue and concept at once.
-
-**2. A complete component catalogue, by platform convention.**
-Components are divided and named by the standard mobile guidelines — Android → **Material 3**, iOS →
-**Apple HIG**, cross-platform → **Material + MUI** — so you start from a full set (buttons, FABs, chips,
-sheets, nav, pickers, fields…) with variants and states, rather than decomposing widgets yourself.
-
----
-
 ## The living style guide
 
-Foundations and the full component catalogue in one scrollable page, with an inspector built in.
+Foundations and a **complete component catalogue** in one scrollable page — divided and named **by
+platform convention** (Android → **Material 3**, iOS → **Apple HIG**, cross-platform → **Material +
+MUI**), with a matching set of **designed icons** — and an inspector built in.
 
 <div align="center">
 <img src="assets/shots/01-guide.gif" width="820" alt="Scrolling the living style guide: color foundations, then every component with variants and states">
@@ -99,8 +71,10 @@ ln -s "$(pwd)/mobile-design-system-skill/skills/mobile-design-system" ~/.claude/
 ## Use it
 
 Tell it **what the app is**, the **target platform**, and a theme brief — in words and/or visuals
-(screenshots, brand colors, reference URLs). It asks for anything missing, generates the system, **opens
-it in your browser**, and walks you through keep / tweak / switch until you settle.
+(screenshots, brand colors, reference URLs). Where a choice is needed it **generates a menu so you can
+pick visually**, but you can always answer in **free words** instead. It fills in anything missing,
+generates the system, **opens it in your browser**, and walks you through keep / tweak / switch until
+you settle.
 
 > "New recipe app for Android. Warm, friendly, rounded, orange accent. Target: Flutter."
 
@@ -111,8 +85,9 @@ it in your browser**, and walks you through keep / tweak / switch until you sett
 A built-in **style & color library** (perceptual color systems + named design archetypes) grounds palette
 and type choices when your brief isn't pinned to exact colors.
 
-> **Greenfield only.** It does not migrate an existing design, reverse-engineer an app, or lay out
-> multi-screen flows. Its job is **tokens + a complete component catalogue**, plus a two-screen concept.
+> **Recommended for new projects** — that's where it runs smoothest. It also works well to **revise an
+> existing design system**: hand it your current tokens/components and it updates them in place. Either
+> way its job is **tokens + a complete component catalogue + a two-screen concept** — not multi-screen flows.
 
 ## Repository
 
