@@ -11,6 +11,9 @@ All notable changes to this skill are documented here. This project follows
 ## [Unreleased]
 - Listed in the official Claude Code plugin directory.
 
+## [0.2.1] — 2026-07-08
+- README polish (compact structure, tightened copy) and `.github/FUNDING.yml`. No skill behavior change.
+
 ## [0.2.0] — 2026-06-27
 - **Packaged as an installable Claude Code plugin** — added `.claude-plugin/plugin.json` + `marketplace.json`; the skill now lives at `skills/mobile-design-system/` (canonical plugin layout).
 - Added `examples/` with generated design systems (Stride / Margin / Atrium).
