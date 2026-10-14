@@ -6,7 +6,7 @@
 
 <p>
 <a href="https://platform.claude.com/plugins"><img src="https://img.shields.io/badge/Claude%20Code-Plugin-da7756" alt="Claude Code Plugin"></a>
-<a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-0.2.0-blue" alt="version 0.2.0"></a>
+<a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-0.3.0-blue" alt="version 0.3.0"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="License: MIT"></a>
 </p>
 
