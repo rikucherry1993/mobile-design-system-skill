@@ -5,13 +5,16 @@
    ========================================================================= */
 :root{
   /* ---- Color: brand/seed → semantic roles (edit values) ----
-     HARMONY BY CONSTRUCTION — two rules that keep every palette readable & tasteful:
-     1. PAIRING: every fill/surface role ships a foreground partner (--on-*) chosen
+     HIERARCHY FIRST, HARMONY BY CONSTRUCTION (see design-principles.md §1):
+     1. ONE interaction family leads (primary); secondary/accent carry meaning, not decoration.
+     2. PAIRING: every fill/surface role ships a foreground partner (--on-*) chosen
         TOGETHER so text on it is ≥4.5:1 (≥3:1 large). Never add a fill without its --on-*.
-        Verify the ratio with math at author time (see design-principles.md §1) — no eyeballing.
-     2. TINTED NEUTRALS: grays lean toward the brand temperature (here cool-blue), never
-        pure #888. Tinted neutrals read as hand-mixed; pure gray reads as machine default. */
+        Verify the ratio with math at author time — no eyeballing. Accent used as text on a
+        surface gets a text-safe *-ink variant.
+     3. PURPOSEFUL NEUTRALS: pure gray is valid; tint neutrals (here cool-blue) only when the
+        direction's proposition calls for it. Backgrounds stay flat fills. */
   --primary:#2F6BFF;       --on-primary:#FFFFFF;      --primary-strong:#1E4FD6;
+  --primary-ink:#1E4FD6;                               /* text-safe primary on surface */
   --secondary:#6E56CF;     --on-secondary:#FFFFFF;
   --accent:#11A8BE;        --on-accent:#04282E;
 
@@ -28,20 +31,25 @@
   --error:#E5484D;   --on-error:#FFFFFF;
   --warning:#E08C00; --on-warning:#2A1A00;
   --info:#2F6BFF;    --on-info:#FFFFFF;
-  --link:var(--primary);
+  --link:var(--primary-ink);
 
   /* ---- Spacing scale (one scale, used everywhere) ---- */
   --sp-2:2px; --sp-4:4px; --sp-8:8px; --sp-12:12px; --sp-16:16px;
   --sp-20:20px; --sp-24:24px; --sp-32:32px; --sp-48:48px;
   --opt-1:1px; --opt-3:3px;  /* fine OPTICAL-adjust steps, off the grid — for nudging
                                 icons/baselines into optical (not mathematical) alignment */
+  /* Semantic spacing roles — related < section < major. Use these between groups instead of
+     picking a different gap per card; density scales them together. */
+  --gap-related:var(--sp-8); --gap-section:var(--sp-24); --gap-major:var(--sp-32);
+  --layout-gutter:var(--sp-24);
+  --target-min:48px;         /* minimum touch target (44pt iOS / 48dp Android) */
 
   /* ---- Radius ---- */
   --r-sm:6px; --r-md:10px; --r-lg:16px; --r-full:999px;
 
-  /* ---- Elevation: SOFT, TINTED, LAYERED shadows ----
-     Flat gray drop-shadows look generic. Tint the shadow toward the ink/brand and
-     layer a tight contact shadow + a soft ambient one. Set all to `none` for a flat theme. */
+  /* ---- Elevation: a per-direction DECISION — flat / hairline / tonal / shadow ----
+     If shadows are used, keep them soft and consistent (contact + ambient). For a flat or
+     hairline theme set these to `none` and separate surfaces with color or --hairline. */
   --shadow-ink:22 26 41;  /* ink RGB, fed into rgb()/alpha below */
   --elev-1:0 1px 2px rgb(var(--shadow-ink)/.07), 0 2px 6px rgb(var(--shadow-ink)/.06);
   --elev-2:0 2px 4px rgb(var(--shadow-ink)/.06), 0 8px 24px rgb(var(--shadow-ink)/.12);
@@ -50,13 +58,15 @@
   --ring:rgb(47 107 255 / .40);
   --focus-ring:0 0 0 2px var(--surface), 0 0 0 4px var(--ring); /* 2px ring + offset gap */
 
-  /* ---- Expression layer (optional — what makes it feel designed, not generic):
-     a signature accent + a soft surface wash. Add an illustration/mascot slot per brief. */
+  /* ---- Expression layer (optional): ONE signature moment per screen, ordinary neighbors.
+     --wash stays a flat fill — no decorative gradients unless the user asks for one. */
   --signature:var(--accent);
-  --wash:linear-gradient(180deg, color-mix(in srgb, var(--primary) 6%, var(--surface)), var(--surface));
+  --wash:var(--surface);
 
-  /* ---- Type: a DISPLAY personality + a TEXT workhorse (give display real character;
-     swap per brief). Sizes follow a ~1.25 modular scale; tracking tightens as size grows. */
+  /* ---- Type: choose the READING face first (body, nav, buttons, prices). A single family is a
+     complete system; --font-display may equal --font-body, or carry an expressive face used
+     sparingly for headlines only. CJK: Noto Sans SC / Zen Kaku Gothic New / Noto Sans JP.
+     Sizes follow a ~1.25 modular scale; tracking tightens as size grows. */
   --font-display:'Fraunces',Georgia,'Songti SC',serif;
   --font-body:'Inter',-apple-system,'Segoe UI',Roboto,'PingFang SC',sans-serif;
 
@@ -65,10 +75,13 @@
   --ease-spring:cubic-bezier(.34,1.4,.5,1); /* slight overshoot — motion with character */
 
   /* ---- Icons (inline SVG sprite; theme via currentColor + stroke width) ----
-     Outlined/stroke style by default. Tune per platform/theme:
+     Glyph size ≠ touch area: glyphs 20–24px, inline 18px, targets --target-min.
+     Family follows the type: rounded (round cap/join) · angular (butt/miter) ·
+     duotone (--icon-fill: color-mix(in srgb,currentColor 16%,transparent)).
        Material/Android → --icon-stroke:2     iOS (SF-like) → 1.6, more rounding
      NEVER use emoji for UI icons — see templates/icons.html for the sprite. */
-  --icon-size:24px; --icon-stroke:2;
+  --icon-size:24px; --icon-inline:18px; --icon-large:28px; --icon-stroke:2;
+  --icon-cap:round; --icon-join:round; --icon-fill:none;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -88,10 +101,10 @@
 /* Button */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-8);
   border-radius:var(--r-md);cursor:pointer;font:600 16px var(--font-body);
-  min-height:48px;padding:0 var(--sp-16);border:1px solid transparent;transition:filter var(--dur-fast) var(--ease)}
+  min-height:var(--target-min);padding:0 var(--sp-16);border:1px solid transparent;transition:filter var(--dur-fast) var(--ease)}
 .btn-primary{background:var(--primary);color:var(--on-primary)}
 .btn-primary:hover{filter:brightness(.95)}
-.btn-secondary{background:var(--surface);color:var(--primary);border-color:var(--primary)}
+.btn-secondary{background:var(--surface);color:var(--primary-ink);border-color:var(--primary-ink)}
 .btn-danger{background:var(--surface);color:var(--error);border-color:var(--error)}
 .btn.disabled{opacity:.45;cursor:not-allowed}
 .btn:focus-visible{outline:none;box-shadow:var(--focus-ring)} /* crafted 2px focus ring */
@@ -108,27 +121,31 @@
 /* Tab bar (segmented) */
 .tabbar{display:inline-flex;background:var(--border-faint);border-radius:var(--r-md);padding:var(--sp-4)}
 .tabbar .tab{padding:var(--sp-8) var(--sp-16);border-radius:var(--r-sm);font:600 14px var(--font-body);color:var(--muted);cursor:pointer}
-.tabbar .tab.sel{background:var(--surface);color:var(--primary);box-shadow:var(--elev-1)}
+.tabbar .tab.sel{background:var(--surface);color:var(--primary-ink);box-shadow:var(--elev-1)}
 
 /* Bottom navigation */
 .bottomnav{display:flex;align-items:center;height:58px;background:var(--surface);
   border-top:1px solid var(--border);border-radius:var(--r-lg) var(--r-lg) 0 0;box-shadow:0 -8px 24px rgba(15,23,42,.04)}
 .bottomnav .ni{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--subtle)}
-.bottomnav .ni.sel{color:var(--primary)}
+.bottomnav .ni.sel{color:var(--primary-ink)}
 
 /* Top app bar */
 .appbar{height:48px;display:flex;align-items:center;padding:0 var(--sp-8);background:var(--surface);color:var(--on-surface)}
 .appbar .ttl{flex:1;font:700 18px var(--font-display);text-align:center}
-.appbar .icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.appbar .icon{width:var(--target-min);height:var(--target-min);display:flex;align-items:center;justify-content:center;cursor:pointer}
 
 /* Icon — inline SVG sprite ref: <svg class="ico"><use href="#i-home"/></svg>
    Style is fully token-driven, so icons re-theme with the rest of the system. */
 .ico{width:var(--icon-size);height:var(--icon-size);display:inline-block;vertical-align:middle;
-  fill:none;stroke:currentColor;stroke-width:var(--icon-stroke);stroke-linecap:round;stroke-linejoin:round}
-.ico--sm{--icon-size:18px}
-.ico--lg{--icon-size:28px}
+  fill:var(--icon-fill);stroke:currentColor;stroke-width:var(--icon-stroke);stroke-linecap:var(--icon-cap);stroke-linejoin:var(--icon-join)}
+.ico--sm{--icon-size:var(--icon-inline)}
+.ico--lg{--icon-size:var(--icon-large)}
 .ico--filled{fill:currentColor;stroke:none}
 
 /* horizontal scroll row that does NOT clip child shadows */
 .scrollrow{display:flex;gap:var(--sp-8);overflow-x:auto;overflow-y:hidden;padding-bottom:6px}
 .scrollrow::-webkit-scrollbar{height:0}
+
+/* layout primitives: a deliberate full-bleed section with its text re-inset to the gutter */
+.bleed{margin-left:calc(-1 * var(--layout-gutter));margin-right:calc(-1 * var(--layout-gutter))}
+.inset{padding-left:var(--layout-gutter);padding-right:var(--layout-gutter)}

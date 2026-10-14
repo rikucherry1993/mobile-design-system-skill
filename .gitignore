@@ -1,5 +1,8 @@
 .DS_Store
 *.log
 
-# local Claude config (personal settings, permissions)
-.claude/
+# Ignore all local dot-directories (editor/tool state); allow only what the plugin ships
+.*/
+!.claude-plugin/
+!.github/
+.gstack/

@@ -9,6 +9,7 @@ design-system/
 ├── index.html   # living style guide (links styles.css) + Dev Mode + Copy as prompt
 ├── concept.html # TWO concept screens (first view + detail) composed from the components
 ├── icons.html   # inline SVG icon sprite + showcase (links styles.css)
+├── theme.js     # shared light/dark switch (only when the system ships a dark theme)
 └── README.md    # structure + how to extend
 ```
 All HTML files `<link rel="stylesheet" href="styles.css">` so there is one source of styles.
@@ -30,8 +31,9 @@ SVG sprite** instead:
 - Missing a glyph? Look up a classic open set online (fonts.google.com/icons, lucide.dev) for the
   shape and add a `<symbol>`. **Never** invent a sloppy path, and **never use emoji for UI icons**
   (emoji only as throwaway *content* placeholders, never for buttons/nav/affordances).
-- Images/photos in the mockup: use a token-colored placeholder block (e.g. a gradient
-  `var(--primary)→var(--secondary)`), not an external image.
+- Images/photos in the mockup: use a flat, token-colored placeholder block that is **labelled as a
+  placeholder** (e.g. `var(--muted-surface)` with an "Image placeholder" caption) — not a gradient,
+  not an external image, and never presented as finished product photography.
 
 ## index.html — the living style guide
 Sections, in order:
@@ -99,7 +101,8 @@ inspector, language selector, `TOKEN_GROUPS`, `buildPrompt` / `copyFullSystem`).
 component sections, and the `TYPE` data; `TOKEN_GROUPS` reads values live so it needs no upkeep.
 
 ## concept.html — TWO concept screens (first view + detail)
-Two static **concept screens shown side by side in device frames** — a **first view** (the app's
+Two static **concept screens shown side by side in square presentation frames** (no device bezel,
+no device shadow — the frame is not part of the product identity) — a **first view** (the app's
 home/overview/entry point) **and a detail page** (a primary entity opened up) — assembled purely from
 the design system's components, to show how the catalogue composes into real screens. They are
 illustrative — **not** an interactive prototype, **not** a navigation graph, and **not** a spec for
@@ -131,6 +134,13 @@ look. Loop until the user settles on a theme (see SKILL.md *Theme decision loop*
   edge · a partially-raised bottom sheet over content · a big-type editorial moment · a 2-col grid
   instead of a list · generous negative space around one focal action. Bottom nav is **optional** —
   drop it for detail/player/onboarding/checkout screens (use a back bar or a single primary CTA).
+- **Same proposition, two specimens.** The two screens should cover complementary components (e.g.
+  an image-led composition and a structured list/form composition), keep one first-read focal point
+  and one main action each, and use the semantic spacing roles (`--gap-related` < `--gap-section` <
+  `--gap-major`, `--layout-gutter`; `.bleed` + `.inset` for full-bleed sections).
+- **Real copy, honest content.** Representative lengths (two-line names, long action labels, real
+  currency/numbers), in the app's primary language. Never invent ratings, discounts, stock urgency or
+  delivery promises to make a screen look attractive.
 - **Subject = the app's stated purpose**, never a generic default. A recipe app → a recipe detail or
   feed; a banking app → an account dashboard; a chat app → a conversation. (Only keep blog content if
   the app really is a blog/reader.)
@@ -141,6 +151,14 @@ look. Loop until the user settles on a theme (see SKILL.md *Theme decision loop*
 - Optionally annotate which component each region uses (a thin caption) so the "composition" is
   legible — but keep it a clean mockup, not a wireframe with arrows.
 - Static only: no `go()` / sheet toggling / navigation graph.
+
+## Dark theme (when the system has one)
+If `styles.css` ships a `:root[data-theme="dark"]` block, **every page must be viewable in it** —
+the concept especially, since the theme decision is made there. Ship `templates/theme.js` and keep the
+`#themeSel` switch in both `index.html` and `concept.html` (and the script tag in `icons.html`): one
+choice, defaulting to the OS setting, remembered per browser so the two pages stay in sync. Concept
+layout glue must use tokens only (no literal colours), or it won't follow the theme. If there is no
+dark theme, remove `theme.js` and both `#themeSel` controls.
 
 ## Handoff (no screenshot step) + auto-open
 The deliverables are self-contained HTML — there is **no render-verify / screenshot loop**. When the

@@ -66,35 +66,64 @@ What to find out:
    constraints ("rounded, flat, no black outlines, blue-toned"), brand/primary color, light/dark,
    **plus images and links** the user provides. This is the "pick a theme fast" part.
 4. **Density / audience** if relevant (compact vs comfortable; accessibility needs).
-5. **Eventual framework** (Flutter / RN / SwiftUI / Compose / Web) — optional, and **not assumed**.
+5. **Primary app language** — app copy defaults to English; ask once if another primary language
+   (e.g. Chinese/Japanese) is required. It drives the reading face and the concept's sample copy.
+6. **Eventual framework** (Flutter / RN / SwiftUI / Compose / Web) — optional, and **not assumed**.
    The HTML is the source of truth; components are implementable in any language via **Copy as
    prompt**. There is **no default framework** — if the user names one, surface it first in the
    Copy-as-prompt selector; if not, leave the selector platform-neutral, don't pick Flutter for them.
 
-For anything not answered, pick a sensible default and proceed.
+For anything not answered, pick a sensible default and proceed. Ask only questions that change the
+design system — aim for a handful, never an interview. Infer neutral sample content from the app's
+purpose instead of asking about funnels, purchase steps, navigation trees, feature priorities or
+business metrics.
 
 ### Multimodal visual input (accept and use it)
 The theme brief can arrive as more than words. Actively accept and incorporate:
 - **Images / screenshots / photos / mockups** the user pastes or points to a path → **Read** them
-  and extract palette, type feel, shape/roundness, density, and overall mood.
+  all together and note what is actually visible: palette, type feel, spacing/composition,
+  imagery/material, icons/shapes, density, mood. Record observations, not invented facts.
 - **URLs** — a website, a Dribbble/Behance/Figma/Pinterest link, a competitor app page, a brand
   site → **WebFetch** the page to pull colors, tone, and structure cues. (Load `WebFetch` via
   ToolSearch if needed.) If a link can't be fetched, ask the user to describe it or attach a screenshot.
 - **Other visual references** — a brand palette, a moodboard, an existing logo.
 
-Translate every reference into **token decisions** (color roles, radii, elevation, type), never a
-pixel-copy. If references conflict or are ambiguous, summarize what you extracted and confirm before
-building. If no visual reference is given, work from the worded brief plus the app purpose.
+**Ask what to borrow — once.** Extracted attributes are observations, not approval. After reading
+the references, ask ONE multi-select `AskUserQuestion`: which qualities should transfer — color,
+typography, spacing/composition, imagery/material, icons/shapes. Skip it if the user already said
+what to borrow. Don't add separate per-image questions. A reference may constrain some dimensions
+while leaving others open; only the chosen qualities transfer.
+
+Translate every borrowed quality into **token and composition decisions** (hierarchy, proportion,
+color roles, radii, elevation, type), never a pixel-copy. For an architectural cue, carry over its
+spatial consequence, not only its palette. Never copy a competitor's identity, and don't treat a
+reference image as a licensed asset for the output. If references conflict or are ambiguous,
+summarize what you extracted and confirm before building. If no visual reference is given, work
+from the worded brief plus the app purpose, and say the directions are exploratory.
 
 ## Generate theme options dynamically (do NOT offer a fixed menu)
-The style choices you present are **never a hardcoded list**. Generate 2–4 candidate **theme
-directions on the fly** from the actual inputs — the app's purpose, audience, platform, and every
-multimodal reference (images/URLs/brand colors) the user gave. Each candidate is a short, named
-direction (e.g. "Warm & editorial", "Crisp utilitarian", "Calm dark-first") with its own seed
-color, shape language (roundness), elevation style (flat vs shadow), and type feel — each tailored
-to *this* app, not a generic palette. Present them with `AskUserQuestion` (use option `preview`s to
-show a tiny swatch/word sketch when helpful). If the user already gave one clear direction, skip the
-menu and just confirm it. Whatever they pick becomes the `:root` token set.
+The style choices you present are **never a hardcoded list**. **Read `references/art-direction.md`
+first** — it is the method. Then generate 2–3 candidate **theme directions on the fly** from the
+actual inputs — the app's purpose, audience, platform, language, and the reference qualities the
+user chose to borrow.
+
+- **Separate facts from inferences.** Keep what the user stated (and any pinned brand color/font)
+  fixed across all candidates; don't infer a demographic stereotype ("young" ≠ cartoon type and
+  three saturated accents; "mature" ≠ neutral serif minimalism).
+- **Each direction is a proposition, not a palette**: one sentence "For [task/audience],
+  [visual treatment] makes [benefit] visible", plus its hierarchy, color roles, reading face, image
+  treatment, and what stays quiet. Then its seed color, shape language, elevation (flat / hairline /
+  tonal / shadow), icon family, and density.
+- **Visibly different, same brief.** Each pair of candidates differs in at least two visual
+  dimensions (palette treatment, type scale/weight, spacing, image treatment, geometry, icon
+  character, depth). A different business flow or rearranged copy is not a different direction.
+- **Name directions by visual identity** (e.g. "Quiet grid, ink accent") and state each one's
+  visible difference and main tradeoff, plus its reference basis (`design-principles.md` §8).
+- If the user already fixed the whole system, or gave one clear direction, skip the menu: offer one
+  faithful direction and confirm it.
+
+Present them with `AskUserQuestion` (use option `preview`s for a tiny swatch/word sketch of the
+proposition, palette, type and shape). Whatever they pick becomes the `:root` token set.
 
 **Ground the directions in real design knowledge — strongly prefer reading
 `references/style-color-library.md` before you write tokens.** It's not mandatory, but on any brief
@@ -111,13 +140,15 @@ eyeballing hexes. This is what makes the result feel professionally grounded ins
   for the *neighbouring* decisions (neutral tint, accent harmony, shape/type), don't override their hues.
 - **It's a backstop database — never lecture the user with the vocabulary or citations**; just let it
   shape the token values. Surface a term only if it actually helps the user decide.
-- **Self-check:** after picking a direction you should be able to name, to yourself, the archetype and
-  the colour-derivation method you drew on. If you can't, you didn't really use it — go read it.
+- **Self-check:** after picking a direction you should be able to name, to yourself, the archetype,
+  the colour-derivation method you drew on, and where it is visible in the concept. If you can't,
+  you didn't really use it — go read it.
 
 ## Design principles — read `references/design-principles.md`
 Pick the reference guideline by platform (above), then obey general usability on top of it: WCAG
-contrast, ≥44–48dp touch targets, a single spacing scale, clear type hierarchy, explicit interaction
-states, motion with purpose. Summarize the chosen theme direction to the user in 3–6 lines before
+contrast, ≥44–48dp touch targets, a single spacing scale with semantic gap roles, color as hierarchy
+(one dominant interaction family), a reading face first, explicit interaction states, motion with
+purpose. Summarize the chosen theme direction to the user in 3–6 lines before
 building.
 
 ## The catalogue is fixed by a checklist — read `references/component-checklist.md`
@@ -159,13 +190,18 @@ A self-contained `design-system/` folder:
   layout (see `build-living-styleguide.md`; don't make both a vertical card-list). Its purpose is to
   let the user **decide on a theme fast** — keep it, tweak it, or switch to another (see *Theme
   decision loop*). Both are illustrative **static** screens — **not** an interactive prototype, **not**
-  a navigation graph, and **not** a spec for those screens.
+  a navigation graph, and **not** a spec for those screens. They are system specimens: real copy at
+  representative lengths, complementary component coverage, no invented ratings/discounts/urgency;
+  image slots are labelled placeholders, not fake photography. Present the frames square, without
+  device bezels or shadows.
   - **Reachable from `index.html`**: the style guide's sidebar has a prominent **"Concept preview"**
     link (`href="concept.html"`) at the top, so the user reaches the mockup straight from the
     catalogue instead of hunting for a separate file.
   - **Easy return**: `concept.html` carries a clear **"← Back to style guide"** link
     (`href="index.html"`) so the user bounces back to the catalogue in one click.
 - **`icons.html`** — the icon set as an **inline SVG sprite**, themed by tokens (see *Icons* below).
+- **`theme.js`** — only when the system has a dark theme: one shared light/dark switch for
+  `index.html` and `concept.html`, so the concept can be judged in both themes.
 
 ### Icons (greenfield → no project SVGs to link)
 This is a brand-new app, so there are **no project asset files to reference**. Instead, ship an
@@ -183,24 +219,27 @@ This is a brand-new app, so there are **no project asset files to reference**. I
 - If a needed glyph is missing from the sprite, **look up a classic open set online for the shape**
   (e.g. fonts.google.com/icons, lucide.dev) and add a new `<symbol>` — don't invent a sloppy path.
 
-Use the scaffolds in `templates/` (`styles.css`, `index.html`, `concept.html`, `icons.html`). The
+Use the scaffolds in `templates/` (`styles.css`, `index.html`, `concept.html`, `icons.html`, `theme.js`). The
 `index.html` template already contains the reusable Dev Mode + Copy-as-prompt machinery — you
 fill the `SPECS` data object and the component sections.
 
 ## Process
 1. **Gather inputs from the user** via interactive `AskUserQuestion` prompts (free-text input box),
-   one open question at a time — app purpose, platform, multimodal visual references. Read images
-   and WebFetch URLs the user provides.
+   one open question at a time — app purpose, platform, primary language, multimodal visual
+   references. Read images and WebFetch URLs the user provides, then ask once which qualities to
+   borrow.
 2. **Pick the reference guideline by platform** (Material / HIG / Material + MUI), then open
    `references/component-checklist.md` — its **Required set for that guideline is the exact catalogue
    to build** (categories, components, foundations). Don't redecide the list per brief.
 3. **Generate theme directions dynamically** from those inputs and **confirm one** with the user in
-   3–6 lines (palette, type, shape, elevation, density) — not a fixed menu. **Unless the user pinned
-   exact colours, read `references/style-color-library.md` first** and derive the directions from its
-   archetypes + colour methods (see "Generate theme options dynamically" above) — don't eyeball hexes.
+   3–6 lines (proposition, palette, type, shape, elevation, density) — not a fixed menu. Read
+   `references/art-direction.md`, and **unless the user pinned exact colours, read
+   `references/style-color-library.md` too** and derive the directions from its archetypes + colour
+   methods (see "Generate theme options dynamically" above) — don't eyeball hexes.
 4. **Write `styles.css` tokens** — cover **every Required foundation token group** from the checklist.
    Derive the colour ramp from the chosen library method (e.g. OKLCH tones off the seed); then run the
-   `design-principles.md` §1 harmony pass (paired `--on-*`, math-checked contrast, tinted neutrals).
+   `design-principles.md` §1 pass (one interaction family, paired `--on-*`, math-checked contrast,
+   purposeful neutrals, flat backgrounds). Set the semantic spacing roles and icon tokens (§2b, §3b).
 5. **Build atomic components** — every Required atomic from the checklist, all variants/states.
 6. **Build composed components** — every Required composed component from the checklist (not a sample).
 7. **Wire Dev Mode + Copy as prompt**: fill the `SPECS` object per component
@@ -227,10 +266,10 @@ The concept mockup exists so the user can **decide on a theme fast**. After auto
 `index.html` (concept is one click away via the sidebar link), present the choice **explicitly with
 `AskUserQuestion`** every time — this is the interaction that lets the user reject a look and move on:
 - **Keep this theme** → proceed to document/finalize.
-- **Tweak it** → adjust a few values (e.g. accent color, roundness, density) and tell them to reopen
-  (or re-open the browser for them).
+- **Tweak it** → adjust one visual cause at a time (e.g. accent color, roundness, density), keep
+  what they approved, and tell them to reopen (or re-open the browser for them).
 - **Switch to a different theme** → this is the important one. **Generate fresh candidate directions**
-  (dynamically, from the original inputs plus any new reference/feedback the user gives), let the user
+  — new hypotheses informed by the original inputs plus the feedback, not a random new palette — let the user
   pick one with `AskUserQuestion`, then regenerate the token layer. **Keep looping** — re-present the
   keep / tweak / switch choice after every switch until the user explicitly keeps a theme.
 
@@ -247,12 +286,13 @@ committing — still without touching any component.
 ## Quality bar
 - **Per-theme palette harmony is THE bar** (see `references/design-principles.md` §1). Whatever theme
   is on screen must be harmonious and readable on its own — don't rely on "you can switch themes."
-  Every fill has a paired `--on-*` foreground; **contrast is verified with math** (WCAG ratio from the
-  hex), neutrals are tinted toward the brand temperature, accents are derived harmonically.
-- **Reads like a real product, not abstract colour blocks** (§1b): real domain content (no
-  lorem/empty rectangles), layered tinted shadows + hairline borders, a surface/depth ladder, one
-  signature/expressive moment per surface, crafted micro-states. Type has a personality (display +
-  text pairing, real modular scale, tuned tracking/leading).
+  Color serves hierarchy (one dominant interaction family); every fill has a paired `--on-*`
+  foreground; **contrast is verified with math** (WCAG ratio from the hex); neutrals are purposeful;
+  accents are derived harmonically; backgrounds stay flat; no generated-look clusters.
+- **Reads like a real product, not abstract colour blocks** (§1b): one focal point and one main action
+  per screen, real domain content at representative lengths (no lorem, no invented claims), a
+  deliberate elevation choice, crafted micro-states. Type starts from a readable reading face;
+  a display face only where it has a role; real modular scale, tuned tracking/leading.
 - Faithful to the chosen theme; **use the inline SVG icon sprite, never emoji** for UI icons.
 - **Catalogue = the Required set in `references/component-checklist.md`** for the chosen guideline —
   same categories/components/coverage every run. Stable count; never just a few samples, never

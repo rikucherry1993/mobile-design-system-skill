@@ -6,6 +6,7 @@
 <title>App · Concept</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
 /* concept-page chrome only — the SCREENS are built from styles.css component classes */
 body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);padding:36px 24px 80px;display:flex;flex-direction:column;align-items:center}
@@ -17,20 +18,24 @@ body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);p
 .col{display:flex;flex-direction:column;align-items:center;gap:12px}
 .col .label{font:600 11px var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
 /* device frame */
-.device{position:relative;width:340px;height:720px;background:var(--surface);border:8px solid var(--on-surface);border-radius:40px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.18);display:flex;flex-direction:column}
-.scrollbody{flex:1;overflow:auto;padding:var(--sp-16) var(--sp-16) 74px}
+/* presentation frame: square, no bezel or device shadow — the frame is not part of the product */
+.device{position:relative;width:360px;height:740px;background:var(--surface);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column}
+.scrollbody{flex:1;overflow:auto;padding:var(--sp-16) var(--layout-gutter) 74px}
 .device .bottomnav{position:absolute;left:0;right:0;bottom:0}
 /* small composition layout glue (NOT new components — just arrangement) */
 .feature{position:relative;overflow:hidden;padding:0}
-.feature .ph{height:150px;background:var(--hero-wash,linear-gradient(135deg,var(--primary),var(--secondary)))}
+/* image slot = a labelled flat placeholder, not fake photography */
+.feature .ph{height:150px;background:var(--muted-surface)}
 .feature .body{padding:var(--sp-16)}
 .posttile{display:flex;gap:var(--sp-12);align-items:flex-start;margin-top:var(--sp-12)}
 .ava{width:40px;height:40px;border-radius:var(--r-full);background:var(--border-faint);flex:0 0 40px;display:flex;align-items:center;justify-content:center;color:var(--subtle);font:600 14px var(--font-body)}
 .meta{color:var(--muted);font:400 12px var(--font-body);margin-top:var(--sp-4)}
 .sectitle{display:flex;align-items:center;justify-content:space-between;margin:var(--sp-20) 0 var(--sp-8)}
 /* detail screen glue: full-bleed hero + sticky CTA (no bottom nav) */
-.det-hero{height:230px;background:var(--hero-wash,linear-gradient(135deg,var(--primary),var(--secondary)));position:relative}
-.det-body{padding:var(--sp-16)}
+.det-hero{height:230px;background:var(--muted-surface);position:relative}
+.det-body{padding:var(--sp-16) var(--layout-gutter)}
+.feature .ph::after,.det-hero::after{content:"Image placeholder";position:absolute;left:var(--sp-12);bottom:var(--sp-8);font:600 10px ui-monospace,monospace;color:var(--on-muted-surface);text-transform:uppercase;letter-spacing:.5px}
+.feature .ph{position:relative}
 .det-cta{position:absolute;left:0;right:0;bottom:0;padding:var(--sp-12) var(--sp-16);background:color-mix(in srgb,var(--surface) 92%,transparent);border-top:1px solid var(--border-faint)}
 .note{font:600 10px ui-monospace,monospace;color:var(--accent);text-transform:uppercase;letter-spacing:.5px}
 .legend{max-width:560px;margin-top:18px;font:12px var(--font-body);color:var(--muted);line-height:1.7;text-align:center}
@@ -39,12 +44,15 @@ body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);p
   font:600 13px var(--font-body);text-decoration:none;color:var(--primary);background:var(--surface);
   border:1px solid var(--border);border-radius:999px;padding:8px 14px;box-shadow:var(--elev-1)}
 .backlink:hover{filter:brightness(.97)}
+#themeSel{position:fixed;top:18px;right:18px;z-index:50;font:600 12px var(--font-body);border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--muted)}
 </style>
 </head>
 <body>
 
 <!-- Easy return to the catalogue (concept is reached from index.html's sidebar). -->
 <a class="backlink" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg> Back to style guide</a>
+<!-- same light/dark switch as index.html (theme.js) — the concept must be reviewable in both themes -->
+<select id="themeSel" title="Preview theme" aria-label="Theme"><option value="">Light</option><option value="dark">Dark</option></select>
 
 <!-- ICON SPRITE — copied from icons.html so this file is self-contained. Trim to icons used here. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">

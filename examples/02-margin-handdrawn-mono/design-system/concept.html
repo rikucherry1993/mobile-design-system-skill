@@ -3,122 +3,173 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Margin · Concept — Home + Reader</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&family=Lora:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<title>Margin · Concept — Library + Reader</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=Caveat+Brush&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
-  body{font-family:var(--font-body);background:var(--bg);color:var(--on-surface);min-height:100vh;margin:0;padding:34px 24px 60px;display:flex;flex-direction:column;align-items:center;gap:18px}
-  .back{align-self:flex-start;font:700 13px var(--font-display);color:var(--ink);text-decoration:underline;display:inline-flex;align-items:center;gap:6px}
-  .caption{font:12px var(--font-mono);color:var(--subtle);text-align:center;max-width:580px;line-height:1.7}
-  .two{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
-  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
-  .col .label{font:700 11px var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
-  .phone{width:374px;max-width:100%;background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:46px;box-shadow:var(--shadow-hard);overflow:hidden;position:relative}
-  .screen{height:798px;overflow:auto;background:var(--surface);position:relative}
-  .screen::-webkit-scrollbar{width:0}
-  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:128px;height:24px;background:var(--ink);border-radius:0 0 14px 14px;z-index:8}
-  .pad{padding:0 20px}
-  .topbar{display:flex;align-items:center;gap:8px;padding:34px 16px 6px}
-  .sec-h{font:700 14px var(--font-display);color:var(--on-surface);margin:22px 2px 10px;display:flex;align-items:center;justify-content:space-between}
-  .sec-h .more{font:700 12px var(--font-display);color:var(--ink);text-decoration:underline}
-  .qa{display:flex;gap:14px;justify-content:center;margin-top:16px}
-  /* reader page */
-  .reader{padding:6px 22px 100px}
-  .hl{background:linear-gradient(transparent 60%, var(--muted-surface) 60%);box-shadow:0 2px 0 var(--ink)}
-  .marginnote{position:relative;margin:16px 0 16px 18px;padding:12px 14px 12px 16px;border-left:var(--stroke) solid var(--ink);background:var(--secondary-container);border-radius:0 var(--r-sm) var(--r-sm) 0}
-  .marginnote .t-caption{color:var(--muted)}   /* darker on cream — keep ≥4.5:1 */
-  .marginnote .arrow{position:absolute;left:-2px;top:-18px;color:var(--ink)}
-  .readbar{position:sticky;bottom:0;background:var(--surface);border-top:var(--stroke) solid var(--ink);padding:10px 16px;display:flex;align-items:center;gap:12px}
+/* concept-page chrome + layout glue only — the screens are built from styles.css classes */
+body{font-family:var(--font-body);background:var(--bg);color:var(--on-surface);margin:0;padding:36px var(--sp-24) 72px;display:flex;flex-direction:column;align-items:center;gap:var(--sp-24)}
+.backlink{position:fixed;top:18px;left:18px;z-index:50;display:inline-flex;align-items:center;gap:6px;font:600 13px var(--font-display);text-transform:lowercase;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--ink);padding:8px 14px}
+#themeSel{position:fixed;top:18px;right:18px;z-index:50;font:600 12px var(--font-body);border:1px solid var(--ink);padding:8px 10px;background:var(--surface);color:var(--ink)}
+.head{max-width:640px;text-align:center}
+.head p{color:var(--muted);font-size:14px;line-height:1.6;margin-top:var(--gap-related)}
+.two{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.col .label{font:600 12px var(--font-display);text-transform:lowercase;color:var(--muted)}
+/* presentation frame: square, no bezel, no device shadow */
+.device{position:relative;width:360px;height:780px;background:var(--bg);border:1px solid var(--ink);overflow:hidden;display:flex;flex-direction:column}
+.scroll{flex:1;overflow:auto;padding:0 var(--layout-gutter) 96px}
+.scroll::-webkit-scrollbar{width:0}
+.device .bottomnav{position:absolute;left:0;right:0;bottom:0}
+.meta{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;padding-top:var(--sp-16);font:600 11px var(--font-display);letter-spacing:-.01em;text-transform:lowercase}
+.meta > :last-child{text-align:right}
+.section{margin-top:var(--gap-section)}
+.rule{height:1px;background:var(--ink)}
+.prog{display:flex;align-items:center;gap:var(--sp-12);margin-top:var(--sp-12);font:500 12px var(--font-body);font-variant-numeric:tabular-nums;color:var(--muted)}
+.prog .progress{flex:1}
+.lastnote{display:grid;grid-template-columns:10px 1fr;gap:var(--sp-8);align-items:start}
+.lastnote .dot{width:8px;height:8px;border-radius:var(--r-full);background:var(--note);margin-top:8px}
+.actions{display:flex;gap:var(--gap-related);margin-top:var(--gap-section)}
+.actions .btn{flex:1}
+.book{display:grid;grid-template-columns:26px 1fr auto;gap:var(--sp-12);align-items:baseline;padding:var(--sp-12) 0;border-bottom:1px solid var(--border-faint)}
+.book .n{font:600 12px var(--font-display);font-variant-numeric:tabular-nums;color:var(--muted)}
+.book .notes{display:inline-flex;align-items:center;gap:6px;font:500 12px var(--font-body);color:var(--muted)}
+.book .notes i{width:6px;height:6px;border-radius:var(--r-full);background:var(--note)}
+.streak{display:grid;grid-template-columns:92px 1fr;gap:var(--sp-12);align-items:center}
+/* reader */
+.reader{padding-top:var(--gap-related)}
+.chapter{display:flex;align-items:baseline;justify-content:space-between;margin-top:var(--gap-section)}
+.mnote{display:grid;grid-template-columns:28px 1fr;gap:var(--sp-4);margin:var(--sp-12) 0 var(--sp-20);padding-left:var(--sp-12);border-left:2px solid var(--note)}
+.mnote .arrow{color:var(--note);width:28px}
+.selbar{display:inline-flex;margin:var(--sp-8) 0 0;background:var(--ink-card);color:var(--on-ink-card)}
+.selbar span{padding:8px 12px;font:600 12px var(--font-display);text-transform:lowercase}
+.selbar span + span{border-left:1px solid color-mix(in srgb,var(--on-ink-card) 30%,transparent)}
+.readbar{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--ink);padding:var(--sp-8) var(--sp-12) var(--sp-12)}
+.readbar .row{display:flex;align-items:center;justify-content:space-between}
+.legend{max-width:620px;font:12px/1.7 var(--font-body);color:var(--muted);text-align:center}
+.legend b{color:var(--on-surface)}
 </style>
 </head>
 <body>
-<a class="back" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg>Back to style guide</a>
 
-<!-- ROUGHEN FILTERS — wobble for hand-drawn line art (.illus / .sparkle) -->
+<a class="backlink" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg>back to style guide</a>
+<select id="themeSel" title="Preview theme" aria-label="Theme"><option value="">Light</option><option value="dark">Dark</option></select>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="rough" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter>
   <filter id="rough2" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="24" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G"/></filter>
-</svg>
-
-<!-- SPRITE (copied — icons + illustrations) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></symbol>
-  <symbol id="i-smiley" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/></symbol>
   <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
-  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.7" fill="currentColor" stroke="none"/></symbol>
-  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="M21 21l-4.6-4.6"/></symbol>
+  <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 6C9 4 5 4 3 5v14c2-1 6-1 9 1 3-2 7-2 9-1V5c-2-1-6-1-9 1z"/><path d="M12 7v13"/></symbol>
   <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="7" rx="2" fill="currentColor" stroke="none"/><rect x="17" y="13" width="4" height="7" rx="2" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
-  <symbol id="i-highlight" viewBox="0 0 24 24"><path d="M9 13l-1 5 4-2 8-8-3-3-8 8z"/><path d="M4 21h7"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
   <symbol id="i-library" viewBox="0 0 24 24"><rect x="4" y="3" width="4" height="18" rx="1"/><rect x="10" y="3" width="4" height="18" rx="1"/><path d="M17 5l4 1-3 15-4-1z"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="M21 21l-4.6-4.6"/></symbol>
-  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2c1 5 4 8 9 10-5 2-8 5-9 10-1-5-4-8-9-10 5-2 8-5 9-10z" fill="currentColor" stroke="none"/></symbol>
-  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M19 17H6a2 2 0 0 0-2 2"/></symbol>
-  <symbol id="i-aa" viewBox="0 0 24 24"><path d="M3 18l4-11 4 11M4 14h6"/><path d="M20 11a3 3 0 0 0-5 2v5M20 13v5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-more-v" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.7" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-highlight" viewBox="0 0 24 24"><path d="M9 13l-1 5 4-2 8-8-3-3-8 8z"/><path d="M4 21h7"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M7 7H4v6h3c0 2-1 3-3 3M17 7h-3v6h3c0 2-1 3-3 3"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
   <symbol id="il-reader" viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M83 38C82 23 95 16 104 18C117 21 121 34 116 44C112 52 103 56 95 53C87 50 83 45 83 38Z"/><path d="M85 31C90 22 105 21 113 28"/><path d="M95 37v3"/><path d="M107 37v3"/><path d="M96 45C99 48 104 48 107 45"/><path d="M96 55C83 60 77 74 80 94C81 104 85 111 94 115"/><path d="M105 55C119 59 125 75 122 97C121 107 117 112 109 116"/><path d="M82 90C72 98 70 114 78 126"/><path d="M119 90C129 98 131 114 123 126"/><path d="M80 112C69 122 63 134 70 142C82 140 98 134 110 134C123 134 133 138 138 143C143 134 134 121 121 113"/><path d="M85 134C100 128 116 128 130 134"/><path d="M100 150C86 140 70 140 60 144C60 132 60 124 60 121C70 117 86 117 100 127C114 117 130 117 140 121C140 124 140 132 140 144C130 140 114 140 100 150Z"/><path d="M100 127v23"/></g></symbol>
+  <symbol id="il-stack" viewBox="0 0 200 175"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M40 140C40 132 42 130 50 129C90 126 140 127 150 130C156 132 156 136 156 142C156 150 154 152 146 153C106 156 58 155 48 152C42 150 40 147 40 140Z"/><path d="M47 140C80 137 120 137 150 140"/><path d="M54 114C54 106 56 104 64 103C100 100 144 101 154 104C160 106 160 110 160 116C160 124 158 126 150 127C110 130 66 129 58 126C52 124 54 120 54 114Z"/><path d="M60 114C92 111 128 111 156 114"/><g transform="rotate(-5 100 84)"><path d="M50 88C50 80 52 78 60 77C98 74 140 75 150 78C156 80 156 84 156 90C156 98 154 100 146 101C108 104 64 103 56 100C50 98 50 94 50 88Z"/><path d="M89 86v4"/><path d="M113 86v4"/><path d="M91 94C97 99 105 99 111 94"/></g><path d="M172 72C173 76 175 78 179 79C175 80 173 82 172 86C171 82 169 80 165 79C169 78 171 76 172 72Z"/></g></symbol>
   <symbol id="il-arrow" viewBox="0 0 40 30"><path d="M2 2C14 4 20 12 18 26M18 26l-7-7M18 26l8-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
+<div class="head">
+  <div class="t-label">concept · swiss margin</div>
+  <div class="t-h2" style="margin-top:6px">your notes are the only colour</div>
+  <p>A quiet black-and-white Swiss page on grey paper; the reader's own handwriting, underlines and margin dots are green. Two screens, built only from the design-system components.</p>
+</div>
+
 <div class="two">
 
-  <!-- ════════ SCREEN 1 · FIRST VIEW — Home ════════ -->
+  <!-- ════════ SCREEN 1 · FIRST VIEW — library ════════ -->
   <div class="col">
-    <div class="label">First view · Home</div>
-    <div class="phone"><div class="notch"></div><div class="screen" style="background:var(--bg)">
-      <div class="topbar"><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-grid"/></svg></button><div style="flex:1;text-align:center;font:700 18px var(--font-display);letter-spacing:.02em">MARGIN <span class="sparkle"><svg class="ico ico--sm"><use href="#i-sparkle"/></svg></span></div><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-smiley"/></svg></button></div>
-      <div class="pad">
-        <!-- hero: reader illustration + stats (echoes the reference profile) -->
-        <div style="text-align:center;margin-top:6px"><svg class="illus" style="max-width:188px;margin:0 auto"><use href="#il-reader"/></svg></div>
-        <div style="text-align:center"><div class="t-h1">This week</div><div class="t-body2">3 of 5 reading days · 142 pages</div></div>
-        <div class="slider" style="margin:16px auto 6px;max-width:300px"><div class="track"></div><div class="fill" style="width:60%"></div><div class="thumb" style="left:calc(60% - 12px)"></div></div>
-        <div class="row" style="justify-content:space-between;max-width:300px;margin:0 auto"><span class="t-caption">3 days</span><span class="t-caption">goal · 5 days</span></div>
-        <button class="btn btn-contained btn--hero" style="margin-top:18px"><svg class="ico"><use href="#i-sparkle"/></svg>Continue reading<svg class="ico"><use href="#i-sparkle"/></svg></button>
-        <!-- quick actions (circular, like the reference) -->
-        <div class="qa"><button class="iconbtn"><svg class="ico"><use href="#i-highlight"/></svg></button><button class="iconbtn"><svg class="ico"><use href="#i-pencil"/></svg></button><button class="iconbtn"><svg class="ico"><use href="#i-headphones"/></svg></button></div>
-        <!-- currently reading -->
-        <div class="sec-h">Currently reading <span class="more">All</span></div>
-        <div class="card shadow" style="display:flex;align-items:center;gap:14px;padding:14px">
-          <span class="avatar avatar--lg square"><svg class="ico ico--lg"><use href="#i-book"/></svg></span>
-          <div style="flex:1"><div class="t-title">The Overstory</div><div class="t-body2">Richard Powers · 46%</div><div class="progress" style="margin-top:8px;height:10px"><div class="bar" style="width:46%"></div></div></div>
+    <div class="label">first view · library</div>
+    <div class="device">
+      <div class="scroll">
+        <div class="meta"><span>margin</span><span>tue 14 oct</span><span><span class="reg"></span></span></div>
+
+        <div class="section">
+          <div class="t-label">reading now</div>
+          <div class="t-display" style="margin-top:var(--sp-8)">the<br><span class="inverse">waves</span></div>
+          <div class="t-body2" style="margin-top:var(--sp-8)">Virginia Woolf · 1931</div>
+          <div class="prog"><div class="progress"><div class="bar" style="width:12%"></div></div><span>p. 27 / 220</span></div>
         </div>
-        <div style="height:14px"></div>
+
+        <div class="lastnote section">
+          <span class="dot"></span>
+          <div><div class="t-note">“a cloth with wrinkles in it” — the sea, again.</div><div class="t-caption" style="margin-top:4px">your note · p. 3 · yesterday</div></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-contained"><svg class="ico ico--sm"><use href="#i-book-open"/></svg>continue reading</button>
+          <button class="iconbtn" aria-label="Listen"><svg class="ico"><use href="#i-headphones"/></svg></button>
+        </div>
+
+        <div class="section"><span class="brush">shelf</span></div>
+        <div style="margin-top:var(--sp-8)">
+          <div class="book"><span class="n">01</span><div><div class="t-title">to the lighthouse</div><div class="t-caption">Virginia Woolf</div></div><span class="notes"><i></i>12</span></div>
+          <div class="book"><span class="n">02</span><div><div class="t-title">middlemarch</div><div class="t-caption">George Eliot</div></div><span class="notes"><i></i>31</span></div>
+          <div class="book"><span class="n">03</span><div><div class="t-title">walden</div><div class="t-caption">Henry David Thoreau</div></div><span class="notes"><i></i>4</span></div>
+        </div>
+
+        <div class="streak section">
+          <svg class="illus" viewBox="0 0 200 200"><use href="#il-reader"/></svg>
+          <div><div class="t-h3">7 days in a row</div><div class="t-body2" style="margin-top:4px">20 minutes a day, most of them before nine.</div></div>
+        </div>
       </div>
-      <div class="bottomnav" style="position:sticky;bottom:0">
-        <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-library"/></svg></span>Library</div>
-        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-search"/></svg></span>Discover</div>
-        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-pencil"/></svg></span>Notes</div>
-        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-headphones"/></svg></span>Listen</div>
-      </div>
-    </div></div>
+      <nav class="bottomnav">
+        <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-library"/></svg></span>library</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-pencil"/></svg></span>notes</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-headphones"/></svg></span>listen</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-user"/></svg></span>you</div>
+      </nav>
+    </div>
   </div>
 
-  <!-- ════════ SCREEN 2 · DETAIL — Reader (marginalia) ════════ -->
+  <!-- ════════ SCREEN 2 · DETAIL — reader with the reader's own marks ════════ -->
   <div class="col">
-    <div class="label">Detail · Reader</div>
-    <div class="phone"><div class="notch"></div><div class="screen">
-      <div class="topbar"><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-back"/></svg></button><div style="flex:1;text-align:center;font:700 13px var(--font-display);color:var(--muted)">CH. 8 · THE TRUNK</div><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-bookmark"/></svg></button><button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-more-v"/></svg></button></div>
-      <div class="reader">
-        <div class="t-h2" style="margin:8px 0 14px">The Trunk</div>
-        <p class="t-read">There are no individuals in a forest, no separable events. The bird and the branch it sits on are a joint thing. A third or more of the food a big tree makes may go to feed other organisms.</p>
-        <p class="t-read" style="margin-top:14px">Even different kinds of trees form partnerships. <span class="hl">Cut down a collaborator and the others may suffer.</span> In the great forests, the trees synchronize their masting — a network deciding, all at once, to bloom.</p>
-        <!-- handwritten margin note -->
-        <div class="marginnote"><span class="arrow"><svg class="illus" style="width:34px"><use href="#il-arrow"/></svg></span><div class="t-note">this is the bridge metaphor again — connection &gt; the individual</div><div class="t-caption" style="margin-top:2px">p. 214 · your note</div></div>
-        <p class="t-read">What you make from a tree should be at least as miraculous as what you cut down.</p>
+    <div class="label">detail · reader</div>
+    <div class="device" style="background:var(--surface)">
+      <div class="scroll reader" style="padding-bottom:110px">
+        <div class="meta" style="grid-template-columns:auto 1fr auto;gap:var(--sp-12)">
+          <button class="iconbtn" aria-label="Back" style="width:32px;height:32px;border:none;background:none"><svg class="ico ico--sm"><use href="#i-back"/></svg></button>
+          <span style="text-align:center">the waves</span>
+          <button class="iconbtn" aria-label="More" style="width:32px;height:32px;border:none;background:none"><svg class="ico ico--sm"><use href="#i-more-v"/></svg></button>
+        </div>
+        <div class="chapter"><span class="t-h1">1</span><span class="t-label">p. 3</span></div>
+        <div class="rule" style="margin:var(--sp-12) 0 var(--sp-20)"></div>
+
+        <p class="t-read">The sun had not yet risen. The sea was indistinguishable from the sky, except that the sea was slightly creased <span class="u-note">as if a cloth had wrinkles in it.</span> Gradually as the sky whitened a dark line lay on the horizon dividing the sea from the sky and the grey cloth became barred with thick strokes moving, one after another, beneath the surface, following each other, pursuing each other, perpetually.</p>
+
+        <div class="mnote"><svg class="illus arrow" viewBox="0 0 40 30"><use href="#il-arrow"/></svg><div class="t-note">the sea as fabric — she keeps doing this.</div></div>
+
+        <p class="t-read">As they neared the shore each bar rose, heaped itself, broke and swept a thin veil of white water across the sand. <span class="hl">The wave paused, and then drew out again, sighing like a sleeper whose breath comes and goes unconsciously.</span></p>
+        <div class="selbar"><span>underline</span><span>note</span><span>quote</span><span>share</span></div>
       </div>
       <div class="readbar">
-        <button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-aa"/></svg></button>
-        <button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-highlight"/></svg></button>
-        <button class="iconbtn iconbtn--sm"><svg class="ico ico--sm"><use href="#i-pencil"/></svg></button>
-        <div class="progress" style="flex:1;height:10px"><div class="bar" style="width:46%"></div></div>
-        <button class="iconbtn filled iconbtn--sm"><svg class="ico ico--sm"><use href="#i-play"/></svg></button>
+        <div class="progress"><div class="bar" style="width:1.5%"></div></div>
+        <div class="row" style="margin-top:var(--sp-4)">
+          <span class="t-caption" style="font-variant-numeric:tabular-nums">p. 3 / 220 · 2 notes on this page</span>
+          <span style="display:flex">
+            <button class="iconbtn" aria-label="Listen" style="border:none;background:none"><svg class="ico"><use href="#i-headphones"/></svg></button>
+            <button class="iconbtn" aria-label="Add note" style="border:none;background:none;color:var(--note-ink)"><svg class="ico"><use href="#i-pencil"/></svg></button>
+          </span>
+        </div>
       </div>
-    </div></div>
+    </div>
   </div>
 
 </div>
 
-<div class="caption">Two concept screens — Home (first view: a reader illustration + weekly progress, a hero “Continue reading”, circular quick-actions, currently-reading card, bottom nav) and the Reader (detail: serif reading text with a highlight and a <b>handwritten margin note</b> — the app's soul — plus a reading toolbar, no bottom nav). Built only from Margin components + hand-drawn illustrations. Switch the theme to “Dark (inverted)” by editing <code>styles.css</code> :root tokens.</div>
+<div class="legend">
+  <b>Green belongs to the reader:</b> handwritten notes (<code>.t-note</code>), underlines (<code>.u-note</code>), selection (<code>.hl</code>) and margin dots.
+  Everything else is ink on grey paper — the inverse block from the poster marks the current book, the brush label names a section, and the
+  hand-drawn characters mark milestones. Built only from <code>styles.css</code> classes — the extra CSS is layout glue.
+</div>
+
 </body>
 </html>

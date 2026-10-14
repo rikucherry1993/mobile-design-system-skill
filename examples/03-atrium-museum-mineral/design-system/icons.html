@@ -6,6 +6,7 @@
 <title>Atrium · Icons</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Spectral:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
   body{font-family:var(--font-body);background:var(--bg);color:var(--on-surface);padding:40px}
   a.back{font:600 13px var(--font-body);color:var(--primary);text-decoration:none}
@@ -58,7 +59,7 @@
 
 <a class="back" href="index.html">← Back to style guide</a>
 <h1>Icons</h1>
-<p class="sub">Token-driven inline SVG sprite: <code>stroke:currentColor; stroke-width:var(--icon-stroke)</code>, so the whole set reskins with the theme (Material/outlined, refined 1.7 stroke). Use with <code>&lt;svg class="ico"&gt;&lt;use href="#i-map"/&gt;&lt;/svg&gt;</code>. Geometry drawn in the style of Lucide/Feather &amp; Material Symbols — never emoji.</p>
+<p class="sub">Token-driven inline SVG sprite: <code>stroke:currentColor; stroke-width:var(--icon-stroke)</code>, so the whole set reskins with the theme (rounded outline, 1.75 stroke, round caps/joins — set by --icon-stroke / --icon-cap / --icon-join). Use with <code>&lt;svg class="ico"&gt;&lt;use href="#i-map"/&gt;&lt;/svg&gt;</code>. Geometry drawn in the style of Lucide/Feather &amp; Material Symbols — never emoji.</p>
 <div class="iconGrid" id="iconGrid"></div>
 
 <script>

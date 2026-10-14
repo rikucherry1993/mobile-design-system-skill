@@ -15,10 +15,13 @@ Define as CSS variables in `styles.css` under `:root`. Group and name **semantic
   `--surface`, `--on-surface`, `--muted`, `--outline`, `--success`, `--error`, `--warning`,
   plus a neutral gray ramp (`--gray-50…900` or named: bg / surface / border / text-muted / text).
 - **Spacing**: one scale, e.g. `--sp-2,4,8,12,16,20,24,32,48`. Optional fine "adjust" steps.
+  Semantic roles on top: `--gap-related` < `--gap-section` < `--gap-major`, `--layout-gutter`,
+  and `--target-min` for touch targets.
 - **Typography**: `--font-body`, `--font-display`; classes `.t-display/.t-title/.t-body/.t-label`
   with size/weight/line-height/color.
 - **Radius**: `--r-sm/md/lg/full`.
-- **Elevation**: `--elev-0/1/2` (box-shadows) OR a documented "flat" decision.
+- **Elevation**: `--elev-0/1/2` (box-shadows) OR a documented flat / hairline / tonal decision.
+- **Icons**: `--icon-size`, `--icon-inline`, `--icon-stroke`, `--icon-cap/join/fill` (family).
 - **Motion** (optional): `--dur-fast/base`, easing.
 
 Rule: components reference tokens only. Changing a token reskins the whole system.
@@ -42,6 +45,7 @@ The system cannot have everything at first. Make growth a documented convention:
   (so Dev Mode + Copy-as-prompt cover it) + register its selector/section key.
 - **Add a composed component**: same, built only from tokens + existing atomics.
 - **Theming/dark mode**: add a `:root[data-theme="dark"]` token override block; components unchanged.
+  Ship `theme.js` so `index.html` and `concept.html` share one light/dark switch.
 - **Naming**: keep semantic, not literal (`--primary`, not `--blue-500`, at the role layer).
 
 Record these rules in the generated `design-system/README.md` so future contributors follow them.

@@ -7,6 +7,7 @@
 <!-- swap the font to match your type tokens -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
 /* page chrome (style-guide layout only; components/tokens live in styles.css) */
 body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);display:flex}
@@ -37,7 +38,7 @@ h2.sec{font:700 24px var(--font-display);color:var(--primary);margin-bottom:6px}
 
 /* top controls + Dev Mode + Inspector + Copy-as-prompt */
 #topctl{position:fixed;top:16px;right:20px;z-index:50;display:flex;gap:10px;align-items:center}
-#langSel{font:600 12px var(--font-body);border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--muted)}
+#themeSel,#langSel{font:600 12px var(--font-body);border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--muted)}
 .ds-btn{font:600 12px var(--font-body);background:var(--surface);border:1px solid var(--primary);color:var(--primary);border-radius:8px;padding:8px 12px;cursor:pointer}
 .ds-btn:hover{background:color-mix(in srgb,var(--primary) 8%,transparent)}
 #devToggle{font:600 13px var(--font-body);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;cursor:pointer;color:var(--muted)}
@@ -98,6 +99,8 @@ body.inspecting main{margin-right:340px}
 
 <div id="topctl">
   <button class="ds-btn" onclick="copyFullSystem()" title="Copy a prompt to install or update the whole design system">⤓ Install design system</button>
+  <!-- light/dark switch, synced with concept.html via theme.js — remove if the system has no dark theme -->
+  <select id="themeSel" title="Preview theme" aria-label="Theme"><option value="">Light</option><option value="dark">Dark</option></select>
   <select id="langSel" title="Copy-as-prompt target"></select>
   <button id="devToggle" onclick="toggleDev()">◧ Dev Mode</button>
 </div>
@@ -186,14 +189,14 @@ langSel.onchange=()=>promptLang=langSel.value;
 
 /* token groups → values read LIVE from :root (names absent in this theme are skipped) */
 const TOKEN_GROUPS={
- 'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
- 'Spacing':['--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
+ 'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-ink','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
+ 'Spacing':['--gap-related','--gap-section','--gap-major','--layout-gutter','--target-min','--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
  'Radius':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full'],
  'Elevation':['--elev-0','--elev-1','--elev-2','--elev-3'],
  'Craft & expression':['--ring','--focus-ring','--signature','--wash'],
  'Type families':['--font-display','--font-body','--font-mono'],
  'Motion':['--dur-fast','--dur-base','--dur-slow','--ease','--ease-spring'],
- 'Icons':['--icon-size','--icon-stroke']};
+ 'Icons':['--icon-size','--icon-inline','--icon-large','--icon-stroke','--icon-cap','--icon-join','--icon-fill']};
 function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];
  for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
   if(rows.length)out.push(`### ${grp}`,...rows,'');}
@@ -201,7 +204,7 @@ function tokenLines(){const cs=getComputedStyle(document.documentElement);const 
 /* token layer body, reused by the full-system prompt */
 function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as a named constant in ONE theme/config file, idiomatic to ${promptLang} (theme object / ThemeData / asset catalog / CSS :root…). Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### Type scale (text styles)`];
  (typeof TYPE!=='undefined'?TYPE:[]).forEach(([n,m])=>L.push(`- ${n}: ${m}`));
- L.push('',`### Rules`,`- Every fill stays paired with its --on-* foreground; the pairs are WCAG-checked (body ≥ 4.5:1). Don't break a pair.`,`- Neutrals are intentionally tinted toward the brand — preserve the tint; shadows are soft and tinted, not flat grey.`);
+ L.push('',`### Rules`,`- Every fill stays paired with its --on-* foreground; the pairs are WCAG-checked (body ≥ 4.5:1). Don't break a pair.`,`- Primary leads interaction; secondary/accent carry meaning, not decoration. Accent text on surfaces uses the *-ink tokens.`,`- Preserve the neutral treatment and the elevation decision as specified; backgrounds stay flat fills.`,`- Use the semantic spacing roles (--gap-related < --gap-section < --gap-major) between groups.`);
  return L.join('\n');}
 
 /* Single component — ADD if missing, UPDATE in place if it already exists */
@@ -225,7 +228,7 @@ function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[
  `Set up this design system in ${promptLang}. If it doesn't exist yet, scaffold it from scratch; if parts already exist, update them IN PLACE to match this spec (the source of truth) — modify, don't duplicate; collect breaking changes with migration notes.`,'',
  `## Build order`,`1. Implement the **foundation token layer** below as the single source of truth.`,`2. Then build the components. They're independent — you may split them across parallel workers — but **every component imports the shared token layer from step 1**; never redefine colors/sizes locally, or the set drifts. Keep naming & states consistent across all of them.`,`3. Reconcile: one components index/barrel + a pass confirming every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
  keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
- L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); preserve tinted neutrals & soft tinted shadows.`,`- Output: the token file, then each component, each with a short usage example.`);
+ L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); preserve the neutral treatment, elevation decision and semantic spacing roles.`,`- Output: the token file, then each component, each with a short usage example.`);
  return L.join('\n');}
 function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
 

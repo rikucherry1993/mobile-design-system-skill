@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Margin · Design System</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&family=Lora:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat+Brush&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
 body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);display:flex}
 nav.side{position:sticky;top:0;align-self:flex-start;height:100vh;width:222px;flex:0 0 222px;background:var(--surface);border-right:var(--stroke) solid var(--ink);padding:22px 14px;overflow:auto}
@@ -35,7 +36,7 @@ h2.sec{font:700 26px var(--font-display);color:var(--on-surface);margin-bottom:5
 .illusRow{display:flex;gap:16px;flex-wrap:wrap}.illusRow .ix{flex:0 0 200px;background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);padding:18px}.illusRow .ix.ink{background:var(--ink-card);color:var(--on-ink-card)}.illusRow .ix .nm{font:11px var(--font-mono);opacity:.7;text-align:center;margin-top:8px}
 
 #topctl{position:fixed;top:16px;right:20px;z-index:50;display:flex;gap:10px;align-items:center}
-#themeSel,#langSel{font:700 12px var(--font-body);border:var(--stroke) solid var(--ink);border-radius:10px;padding:7px 10px;background:var(--surface);color:var(--ink)}
+#themeSel,#langSel{font:600 12px var(--font-body);border:var(--stroke) solid var(--ink);border-radius:0;padding:7px 10px;background:var(--surface);color:var(--ink)}
 .ds-btn{font:700 12px var(--font-display);background:var(--ink);border:var(--stroke) solid var(--ink);color:var(--on-primary);border-radius:10px;padding:8px 13px;cursor:pointer}
 #devToggle{font:700 13px var(--font-display);background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:10px;padding:7px 14px;cursor:pointer;color:var(--ink)}
 #devToggle.on{background:var(--ink);color:var(--on-primary)}
@@ -105,7 +106,7 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
 
 <div id="topctl">
   <button class="ds-btn" onclick="copyFullSystem()" title="Copy a prompt to install or update the whole design system">⤓ Install design system</button>
-  <select id="themeSel" title="Preview theme" onchange="document.documentElement.setAttribute('data-theme',this.value)"><option value="">Light</option><option value="dark">Dark (inverted)</option></select>
+  <select id="themeSel" title="Preview theme" aria-label="Theme"><option value="">Light</option><option value="dark">Dark (inverted)</option></select>
   <select id="langSel" title="Copy-as-prompt target"></select>
   <button id="devToggle" onclick="toggleDev()">◧ Dev Mode</button>
 </div>
@@ -114,7 +115,7 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
 
 <nav class="side">
   <div class="brand"><svg class="ico" style="color:var(--ink)"><use href="#i-book-open"/></svg>Margin</div>
-  <div class="tag">Reading &amp; notes · Mono · hand-drawn</div>
+  <div class="tag">reading &amp; notes · swiss margin</div>
   <a class="concept-link" href="concept.html">◳ &nbsp;Concept preview &nbsp;→</a>
   <div class="grp">Foundations</div>
   <a href="#colors">Color</a><a href="#type">Typography</a><a href="#spacing">Spacing</a><a href="#shape">Shape</a><a href="#elevation">Elevation</a><a href="#icons">Icons</a><a href="#illustrations">Illustrations</a>
@@ -134,27 +135,27 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
   <header style="margin-bottom:40px">
     <div class="t-label">Cross-platform · Material + MUI</div>
     <div class="t-display" style="margin-top:6px">Margin <span class="sparkle"><svg class="ico ico--lg"><use href="#i-sparkle"/></svg></span></div>
-    <p class="sec-desc" style="margin-top:8px">A monochrome, hand-drawn system for a reading &amp; notes app — read, listen, highlight, and keep <span class="u-wavy">marginalia</span>. Thick ink outlines, hard offset shadows, heavy display type, hand-drawn line illustrations, a handwriting face for notes. Source of truth is <code>styles.css</code>. <b>Dev Mode</b> inspects; <b>⤓ Install design system</b> scaffolds it all.</p>
+    <p class="sec-desc" style="margin-top:8px"><b>Swiss margin</b> — for readers who annotate: a quiet black-and-white Swiss page on grey paper with film grain, so the reader's own <span class="u-note">handwritten notes and underlines</span> are the only colour. Inter Tight lowercase display, Inter for reading, Caveat Brush for notes; hand-drawn characters mark milestones; a black brush label names sections. Source of truth is <code>styles.css</code>. <b>Dev Mode</b> inspects any component; <b>⤓ Install design system</b> scaffolds/updates it all.</p>
   </header>
 
-  <section id="colors"><h2 class="sec">Color</h2><p class="sec-desc">Monochrome — ink on warm paper, plus an inverse ink card. Each fill shows its paired <code>on-*</code> (top-right), WCAG-verified. "Status" is shown by treatment (raised / dashed / inverted), not hue.</p><div class="colors" id="colorGrid"></div></section>
+  <section id="colors"><h2 class="sec">Color</h2><p class="sec-desc">From the references: neutral grey paper <code>#E8E8E7</code> and ink <code>#1B1C1C</code> (Swiss poster), one green <code>#448434</code> (character sheet). <b>Ink</b> is the interaction family; <b>green belongs to the reader</b> — <code>--note</code> for underlines and margin dots (graphic), <code>--note-ink</code> for handwritten note text (5.0:1), <code>--note-wash</code> for selected text. Status stays monochrome (treatment + icon). Each fill shows its paired <code>on-*</code> — WCAG-verified.</p><div class="colors" id="colorGrid"></div></section>
 
-  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc">Heavy <b>Space Grotesk</b> display, <b>Inter</b> body, <b>Lora</b> serif for reading, <b>Caveat</b> handwriting for notes.</p><div id="typeList"></div></section>
+  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc"><b>Inter Tight</b> (free stand-in for the poster's Neue Haas Grotesk) — lowercase, tracked tight — for display and labels; <b>Inter</b> is the reading face (book text 18/1.72 and UI); <b>Caveat Brush</b> only for the reader's notes.</p><div id="typeList"></div></section>
 
-  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">4dp grid + fine <code>--opt-*</code> steps.</p><div id="spacingList"></div></section>
+  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">4dp grid + fine <code>--opt-*</code> steps. <b>Airy</b> semantic roles: <code>--gap-related</code> 8 &lt; <code>--gap-section</code> 32 &lt; <code>--gap-major</code> 48; <code>--layout-gutter</code> 24; touch targets <code>--target-min</code> 48.</p><div id="spacingList"></div></section>
 
-  <section id="shape"><h2 class="sec">Shape</h2><p class="sec-desc">Large radii + pills, all drawn with a 2px <code>--stroke</code> ink outline.</p><div class="stage"><div class="shaperow" id="shapeRow"></div></div></section>
+  <section id="shape"><h2 class="sec">Shape</h2><p class="sec-desc"><b>Square</b> — every radius is 0 and rules are 1px (<code>--stroke</code>); only naturally round things (radio, switch, avatar, badge, margin dot) stay round.</p><div class="stage"><div class="shaperow" id="shapeRow"></div></div></section>
 
-  <section id="elevation"><h2 class="sec">Elevation</h2><p class="sec-desc">Mostly flat; the signature is a <b>hard offset shadow</b> (<code>--shadow-hard</code>) for a sticker feel.</p>
+  <section id="elevation"><h2 class="sec">Elevation</h2><p class="sec-desc"><b>Flat.</b> No shadows anywhere — overlays separate by a 1px ink rule; emphasis comes from the inverse block (<code>.inverse</code>) and the heavy left rule.</p>
     <div class="stage" style="gap:40px"><div class="card" style="width:120px;height:72px;display:grid;place-items:center;font:11px var(--font-mono)">flat</div><div class="card shadow" style="width:120px;height:72px;display:grid;place-items:center;font:11px var(--font-mono)">hard</div></div></section>
 
-  <section id="icons"><h2 class="sec">Icons</h2><p class="sec-desc">Heavier 2.1 stroke (full set + illustrations in <a class="link" href="icons.html">icons.html</a>). Never emoji.</p><div class="iconGrid" id="iconGrid"></div></section>
+  <section id="icons"><h2 class="sec">Icons</h2><p class="sec-desc">Thin 1.5 stroke with square caps and miter joins, matching the 1px rules (full set + illustrations in <a class="link" href="icons.html">icons.html</a>). Never emoji.</p><div class="iconGrid" id="iconGrid"></div></section>
 
-  <section id="illustrations"><h2 class="sec">Illustrations</h2><p class="sec-desc">The signature — hand-drawn line illustrations, <code>stroke:currentColor</code> so they invert on the ink card. Use as headers, empty states, and the concept hero.</p>
+  <section id="illustrations"><h2 class="sec">Illustrations</h2><p class="sec-desc">Hand-drawn line characters (from the character sheet): uneven black lines via a roughen filter, <code>stroke:currentColor</code> so they invert in dark. Used only for milestones and empty states — never decoration. With them: the <span class="brush">brush label</span> for section names and the <span class="inverse">inverse block</span> from the poster for the current item.</p>
     <div class="stage"><div class="illusRow" id="illusRow"></div></div></section>
 
   <!-- ============ INPUTS ============ -->
-  <section id="button"><h2 class="sec">Button</h2><p class="sec-desc">contained / outlined / text · sizes · hero. Lifts on a hard shadow when pressed.</p>
+  <section id="button"><h2 class="sec">Button</h2><p class="sec-desc">contained / outlined / text · sizes · hero. Square, ink-filled; hover deepens the fill.</p>
     <div class="stage">
       <div class="cell"><button class="btn btn-contained" data-insp="button">Read now</button><div class="spec">contained</div></div>
       <div class="cell"><button class="btn btn-tonal" data-insp="button">Listen</button><div class="spec">tonal · cream</div></div>
@@ -176,7 +177,7 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
       <div class="cell"><button class="iconbtn" data-insp="iconbtn"><svg class="ico"><use href="#i-smiley"/></svg></button><div class="spec">avatar</div></div>
     </div></section>
 
-  <section id="fab"><h2 class="sec">FAB</h2><p class="sec-desc">regular / small / extended — presses into its hard shadow.</p>
+  <section id="fab"><h2 class="sec">FAB</h2><p class="sec-desc">regular / small / extended — square, ink.</p>
     <div class="stage">
       <div class="cell"><button class="fab" data-insp="fab"><svg class="ico"><use href="#i-plus"/></svg></button><div class="spec">regular</div></div>
       <div class="cell"><button class="fab fab--sm" data-insp="fab"><svg class="ico ico--sm"><use href="#i-plus"/></svg></button><div class="spec">small</div></div>
@@ -207,10 +208,10 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
   <section id="autocomplete"><h2 class="sec">Autocomplete</h2><p class="sec-desc">Multi-value chips.</p>
     <div class="stage"><div class="field autocomplete" data-insp="autocomplete" style="max-width:360px"><span class="lab">Tags</span><div class="ctl"><span class="chip selected">Philosophy <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span><span class="chip selected">Essays <span class="x"><svg class="ico ico--sm"><use href="#i-close"/></svg></span></span><input placeholder="Add tag…"></div></div></div></section>
 
-  <section id="slider"><h2 class="sec">Slider</h2><p class="sec-desc">Reading progress (the exp-bar look).</p>
+  <section id="slider"><h2 class="sec">Slider</h2><p class="sec-desc">Reading position — a 2px rule.</p>
     <div class="stage"><div class="slider" data-insp="slider" style="max-width:320px"><div class="track"></div><div class="fill" style="width:46%"></div><div class="thumb" style="left:calc(46% - 12px)"></div></div></div></section>
 
-  <section id="field"><h2 class="sec">Text field</h2><p class="sec-desc">outlined / filled / standard · states; focus pops a hard shadow.</p>
+  <section id="field"><h2 class="sec">Text field</h2><p class="sec-desc">outlined / filled / standard · states; focus doubles the rule.</p>
     <div class="stage">
       <div class="field" data-insp="field"><span class="lab">Book title</span><div class="ctl"><input placeholder="Search your library"></div><span class="hint">Outlined · empty</span></div>
       <div class="field focus" data-insp="field"><span class="lab">Note</span><div class="ctl"><input value="The bridge metaphor returns…"></div><span class="hint">Focused</span></div>
@@ -264,7 +265,7 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
     <div class="stage"><span class="tooltip" data-insp="tooltip">Highlight &amp; add a note</span></div></section>
 
   <!-- ============ FEEDBACK ============ -->
-  <section id="alert"><h2 class="sec">Alert</h2><p class="sec-desc">Monochrome severity — raised / plain / dashed / inverted (no hue).</p>
+  <section id="alert"><h2 class="sec">Alert</h2><p class="sec-desc">Monochrome severity — heavy left rule / plain / dashed / inverted (no hue).</p>
     <div class="stage col" style="gap:14px">
       <div class="alert success" data-insp="alert"><svg class="ico"><use href="#i-check"/></svg><div><div class="at">Saved to your library</div><div class="ab">“The Overstory” is downloaded for offline reading.</div></div></div>
       <div class="alert info" data-insp="alert"><svg class="ico"><use href="#i-sparkle"/></svg><div><div class="at">New highlight synced</div><div class="ab">Your note on page 214 is now on all devices.</div></div></div>
@@ -272,7 +273,7 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
       <div class="alert error" data-insp="alert"><svg class="ico"><use href="#i-close"/></svg><div><div class="at">Download failed</div><div class="ab">We couldn't reach the library. Try again.</div></div></div>
     </div></section>
 
-  <section id="dialog"><h2 class="sec">Dialog</h2><p class="sec-desc">Basic — on a hard shadow.</p>
+  <section id="dialog"><h2 class="sec">Dialog</h2><p class="sec-desc">Basic — a 1px ink rule, no shadow.</p>
     <div class="stage"><div class="dialog" data-insp="dialog"><div class="dt">Delete this note?</div><div class="db">Your handwritten note on page 214 will be removed. This can't be undone.</div><div class="da"><button class="btn btn-outlined btn--sm">Cancel</button><button class="btn btn-contained btn--sm">Delete</button></div></div></div></section>
 
   <section id="snackbar"><h2 class="sec">Snackbar</h2><p class="sec-desc">With action.</p>
@@ -281,11 +282,11 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
   <section id="progress"><h2 class="sec">Progress</h2><p class="sec-desc">linear (reading %) / circular.</p>
     <div class="stage col" style="gap:18px"><div class="row" style="gap:16px"><div class="progress" data-insp="progress" style="max-width:320px"><div class="bar" style="width:46%"></div></div><span class="t-caption">46% · 184 pages left</span></div><div class="spinner" data-insp="progress"></div></div></section>
 
-  <section id="skeleton"><h2 class="sec">Skeleton</h2><p class="sec-desc">Loading placeholder (hatched).</p>
+  <section id="skeleton"><h2 class="sec">Skeleton</h2><p class="sec-desc">Loading placeholder (flat pulse).</p>
     <div class="stage col" style="gap:10px;max-width:360px"><div class="row" style="gap:12px"><div class="skeleton" style="width:48px;height:64px;border-radius:8px"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:11px;width:40%"></div></div></div></div></section>
 
   <!-- ============ SURFACES ============ -->
-  <section id="card"><h2 class="sec">Card</h2><p class="sec-desc">A monochrome value ladder: hard-shadow (white + warm cream drop shadow) · ink (inverse) · cream (warm tonal). Same hierarchy without colour.</p>
+  <section id="card"><h2 class="sec">Card</h2><p class="sec-desc">Ruled surfaces: outlined (1px ink) · ink (inverse) · grey (sunken). No shadows.</p>
     <div class="stage" style="align-items:stretch">
       <div class="card shadow" data-insp="card" style="width:230px"><div class="row" style="gap:14px"><span class="avatar avatar--lg square"><svg class="ico ico--lg"><use href="#i-book"/></svg></span><div><div class="t-title">The Overstory</div><div class="t-body2">Richard Powers</div></div></div><div class="progress" style="margin-top:14px"><div class="bar" style="width:46%"></div></div></div>
       <div class="card ink" data-insp="card" style="width:230px"><div class="t-label">Now playing</div><div class="t-h3" style="margin:6px 0 2px">Ch. 12 · The Trunk</div><div class="t-body2">18 min left</div><div class="row" style="gap:10px;margin-top:14px"><span class="iconbtn filled" style="background:var(--on-ink-card);color:var(--ink)"><svg class="ico"><use href="#i-pause"/></svg></span><div class="progress" style="flex:1;background:transparent;border-color:var(--on-ink-card)"><div class="bar" style="width:62%;background:var(--on-ink-card)"></div></div></div></div>
@@ -344,18 +345,19 @@ body.inspecting #inspector{transform:translateX(0)}body.inspecting main{margin-r
 <script>
 /* ===== Foundations (Margin / mono tokens) ===== */
 const COLORS=[
- ['ink','#14110D','','' ],['paper','#FAF7F0','',''],
- ['primary','#14110D','on-primary','#FAF7F0'],['primary-container','#ECE6D8','on-primary-container','#14110D'],
- ['secondary','#5B554A','on-secondary','#FAF7F0'],['secondary-container','#E4DECF','on-secondary-container','#2A261E'],
- ['bg','#F3EFE5','on-bg','#14110D'],['surface','#FFFDF8','on-surface','#14110D'],
- ['surface-sunken','#F0EBDF','',''],['muted-surface','#ECE6D8','on-muted-surface','#3A352B'],
- ['ink-card','#14110D','on-ink-card','#FAF7F0'],
- ['muted','#6B6557','',''],['subtle','#9A9483','',''],['border','#14110D','',''],['border-faint','#D9D3C4','','']];
-const TYPE=[['t-display','Space Grotesk 700 / 44'],['t-h1','Space Grotesk 700 / 36'],['t-h2','Space Grotesk 700 / 28'],['t-title','Space Grotesk 700 / 18'],['t-subtitle','Inter 600 / 15'],['t-body','Inter 400 / 16'],['t-read','Lora serif / 17 · reading'],['t-note','Caveat / 20 · notes'],['t-label','Inter 700 / 12 · caps'],['t-caption','Inter 400 / 12']];
+ ['ink','#1B1C1C','',''],['paper','#E8E8E7','',''],
+ ['primary','#1B1C1C','on-primary','#F4F4F3'],['primary-container','#D9D9D8','on-primary-container','#1B1C1C'],
+ ['secondary','#5E5F5F','on-secondary','#F4F4F3'],['secondary-container','#DCDCDB','on-secondary-container','#1B1C1C'],
+ ['note (reader\'s mark)','#448434','',''],['note-ink (note text)','#336E27','',''],['note-wash (selection)','#D3E0CC','on-surface','#1B1C1C'],
+ ['bg','#E8E8E7','on-bg','#1B1C1C'],['surface','#F4F4F3','on-surface','#1B1C1C'],
+ ['surface-sunken','#DEDEDD','',''],['muted-surface','#DCDCDB','on-muted-surface','#3A3B3B'],
+ ['ink-card','#1B1C1C','on-ink-card','#F4F4F3'],
+ ['muted','#5E5F5F','',''],['subtle','#808181','',''],['border','#1B1C1C','',''],['border-faint','#C9C9C8','','']];
+const TYPE=[['t-display','Inter Tight 700 / 52 · lowercase · -4.5%'],['t-h1','Inter Tight 700 / 38 · lowercase'],['t-h2','Inter Tight 700 / 28 · lowercase'],['t-h3','Inter Tight 700 / 22 · lowercase'],['t-title','Inter Tight 600 / 18 · lowercase'],['t-subtitle','Inter 600 / 15'],['t-body','Inter 400 / 16'],['t-read','Inter 400 / 18 · 1.72 · reading'],['t-note','Caveat Brush / 22 · note-ink'],['t-label','Inter Tight 600 / 12 · lowercase'],['t-caption','Inter 400 / 12']];
 const SPACING=[['sp-4',4],['sp-8',8],['sp-12',12],['sp-16',16],['sp-20',20],['sp-24',24],['sp-32',32],['sp-48',48],['sp-64',64]];
-const SHAPES=[['xs',8],['sm',12],['md',18],['lg',24],['xl',32],['full',999]];
+const SHAPES=[['none',0],['full',999]];
 colorGrid.innerHTML=COLORS.map(([n,h,on,onh])=>`<div class="sw"><div class="c" style="background:${h}">${on?`<span class="on" style="color:${onh}">${onh}</span>`:''}</div><div class="m"><div class="n">${n}</div><div class="v">${h}${on?` · ${on}`:''}</div></div></div>`).join('');
-typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">${n==='t-note'?'a note in the margin':'Read between the lines'}</div></div>`).join('');
+typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">${n==='t-note'?'a note in the margin':'read between the lines'}</div></div>`).join('');
 spacingList.innerHTML=SPACING.map(([n,v])=>`<div class="sprow"><div class="lbl">${n} · ${v}px</div><div class="bar" style="width:${v}px"></div></div>`).join('');
 shapeRow.innerHTML=SHAPES.map(([n,v])=>`<div class="shapebox" style="border-radius:${v}px">${n}</div>`).join('');
 const ICONS=['book','book-open','bookmark','headphones','pencil','highlight','library','download','share','play','pause','heart','star','sparkle','quote','list','grid','smiley','search','bell'];
@@ -364,60 +366,62 @@ const ILL=[['il-openbook','open book'],['il-reader','reader'],['il-listen','list
 illusRow.innerHTML=ILL.map(([id,l],i)=>`<div class="ix${i===1?' ink':''}"><svg class="illus" style="max-width:170px"><use href="#${id}"/></svg><div class="nm">${id}</div></div>`).join('');
 
 /* ===== SPECS ===== */
-const tkInk={r:'fill',n:'--ink',v:'#14110D',c:'#14110D'},tkOn={r:'on fill',n:'--on-primary',v:'#FAF7F0',c:'#FAF7F0'},tkBorder={r:'outline',n:'--border 2px',v:'#14110D',c:'#14110D'};
+const tkInk={r:'fill',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'},tkOn={r:'on fill',n:'--on-primary',v:'#F4F4F3',c:'#F4F4F3'},tkBorder={r:'rule',n:'--border 1px',v:'#1B1C1C',c:'#1B1C1C'};
 const SPECS={
- button:{name:'Button',file:'components/Button',desc:'Pill button with a 2px ink outline; contained/outlined/text + sizes + hero. Lifts onto a hard offset shadow on hover, presses flat.',props:[{n:'label',t:'string'},{n:'variant',t:'contained|outlined|text',def:'contained'},{n:'size',t:'sm|md|lg|hero',def:'md'},{n:'disabled',t:'bool',def:'false'}],tokens:[tkInk,tkOn,tkBorder,{r:'press shadow',n:'--shadow-hard',v:'4px 4px 0 ink'}],metrics:[['height','48 · sm 38 · lg 58'],['radius','--r-full'],['contrast','paper on ink ≈ 16:1']]},
- buttongroup:{name:'Button group',file:'components/ButtonGroup',desc:'Joined segmented actions in one outline.',props:[{n:'items',t:'string[]'},{n:'value',t:'string'}],tokens:[tkBorder,{r:'selected',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['radius','--r-full']]},
- iconbtn:{name:'Icon button',file:'components/IconButton',desc:'Circular outlined icon button; outlined / filled.',props:[{n:'icon',t:'sprite'},{n:'variant',t:'outlined|filled',def:'outlined'}],tokens:[tkBorder,{r:'filled',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['size','48 · sm 38'],['radius','--r-full']]},
- fab:{name:'FAB',file:'components/Fab',desc:'Ink FAB on a hard shadow; regular/small/extended.',props:[{n:'icon',t:'sprite'},{n:'label',t:'string?'}],tokens:[tkInk,tkOn,{r:'shadow',n:'--shadow-hard',v:'4px 4px 0'}],metrics:[['size','60 · sm 44'],['radius','--r-lg']]},
- checkbox:{name:'Checkbox',file:'components/Checkbox',desc:'Square 2px box; unchecked/checked/indeterminate.',props:[{n:'checked',t:'bool'},{n:'indeterminate',t:'bool',def:'false'}],tokens:[tkBorder,{r:'checked',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['box','24'],['radius','--r-xs']]},
- radio:{name:'Radio',file:'components/Radio',desc:'Circular 2px; selected dot.',props:[{n:'selected',t:'bool'},{n:'name',t:'string'}],tokens:[tkBorder,{r:'dot',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['outer','24'],['inner','12']]},
- switch:{name:'Switch',file:'components/Switch',desc:'Pill switch, 2px outline; ink thumb.',props:[{n:'on',t:'bool'}],tokens:[tkBorder,{r:'on',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['track','56×32']]},
- select:{name:'Select',file:'components/Select',desc:'Outlined control opens a menu.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[tkBorder,{r:'surface',n:'--surface',v:'#FFFDF8',c:'#FFFDF8'}],metrics:[['height','52'],['radius','--r-md']]},
- autocomplete:{name:'Autocomplete',file:'components/Autocomplete',desc:'Free text + chips.',props:[{n:'values',t:'string[]'}],tokens:[{r:'chip',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['minHeight','52']]},
- slider:{name:'Slider',file:'components/Slider',desc:'Pill track + ink fill (reading progress).',props:[{n:'value',t:'number'}],tokens:[tkBorder,{r:'fill',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['track','14'],['thumb','24']]},
- field:{name:'Text field',file:'components/TextField',desc:'outlined/filled/standard; focus pops a hard shadow; error = dashed outline.',props:[{n:'label',t:'string'},{n:'value',t:'string'},{n:'variant',t:'outlined|filled|standard',def:'outlined'},{n:'error',t:'string?'},{n:'disabled',t:'bool',def:'false'}],tokens:[tkBorder,{r:'focus',n:'--shadow-hard-sm',v:'3px 3px 0'},{r:'error',n:'dashed outline',v:'treatment'}],metrics:[['height','52'],['radius','--r-md']]},
- toggle:{name:'Toggle button',file:'components/ToggleButton',desc:'Exclusive selection (reading theme).',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'selected',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['radius','--r-full']]},
- rating:{name:'Rating',file:'components/Rating',desc:'Sparkle-star rating.',props:[{n:'value',t:'number'},{n:'max',t:'number',def:'5'}],tokens:[{r:'active',n:'--ink',v:'#14110D',c:'#14110D'},{r:'inactive',n:'ink @25%',v:'opacity'}],metrics:[['icon','24']]},
- avatar:{name:'Avatar',file:'components/Avatar',desc:'Book cover (square) / initials / smiley; 2px outline.',props:[{n:'src',t:'url?'},{n:'initials',t:'string?'},{n:'square',t:'bool',def:'false'}],tokens:[tkBorder,{r:'surface',n:'--surface',v:'#FFFDF8',c:'#FFFDF8'}],metrics:[['size','44 · 32 · 60'],['radius','full / --r-sm']]},
+ button:{name:'Button',file:'components/Button',desc:'Square button with a 1px ink rule; contained/outlined/text + sizes + hero. Lifts onto a hard offset shadow on hover, presses flat.',props:[{n:'label',t:'string'},{n:'variant',t:'contained|outlined|text',def:'contained'},{n:'size',t:'sm|md|lg|hero',def:'md'},{n:'disabled',t:'bool',def:'false'}],tokens:[tkInk,tkOn,tkBorder,{r:'press shadow',n:'--shadow-hard',v:'4px 4px 0 ink'}],metrics:[['height','48 · sm 38 · lg 58'],['radius','--r-full'],['contrast','paper on ink ≈ 16:1']]},
+ buttongroup:{name:'Button group',file:'components/ButtonGroup',desc:'Joined segmented actions in one outline.',props:[{n:'items',t:'string[]'},{n:'value',t:'string'}],tokens:[tkBorder,{r:'selected',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['radius','--r-full']]},
+ iconbtn:{name:'Icon button',file:'components/IconButton',desc:'Circular outlined icon button; outlined / filled.',props:[{n:'icon',t:'sprite'},{n:'variant',t:'outlined|filled',def:'outlined'}],tokens:[tkBorder,{r:'filled',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['size','48 · sm 38'],['radius','--r-full']]},
+ fab:{name:'FAB',file:'components/Fab',desc:'Square ink FAB; regular/small/extended.',props:[{n:'icon',t:'sprite'},{n:'label',t:'string?'}],tokens:[tkInk,tkOn,{r:'shadow',n:'--shadow-hard',v:'4px 4px 0'}],metrics:[['size','60 · sm 44'],['radius','--r-lg']]},
+ checkbox:{name:'Checkbox',file:'components/Checkbox',desc:'Square 1px box; unchecked/checked/indeterminate.',props:[{n:'checked',t:'bool'},{n:'indeterminate',t:'bool',def:'false'}],tokens:[tkBorder,{r:'checked',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['box','24'],['radius','--r-xs']]},
+ radio:{name:'Radio',file:'components/Radio',desc:'Circular 1px; selected dot.',props:[{n:'selected',t:'bool'},{n:'name',t:'string'}],tokens:[tkBorder,{r:'dot',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['outer','24'],['inner','12']]},
+ switch:{name:'Switch',file:'components/Switch',desc:'Square switch, 1px outline; ink thumb.',props:[{n:'on',t:'bool'}],tokens:[tkBorder,{r:'on',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['track','56×32']]},
+ select:{name:'Select',file:'components/Select',desc:'Outlined control opens a menu.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[tkBorder,{r:'surface',n:'--surface',v:'#F4F4F3',c:'#F4F4F3'}],metrics:[['height','52'],['radius','--r-md']]},
+ autocomplete:{name:'Autocomplete',file:'components/Autocomplete',desc:'Free text + chips.',props:[{n:'values',t:'string[]'}],tokens:[{r:'chip',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['minHeight','52']]},
+ slider:{name:'Slider',file:'components/Slider',desc:'Square track + ink fill (reading progress).',props:[{n:'value',t:'number'}],tokens:[tkBorder,{r:'fill',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['track','14'],['thumb','24']]},
+ field:{name:'Text field',file:'components/TextField',desc:'outlined/filled/standard; focus doubles the rule; error = dashed outline.',props:[{n:'label',t:'string'},{n:'value',t:'string'},{n:'variant',t:'outlined|filled|standard',def:'outlined'},{n:'error',t:'string?'},{n:'disabled',t:'bool',def:'false'}],tokens:[tkBorder,{r:'focus',n:'--shadow-hard-sm',v:'3px 3px 0'},{r:'error',n:'dashed outline',v:'treatment'}],metrics:[['height','52'],['radius','--r-md']]},
+ toggle:{name:'Toggle button',file:'components/ToggleButton',desc:'Exclusive selection (reading theme).',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'selected',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['radius','--r-full']]},
+ rating:{name:'Rating',file:'components/Rating',desc:'Sparkle-star rating.',props:[{n:'value',t:'number'},{n:'max',t:'number',def:'5'}],tokens:[{r:'active',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'},{r:'inactive',n:'ink @25%',v:'opacity'}],metrics:[['icon','24']]},
+ avatar:{name:'Avatar',file:'components/Avatar',desc:'Book cover (square) / initials / smiley; 1px outline.',props:[{n:'src',t:'url?'},{n:'initials',t:'string?'},{n:'square',t:'bool',def:'false'}],tokens:[tkBorder,{r:'surface',n:'--surface',v:'#F4F4F3',c:'#F4F4F3'}],metrics:[['size','44 · 32 · 60'],['radius','full / --r-sm']]},
  badge:{name:'Badge',file:'components/Badge',desc:'count / dot.',props:[{n:'count',t:'number?'},{n:'dot',t:'bool',def:'false'}],tokens:[tkInk,tkOn],metrics:[['size','11 / 20']]},
- chip:{name:'Chip',file:'components/Chip',desc:'outlined / selected / deletable pill.',props:[{n:'label',t:'string'},{n:'selected',t:'bool',def:'false'},{n:'onDelete',t:'callback?'}],tokens:[tkBorder,{r:'selected',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['height','36'],['radius','--r-full']]},
- divider:{name:'Divider',file:'components/Divider',desc:'bold (2px ink) / faint / inset.',props:[{n:'faint',t:'bool',def:'false'},{n:'inset',t:'bool',def:'false'}],tokens:[{r:'bold',n:'--ink',v:'#14110D',c:'#14110D'},{r:'faint',n:'--border-faint',v:'#D9D3C4',c:'#D9D3C4'}],metrics:[['height','2 / 1']]},
- list:{name:'List',file:'components/List',desc:'Book rows: cover + title/author + trailing.',props:[{n:'items',t:'ListItem[]'}],tokens:[{r:'title',n:'--on-surface',v:'#14110D',c:'#14110D'},{r:'sub',n:'--muted',v:'#6B6557',c:'#6B6557'}],metrics:[['min','64']]},
- table:{name:'Table',file:'components/Table',desc:'Reading log; numeric right-aligned.',props:[{n:'columns',t:'Column[]'},{n:'rows',t:'Row[]'}],tokens:[{r:'head rule',n:'--ink 2px',v:'#14110D',c:'#14110D'},{r:'row rule',n:'--border-faint',v:'#D9D3C4',c:'#D9D3C4'}],metrics:[['cell pad','12']]},
+ chip:{name:'Chip',file:'components/Chip',desc:'outlined / selected / deletable square.',props:[{n:'label',t:'string'},{n:'selected',t:'bool',def:'false'},{n:'onDelete',t:'callback?'}],tokens:[tkBorder,{r:'selected',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['height','36'],['radius','--r-full']]},
+ divider:{name:'Divider',file:'components/Divider',desc:'bold (1px ink) / faint / inset.',props:[{n:'faint',t:'bool',def:'false'},{n:'inset',t:'bool',def:'false'}],tokens:[{r:'bold',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'},{r:'faint',n:'--border-faint',v:'#C9C9C8',c:'#C9C9C8'}],metrics:[['height','2 / 1']]},
+ list:{name:'List',file:'components/List',desc:'Book rows: cover + title/author + trailing.',props:[{n:'items',t:'ListItem[]'}],tokens:[{r:'title',n:'--on-surface',v:'#1B1C1C',c:'#1B1C1C'},{r:'sub',n:'--muted',v:'#5E5F5F',c:'#5E5F5F'}],metrics:[['min','64']]},
+ table:{name:'Table',file:'components/Table',desc:'Reading log; numeric right-aligned.',props:[{n:'columns',t:'Column[]'},{n:'rows',t:'Row[]'}],tokens:[{r:'head rule',n:'--ink 1px',v:'#1B1C1C',c:'#1B1C1C'},{r:'row rule',n:'--border-faint',v:'#C9C9C8',c:'#C9C9C8'}],metrics:[['cell pad','12']]},
  tooltip:{name:'Tooltip',file:'components/Tooltip',desc:'Ink label.',props:[{n:'text',t:'string'}],tokens:[tkInk,tkOn],metrics:[['radius','--r-sm']]},
- alert:{name:'Alert',file:'components/Alert',desc:'Monochrome severity by treatment: success=raised, info=tinted, warning=dashed, error=inverted.',props:[{n:'severity',t:'success|info|warning|error'},{n:'title',t:'string'},{n:'body',t:'string?'}],tokens:[tkBorder,{r:'error fill',n:'--ink',v:'#14110D',c:'#14110D'},{r:'success',n:'--shadow-hard-sm',v:'raised'}],metrics:[['radius','--r-md']]},
- dialog:{name:'Dialog',file:'components/Dialog',desc:'Basic dialog on a hard shadow.',props:[{n:'title',t:'string'},{n:'body',t:'string'},{n:'actions',t:'Button[]'}],tokens:[tkBorder,{r:'shadow',n:'--shadow-hard',v:'4px 4px 0'}],metrics:[['radius','--r-lg'],['maxWidth','360']]},
+ alert:{name:'Alert',file:'components/Alert',desc:'Monochrome severity by treatment: success=heavy left rule, info=tinted, warning=dashed, error=inverted.',props:[{n:'severity',t:'success|info|warning|error'},{n:'title',t:'string'},{n:'body',t:'string?'}],tokens:[tkBorder,{r:'error fill',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'},{r:'success',n:'--shadow-hard-sm',v:'raised'}],metrics:[['radius','--r-md']]},
+ dialog:{name:'Dialog',file:'components/Dialog',desc:'Basic dialog with a 1px ink rule.',props:[{n:'title',t:'string'},{n:'body',t:'string'},{n:'actions',t:'Button[]'}],tokens:[tkBorder,{r:'shadow',n:'--shadow-hard',v:'4px 4px 0'}],metrics:[['radius','--r-lg'],['maxWidth','360']]},
  snackbar:{name:'Snackbar',file:'components/Snackbar',desc:'Ink bar with underlined action.',props:[{n:'message',t:'string'},{n:'action',t:'string?'}],tokens:[tkInk,tkOn],metrics:[['radius','--r-md']]},
- progress:{name:'Progress',file:'components/Progress',desc:'Reading % (outlined pill) + circular.',props:[{n:'variant',t:'linear|circular'},{n:'value',t:'number?'}],tokens:[tkBorder,{r:'fill',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['linear h','14']]},
- skeleton:{name:'Skeleton',file:'components/Skeleton',desc:'Hatched loading placeholder.',props:[{n:'width',t:'number|%'},{n:'height',t:'number'}],tokens:[{r:'hatch',n:'--muted-surface',v:'#ECE6D8',c:'#ECE6D8'}],metrics:[['radius','--r-xs']]},
- card:{name:'Card',file:'components/Card',desc:'flat / shadow / ink (inverse) / cream / tone / sunken — a monochrome value ladder for depth without colour.',props:[{n:'variant',t:'flat|shadow|ink|cream|tone|sunken',def:'flat'},{n:'child',t:'node'}],tokens:[tkBorder,{r:'ink bg',n:'--ink-card',v:'#14110D',c:'#14110D'},{r:'cream',n:'--secondary-container',v:'#E4DECF',c:'#E4DECF'},{r:'tone',n:'--muted-surface',v:'#ECE6D8',c:'#ECE6D8'},{r:'shadow fill',n:'--secondary-container',v:'warm cream',c:'#E4DECF'}],metrics:[['radius','--r-lg'],['pad','20']]},
+ progress:{name:'Progress',file:'components/Progress',desc:'Reading % (outlined square) + circular.',props:[{n:'variant',t:'linear|circular'},{n:'value',t:'number?'}],tokens:[tkBorder,{r:'fill',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['linear h','14']]},
+ skeleton:{name:'Skeleton',file:'components/Skeleton',desc:'Hatched loading placeholder.',props:[{n:'width',t:'number|%'},{n:'height',t:'number'}],tokens:[{r:'hatch',n:'--muted-surface',v:'#DCDCDB',c:'#DCDCDB'}],metrics:[['radius','--r-xs']]},
+ card:{name:'Card',file:'components/Card',desc:'flat / shadow / ink (inverse) / cream / tone / sunken — a monochrome value ladder for depth without colour.',props:[{n:'variant',t:'flat|shadow|ink|cream|tone|sunken',def:'flat'},{n:'child',t:'node'}],tokens:[tkBorder,{r:'ink bg',n:'--ink-card',v:'#1B1C1C',c:'#1B1C1C'},{r:'cream',n:'--secondary-container',v:'#DCDCDB',c:'#DCDCDB'},{r:'tone',n:'--muted-surface',v:'#DCDCDB',c:'#DCDCDB'},{r:'shadow fill',n:'--secondary-container',v:'warm cream',c:'#E4DECF'}],metrics:[['radius','--r-lg'],['pad','20']]},
  paper:{name:'Paper',file:'components/Paper',desc:'Flat outlined base surface.',props:[{n:'child',t:'node'}],tokens:[tkBorder],metrics:[['radius','--r-md']]},
- appbar:{name:'App bar',file:'components/AppBar',desc:'Centered all-caps title flanked by circular buttons.',props:[{n:'title',t:'string'},{n:'actions',t:'IconButton[]'}],tokens:[{r:'surface',n:'--surface',v:'#FFFDF8',c:'#FFFDF8'},tkBorder],metrics:[['height','60']]},
+ appbar:{name:'App bar',file:'components/AppBar',desc:'Centered all-caps title flanked by circular buttons.',props:[{n:'title',t:'string'},{n:'actions',t:'IconButton[]'}],tokens:[{r:'surface',n:'--surface',v:'#F4F4F3',c:'#F4F4F3'},tkBorder],metrics:[['height','60']]},
  accordion:{name:'Accordion',file:'components/Accordion',desc:'Expandable; chevron rotates.',props:[{n:'title',t:'string'},{n:'open',t:'bool',def:'false'}],tokens:[tkBorder],metrics:[['radius','--r-md']]},
- bottomnav:{name:'Bottom navigation',file:'components/BottomNav',desc:'Active item in an ink pill.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'active',n:'--ink',v:'#14110D',c:'#14110D'},{r:'top rule',n:'--ink 2px',v:'#14110D',c:'#14110D'}],metrics:[['height','68']]},
+ bottomnav:{name:'Bottom navigation',file:'components/BottomNav',desc:'Active item in a square ink block.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'active',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'},{r:'top rule',n:'--ink 1px',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['height','68']]},
  drawer:{name:'Drawer',file:'components/Drawer',desc:'Outlined active item.',props:[{n:'items',t:'NavItem[]'},{n:'selected',t:'string'}],tokens:[tkBorder],metrics:[['width','288']]},
- tabs:{name:'Tabs',file:'components/Tabs',desc:'Folder tabs + segmented.',props:[{n:'tabs',t:'string[]'},{n:'index',t:'number'}],tokens:[tkBorder,{r:'active',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['radius','top --r-md']]},
- menu:{name:'Menu',file:'components/Menu',desc:'Dropdown on a small hard shadow.',props:[{n:'items',t:'MenuItem[]'}],tokens:[tkBorder,{r:'shadow',n:'--shadow-hard-sm',v:'3px 3px 0'}],metrics:[['item h','approx 40']]},
- link:{name:'Link',file:'components/Link',desc:'Heavy underlined inline link.',props:[{n:'href',t:'string'},{n:'label',t:'string'}],tokens:[{r:'color',n:'--link',v:'#14110D',c:'#14110D'}],metrics:[['underline','2px']]},
- stepper:{name:'Stepper',file:'components/Stepper',desc:'done/active/upcoming numbered steps.',props:[{n:'steps',t:'string[]'},{n:'active',t:'number'}],tokens:[tkBorder,{r:'done/active',n:'--ink',v:'#14110D',c:'#14110D'}],metrics:[['num','30']]},
+ tabs:{name:'Tabs',file:'components/Tabs',desc:'Folder tabs + segmented.',props:[{n:'tabs',t:'string[]'},{n:'index',t:'number'}],tokens:[tkBorder,{r:'active',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['radius','top --r-md']]},
+ menu:{name:'Menu',file:'components/Menu',desc:'Dropdown with a 1px ink rule.',props:[{n:'items',t:'MenuItem[]'}],tokens:[tkBorder,{r:'shadow',n:'--shadow-hard-sm',v:'3px 3px 0'}],metrics:[['item h','approx 40']]},
+ link:{name:'Link',file:'components/Link',desc:'Heavy underlined inline link.',props:[{n:'href',t:'string'},{n:'label',t:'string'}],tokens:[{r:'color',n:'--link',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['underline','1px']]},
+ stepper:{name:'Stepper',file:'components/Stepper',desc:'done/active/upcoming numbered steps.',props:[{n:'steps',t:'string[]'},{n:'active',t:'number'}],tokens:[tkBorder,{r:'done/active',n:'--ink',v:'#1B1C1C',c:'#1B1C1C'}],metrics:[['num','30']]},
  speeddial:{name:'Speed dial',file:'components/SpeedDial',desc:'FAB expanding to mini actions.',props:[{n:'actions',t:'Action[]'}],tokens:[tkInk,tkBorder],metrics:[['mini','44'],['fab','60']]},
 };
 
 /* ===== Copy-as-prompt ===== */
 const LANGS=['React (TypeScript + CSS)','SwiftUI','Jetpack Compose (Kotlin)','Flutter (Dart)','React Native','HTML + CSS'];
 let promptLang=LANGS[0];langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</option>`).join('');langSel.onchange=()=>promptLang=langSel.value;
-const DS_NAME='the "Margin" reading & notes design system (monochrome, hand-drawn; brutalist × editorial — thick ink outlines, hard offset shadows, hand-drawn line illustrations)';
+const DS_NAME='the "Margin" reading & notes design system ("Swiss margin": ink on grey paper with grain, Inter Tight lowercase, square 1px rules; green only for the reader\'s own notes; hand-drawn characters for milestones)';
 const TOKEN_GROUPS={
- 'Color (monochrome — keep every fill paired with its on-*)':['--ink','--paper','--primary','--on-primary','--primary-container','--on-primary-container','--secondary','--on-secondary','--secondary-container','--on-secondary-container','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--ink-card','--on-ink-card','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
- 'Spacing':['--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
+ 'Color (monochrome — keep every fill paired with its on-*)':['--ink','--paper','--primary','--on-primary','--primary-container','--on-primary-container','--secondary','--on-secondary','--secondary-container','--on-secondary-container','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--ink-card','--on-ink-card','--note','--note-ink','--note-wash','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
+ 'Spacing':['--gap-related','--gap-section','--gap-major','--layout-gutter','--target-min','--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
  'Shape & stroke':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full','--stroke'],
- 'Elevation':['--elev-0','--elev-1','--elev-2','--shadow-hard','--shadow-hard-sm'],
+ 'Elevation (flat)':['--elev-0','--elev-1','--elev-2'],
+ 'Texture':['--paper-grain','--grain-opacity'],
  'Type families':['--font-display','--font-body','--font-hand','--font-read','--font-mono'],
- 'Motion':['--dur-fast','--dur-base','--ease','--ease-spring']};
+ 'Motion':['--dur-fast','--dur-base','--ease','--ease-spring'],
+ 'Icons':['--icon-size','--icon-inline','--icon-large','--icon-stroke','--icon-cap','--icon-join','--icon-fill']};
 function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);if(rows.length)out.push(`### ${grp}`,...rows,'');}return out;}
 function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as named constants in ONE theme file, idiomatic to ${promptLang}. Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### Type scale`];TYPE.forEach(([n,m])=>L.push(`- ${n}: ${m}`));
- L.push('',`### Signature`,`Hand-drawn LINE ILLUSTRATIONS (open book, reader, listen, stack) as inline SVG with stroke:currentColor (so they invert on the ink card). Plus a sparkle doodle and a wavy-underline. Re-implement as token-driven vectors.`,'',`### Rules`,`- Monochrome by design — convey "status" by treatment (raised/dashed/inverted) + icon, NOT hue.`,`- Every fill keeps its on-* pair (WCAG ≥ 4.5:1). Thick 2px ink outlines (--stroke), large radii + pills, flat with a hard offset shadow (--shadow-hard) for emphasis.`);return L.join('\n');}
+ L.push('',`### Signature`,`The reader's marks are the only colour: handwritten notes (--font-hand, --note-ink), underlines and margin dots (--note), selected text (--note-wash). Plus: the inverse block (ink-card) for the current item, a black brush label (.brush) for section names, and hand-drawn line characters (stroke:currentColor + a roughen filter) only for milestones/empty states.`,'',`### Rules`,`- Ink is the only interaction family; green is never used for buttons or navigation.`,`- Monochrome status (treatment + icon). Every fill keeps its on-* pair (WCAG ≥ 4.5:1).`,`- Swiss: square (r 0), 1px rules, no shadows, lowercase Inter Tight display, airy spacing roles, paper grain overlay.`);return L.join('\n');}
 function buildPrompt(key){const s=SPECS[key];const L=[`# Add or update the \`${s.name}\` component — ${promptLang}`,'',`A component from ${DS_NAME}. If a component with this role ALREADY EXISTS, modify it IN PLACE to match the spec below (source of truth) — don't duplicate, note breaking changes. Otherwise create it, reusing tokens/atoms and the project's conventions.`,'',`## What it is`,s.desc,'',`## Props`];s.props.forEach(p=>L.push(`- \`${p.n}\`: ${p.t}${p.def?` (default ${p.def})`:''}`));
  L.push('',`## Design tokens (define/extend in the theme layer; never inline)`);s.tokens.forEach(t=>L.push(`- ${t.n} = ${t.v}   // ${t.r}`));
  L.push('',`## Metrics`);s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
@@ -425,7 +429,7 @@ function buildPrompt(key){const s=SPECS[key];const L=[`# Add or update the \`${s
 function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
 function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[`# Install or update the ENTIRE design system — ${promptLang}`,'',`Set up ${DS_NAME} in ${promptLang}. If it doesn't exist, scaffold from scratch; if parts exist, update them IN PLACE to match this spec — modify, don't duplicate; collect breaking changes.`,'',`## Build order`,`1. Implement the **foundation token layer** below (incl. the illustration approach) as the single source of truth.`,`2. Build components against the **shared** layer — may split across workers, never redefine values locally. Keep naming & states consistent.`,`3. Reconcile: a components index + a pass that every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
  keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
- L.push('','## Rules',`- One source of truth for tokens; reference by name, never inline.`,`- Monochrome (status by treatment, not hue); keep on-* pairs (WCAG ≥ 4.5:1); 2px outlines, hard offset shadow, hand-drawn illustrations.`,`- Output: the theme file, each component, and the illustrations, each with a short usage example.`);return L.join('\n');}
+ L.push('','## Rules',`- One source of truth for tokens; reference by name, never inline.`,`- Ink actions, green only for the reader's marks; keep on-* pairs (WCAG ≥ 4.5:1); square 1px rules, no shadows, lowercase grotesk, hand-drawn milestone characters.`,`- Output: the theme file, each component, and the illustrations, each with a short usage example.`);return L.join('\n');}
 function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
 function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t);}
 document.querySelectorAll('main section[id]').forEach(sec=>{const key=sec.id;if(!SPECS[key])return;const h=sec.querySelector('h2.sec');if(!h||h.querySelector('.sec-prompt'))return;const b=document.createElement('button');b.className='sec-prompt';b.type='button';b.textContent='Copy as prompt';b.addEventListener('click',()=>copyPrompt(key));h.appendChild(b);});

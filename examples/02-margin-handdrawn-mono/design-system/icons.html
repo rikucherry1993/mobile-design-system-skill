@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Margin · Icons &amp; Illustrations</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;700&family=Caveat:wght@600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;600;700&family=Caveat+Brush&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
   body{font-family:var(--font-body);background:var(--bg);color:var(--on-surface);padding:40px}
   a.back{font:700 13px var(--font-display);color:var(--ink);text-decoration:underline}
-  h1{font:700 30px var(--font-display);margin:14px 0 4px}
+  h1{font:700 30px var(--font-display);letter-spacing:-.04em;text-transform:lowercase;margin:14px 0 4px}
   h2{font:700 18px var(--font-display);margin:30px 0 10px}
   p.sub{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:680px;line-height:1.6}
   .iconGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px}
@@ -74,11 +75,11 @@
 
 <a class="back" href="index.html">← Back to style guide</a>
 <h1>Icons <span class="sparkle"><svg class="ico"><use href="#i-sparkle"/></svg></span></h1>
-<p class="sub">Token-driven inline SVG sprite, heavier <code>2.1</code> stroke to match the hand-drawn outline look. Use with <code>&lt;svg class="ico"&gt;&lt;use href="#i-book"/&gt;&lt;/svg&gt;</code>. Never emoji.</p>
+<p class="sub">Token-driven inline SVG sprite, thin <code>1.5</code> stroke with square caps and miter joins, matching the 1px rules. Use with <code>&lt;svg class="ico"&gt;&lt;use href="#i-book"/&gt;&lt;/svg&gt;</code>. Never emoji.</p>
 <div class="iconGrid" id="iconGrid"></div>
 
 <h1 style="margin-top:40px">Illustrations</h1>
-<p class="sub">The signature — <b>hand-drawn line illustrations</b>, monochrome, <code>stroke:currentColor</code> so they invert on the ink card and re-theme with everything. Use them as headers, empty states, and the concept hero.</p>
+<p class="sub">The signature — <b>hand-drawn line illustrations</b>, monochrome, <code>stroke:currentColor</code> so they invert on the ink card and re-theme with everything. Used only for milestones and empty states — never as decoration.</p>
 <div class="illusGrid" id="illusGrid"></div>
 
 <script>

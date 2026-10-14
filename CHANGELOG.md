@@ -9,7 +9,33 @@ All notable changes to this skill are documented here. This project follows
 - **PATCH** — wording/prompt tuning, template fixes, doc updates; no behavior change for the user.
 
 ## [Unreleased]
-- Listed in the official Claude Code plugin directory.
+
+## [0.3.0] — 2026-10-14
+- Listed in the official Claude Code plugin directory; added a listing icon (`assets/icon.png`, via `icon` in `plugin.json`).
+- **Art direction before tokens** — new `references/art-direction.md`: each direction is a one-sentence
+  proposition (hierarchy, color roles, reading face, imagery, restraint); candidates answer the same
+  brief and differ in at least two visual dimensions; facts are separated from inferences (no
+  demographic stereotypes); iteration changes one visual cause at a time.
+- **Reference reading** — read all references together, record only what is visible, then ask once
+  which qualities to borrow (color / typography / spacing-composition / imagery-material /
+  icons-shapes); state where each borrowed principle is visible; no competitor identity copying.
+- **Color as hierarchy** — one dominant interaction family, text-safe `*-ink` roles, purposeful
+  (not mandatory tinted) neutrals, flat backgrounds (the `--wash` gradient is gone), and the common
+  generated-look palette clusters flagged.
+- **Typography: reading face first** — a single family is a complete system; display faces only by
+  role; CJK defaults (Noto Sans SC, Zen Kaku Gothic New / Noto Sans JP); primary app language asked once.
+- **Semantic spacing and icon tokens** — `--gap-related/section/major`, `--layout-gutter`,
+  `--target-min`, `.bleed`/`.inset`; icon family (`--icon-cap/join/fill`) chosen to match the type.
+- **Concept screens** — square presentation frames without device shadow, labelled flat image
+  placeholders, real copy, no invented ratings/discounts/urgency.
+- **Dark theme reaches the concept** — new `templates/theme.js`: when the system ships a dark theme,
+  `index.html` and `concept.html` share one light/dark switch (OS default, remembered per browser).
+- **All three examples regenerated** with the new rules, each from user-supplied references:
+  Atrium ("Polychromie rooms" — rug colours, mosaic layout, public-domain artworks), Stride (now trail &
+  hiking, "Topo HUD" — faded public-domain/CC0 photography with yellow routes, dark-first), Margin
+  ("Swiss margin" — grey paper with grain, lowercase grotesk, green reader notes). Image provenance is
+  listed in each example's README.
+- README hero and concept images replaced (`hero.webp`, `01-concept.webp`: transparent, side by side).
 
 ## [0.2.1] — 2026-07-08
 - README polish (compact structure, tightened copy) and `.github/FUNDING.yml`. No skill behavior change.

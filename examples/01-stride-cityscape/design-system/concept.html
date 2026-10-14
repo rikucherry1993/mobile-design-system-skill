@@ -3,157 +3,199 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stride · Concept — Today + Run detail</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<title>Stride · Concept — Today + Live trail</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
-  body{font-family:var(--font-body);background:var(--background);color:var(--on-surface);min-height:100vh;margin:0;padding:34px 24px 60px;display:flex;flex-direction:column;align-items:center;gap:18px}
-  .back{align-self:flex-start;font:700 13px var(--font-body);color:var(--primary);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-  .caption{font:12px var(--font-mono);color:var(--subtle);text-align:center;max-width:580px;line-height:1.7}
-  .two{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
-  .col{display:flex;flex-direction:column;align-items:center;gap:12px}
-  .col .label{font:700 11px var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
-  .phone{width:374px;max-width:100%;background:var(--surface);border-radius:46px;box-shadow:var(--elev-5);border:1px solid var(--outline-variant);overflow:hidden;position:relative}
-  .screen{height:798px;overflow:auto;background:var(--background);position:relative}
-  .screen::-webkit-scrollbar{width:0}
-  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:140px;height:26px;background:rgb(0 0 0 / .10);border-radius:0 0 16px 16px;z-index:8}
-  .pad{padding:0 18px}
-  .appbar.cc{background:transparent;padding-top:30px;height:auto}
-  /* hero with city illustration */
-  .hero{position:relative;border-radius:var(--r-xl);overflow:hidden;margin-top:6px;background:var(--surface-container-low);box-shadow:var(--elev-1)}
-  .hero .illwrap{position:relative}
-  .hero .ovl{position:absolute;left:16px;top:14px;right:16px;display:flex;justify-content:space-between;align-items:flex-start}
-  .hero .cap{position:absolute;left:18px;bottom:14px;color:#fff;text-shadow:0 1px 6px rgb(0 0 0 / .25)}
-  .stat3{display:flex;gap:10px;margin-top:14px}
-  .stat3 .s{flex:1;background:var(--surface-container-low);border-radius:var(--r-lg);padding:14px;text-align:center;box-shadow:var(--elev-1)}
-  .stat3 .s .v{font:800 22px var(--font-brand);color:var(--on-surface)}
-  .stat3 .s .k{font:600 11px var(--font-body);color:var(--on-surface-variant);margin-top:2px}
-  .sec-h{font:700 15px var(--font-brand);color:var(--on-surface);margin:22px 4px 10px;display:flex;align-items:center;justify-content:space-between}
-  .sec-h .more{font:600 12px var(--font-body);color:var(--primary)}
-  .route-ovl{position:absolute;inset:0;pointer-events:none}
-  /* detail */
-  .topbar{position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;gap:8px;padding:40px 14px 10px}
-  .glass{background:color-mix(in srgb,var(--surface) 60%,transparent);backdrop-filter:blur(8px);box-shadow:var(--elev-1)}
-  .bigstat{display:flex;align-items:baseline;gap:8px;margin-top:6px}
-  .splits .sp{display:flex;align-items:center;gap:12px;padding:9px 0}
-  .splits .sp .km{width:30px;font:700 13px var(--font-mono);color:var(--on-surface-variant)}
-  .splits .sp .barwrap{flex:1;height:8px;border-radius:var(--r-full);background:var(--surface-variant);overflow:hidden}
-  .splits .sp .bar{height:100%;border-radius:var(--r-full);background:var(--primary)}
-  .splits .sp .pc{font:700 13px var(--font-mono);color:var(--on-surface);width:50px;text-align:right}
-  .ctabar{position:sticky;bottom:0;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--outline-variant);padding:12px 18px 16px;display:flex;gap:12px;align-items:center}
+/* concept-page chrome + layout glue only — the screens are built from styles.css classes */
+body{font-family:var(--font-body);background:var(--background);color:var(--on-surface);margin:0;padding:36px var(--sp-24) 72px;display:flex;flex-direction:column;align-items:center;gap:var(--sp-24)}
+.backlink{position:fixed;top:18px;left:18px;z-index:50;display:inline-flex;align-items:center;gap:6px;font:600 13px var(--font-body);text-decoration:none;color:var(--primary-ink);background:var(--surface-container-low);border:1px solid var(--outline-variant);border-radius:var(--r-md);padding:8px 14px}
+#themeSel{position:fixed;top:18px;right:18px;z-index:50;font:600 12px var(--font-body);border:1px solid var(--outline-variant);border-radius:var(--r-md);padding:8px 10px;background:var(--surface-container-low);color:var(--on-surface-variant)}
+.head{max-width:640px;text-align:center}
+.head p{color:var(--on-surface-variant);font-size:14px;line-height:1.6;margin-top:var(--gap-related)}
+.two{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.col .label{font:500 11px var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--subtle)}
+/* presentation frame: square, no bezel, no device shadow */
+.device{position:relative;width:360px;height:780px;background:var(--surface);border:1px solid var(--outline-variant);overflow:hidden;display:flex;flex-direction:column}
+.scroll{flex:1;overflow:auto;padding:0 var(--layout-gutter) 96px}
+.scroll::-webkit-scrollbar{width:0}
+.device .navbar{position:absolute;left:0;right:0;bottom:0;border-top:1px solid var(--outline-variant)}
+.section{margin-top:var(--gap-section)}
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:var(--gap-related)}
+.ttl-photo{font:800 30px/1 var(--font-body);letter-spacing:-.02em}
+.alert{display:flex;gap:var(--sp-12);align-items:center;padding:var(--sp-8);border:1px solid var(--outline-variant);border-radius:var(--r-md);background:var(--secondary-container);color:var(--on-secondary-container)}
+.alert .terrain{width:72px;height:56px;flex:0 0 72px;border-radius:var(--r-xs)}
+.trail{display:flex;gap:var(--sp-12);align-items:center;padding:var(--sp-8) 0;border-bottom:1px solid var(--outline-variant)}
+.trail .terrain{width:64px;height:64px;flex:0 0 64px;border-radius:var(--r-xs)}
+.trail .grow{flex:1;min-width:0}
+.fabdock{position:absolute;right:var(--layout-gutter);bottom:92px}
+.cp{display:grid;grid-template-columns:20px 1fr auto;gap:var(--sp-12);align-items:center;padding:var(--sp-8) 0;border-bottom:1px solid var(--outline-variant)}
+.cp .dot{width:12px;height:12px;border:2px solid var(--primary-ink);border-radius:var(--r-full);justify-self:center}
+.cp.done .dot{background:var(--primary-ink)}
+.cta{position:absolute;left:0;right:0;bottom:0;display:flex;gap:var(--gap-related);padding:var(--sp-12) var(--layout-gutter) var(--sp-16);background:var(--surface);border-top:1px solid var(--outline-variant)}
+.cta .btn{flex:1;height:48px}
+.legend{max-width:620px;font:12px/1.7 var(--font-body);color:var(--on-surface-variant);text-align:center}
+.legend b{color:var(--on-surface)}
 </style>
 </head>
 <body>
-<a class="back" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg>Back to style guide</a>
 
-<!-- ICON SPRITE (copied — self-contained) -->
+<a class="backlink" href="index.html"><svg class="ico ico--sm"><use href="#i-back"/></svg>Back to style guide</a>
+<select id="themeSel" title="Preview theme" aria-label="Theme"><option value="">Dark</option><option value="light">Light · misty day</option></select>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
   <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V13h6v9"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
   <symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></symbol>
-  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
-  <symbol id="i-run" viewBox="0 0 24 24"><circle cx="16" cy="5" r="2"/><path d="M5 21l3-5 3 1 1-5 3 3 3 1M11 12l-2-3 4-2 2 3 2 1"/></symbol>
   <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="5" r="2.4"/><path d="M8 19h7a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h7"/></symbol>
-  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 .5 1 1.5 1.5 2 1 .5-2-1-3-1-6z"/></symbol>
-  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9 2h6"/></symbol>
-  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.4 5.4 0 0 0-7.7 0L12 6.7l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21.2l8.8-8.9a5.4 5.4 0 0 0 0-7.7z"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 20l6-11 4 7 2-3 6 7z"/></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
 </svg>
+
+<div class="head">
+  <div class="hudlabel" style="color:var(--on-surface-variant)">Concept · Topo HUD</div>
+  <div class="t-headline-s" style="margin-top:6px">The mountain as data</div>
+  <p>Real, faded trail photography under a flat scrim, with yellow contours, the route and an instrument-like readout layer on top. Photos are public domain / CC0 (sources in README.md).</p>
+</div>
 
 <div class="two">
 
-  <!-- ════════ SCREEN 1 · FIRST VIEW — Today ════════ -->
+  <!-- ════════ SCREEN 1 · FIRST VIEW — Today: the planned trail on its mountain ════════ -->
   <div class="col">
     <div class="label">First view · Today</div>
-    <div class="phone"><div class="notch"></div><div class="screen">
-      <div class="appbar large cc pad" style="flex-direction:column;align-items:stretch">
-        <div class="row" style="justify-content:space-between"><button class="iconbtn"><svg class="ico"><use href="#i-menu"/></svg></button><span class="badge-wrap"><button class="iconbtn"><svg class="ico"><use href="#i-bell"/></svg></button><span class="badge dot"></span></span></div>
-        <div class="t-headline-m" style="margin-top:10px">Good morning, Mira</div>
-        <div class="t-body-m">Sunny, 21° · a great day to move</div>
+    <div class="device">
+      <div class="scroll">
+        <div class="terrain bleed" style="height:340px">
+          <img src="photos/roys-peak-sunrise.jpg" alt="Roys Peak ridge at sunrise above Lake Wānaka" style="object-position:20% 50%">
+          <svg viewBox="0 0 360 340" preserveAspectRatio="none" aria-hidden="true">
+            <g class="topo">
+              <path d="M-10 250 C60 236 120 262 190 240 S300 214 370 230"/>
+              <path d="M-10 214 C50 200 110 222 176 202 S292 176 370 190"/>
+              <path d="M-10 176 C40 164 96 182 160 166 S280 140 370 150"/>
+              <path d="M-10 140 C32 128 80 144 138 130 S268 104 370 112"/>
+              <path d="M30 108 C64 96 102 106 140 96 S220 78 262 86"/>
+              <path d="M56 84 C80 74 104 80 126 74"/>
+            </g>
+            <path class="route" d="M318 332 C302 314 296 300 284 292 C268 282 270 268 254 258 C236 246 246 236 228 226 C210 214 220 204 202 194 C184 182 194 172 176 160 C160 150 168 138 150 128 C132 118 136 106 118 98 C108 93 102 86 96 78"/>
+            <polygon class="peak" points="96,62 106,78 86,78"/>
+          </svg>
+          <div class="over">
+            <div class="row-between"><span class="hudlabel">44°38′S 169°04′E</span><span class="hudlabel">Summit 1,578 m</span></div>
+            <div>
+              <div class="hudlabel" style="color:var(--route)">Planned · Sat 18 Oct</div>
+              <div class="ttl-photo" style="margin-top:6px">Roys Peak<br>Track</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud c3 section">
+          <div class="readout"><span class="k">Dist</span><span class="v">16.0<span class="u">km</span></span></div>
+          <div class="readout hot"><span class="k">Ascent</span><span class="v">1,258<span class="u">m</span></span></div>
+          <div class="readout"><span class="k">Est</span><span class="v">5:40<span class="u">h</span></span></div>
+        </div>
+
+        <div class="alert section">
+          <div class="terrain"><img src="photos/fog-trail-markers.jpg" alt=""></div>
+          <div><div class="hudlabel">Conditions · 14:00</div><div class="t-title-s" style="margin-top:2px">Low cloud above 1,200 m</div><div class="t-body-s" style="color:inherit">Start before 09:00 to summit in the clear.</div></div>
+        </div>
+
+        <div class="row-between section"><span class="t-title-s">Saved trails</span><span class="hudlabel" style="color:var(--primary-ink)">See all</span></div>
+        <div class="trail"><div class="terrain"><img src="photos/tinkham-ridge.jpg" alt=""></div><div class="grow"><div class="t-title-s">Tinkham Mountain ridge</div><div class="t-body-s mono">11.2 km · ↑ 790 m · 4:30 h</div></div><svg class="ico ico--sm"><use href="#i-chevron-right"/></svg></div>
+        <div class="trail"><div class="terrain"><img src="photos/dolomites-ridge.jpg" alt=""></div><div class="grow"><div class="t-title-s">Dolomites high traverse</div><div class="t-body-s mono">22.5 km · ↑ 1,410 m · 2 days</div></div><svg class="ico ico--sm"><use href="#i-chevron-right"/></svg></div>
       </div>
-      <div class="pad">
-        <!-- HERO with wide city illustration -->
-        <div class="hero">
-          <div class="illwrap" id="hero1"></div>
-          <div class="ovl"><span class="chip input" style="background:color-mix(in srgb,var(--surface) 78%,transparent);border:none"><svg class="ico ico--sm"><use href="#i-map"/></svg>Lisbon</span></div>
-          <div class="cap"><div style="font:800 20px var(--font-brand)">Your city today</div><div style="font:600 13px var(--font-body)">Riverside loop is calling</div></div>
-        </div>
-        <!-- today's rings/stats -->
-        <div class="stat3">
-          <div class="s"><div class="v">8,640</div><div class="k">steps</div></div>
-          <div class="s"><div class="v">5.2<span style="font-size:13px"> km</span></div><div class="k">distance</div></div>
-          <div class="s"><div class="v">410</div><div class="k">kcal</div></div>
-        </div>
-        <button class="fab extended primary" style="width:100%;margin-top:16px;height:56px"><svg class="ico"><use href="#i-run"/></svg>Start a run</button>
-        <!-- suggested route -->
-        <div class="sec-h">Suggested route <span class="more">Explore</span></div>
-        <div class="card card-elevated" style="display:flex;align-items:center;gap:14px;padding:14px">
-          <span class="iconbtn tonal" style="width:46px;height:46px"><svg class="ico"><use href="#i-route"/></svg></span>
-          <div style="flex:1"><div class="t-title-m">Old town &amp; river</div><div class="t-body-m">6.4 km · mostly flat · 2 viewpoints</div></div>
-          <button class="iconbtn"><svg class="ico"><use href="#i-heart"/></svg></button>
-        </div>
-        <div style="height:14px"></div>
-      </div>
-      <div class="navbar" style="position:sticky;bottom:0">
+      <div class="fabdock"><button class="fab extended primary"><svg class="ico"><use href="#i-play"/></svg>Start</button></div>
+      <nav class="navbar">
         <div class="ni sel"><span class="pill"><svg class="ico"><use href="#i-home"/></svg></span>Today</div>
-        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-map"/></svg></span>Explore</div>
-        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-activity"/></svg></span>Activity</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-map"/></svg></span>Map</div>
+        <div class="ni"><span class="pill"><svg class="ico"><use href="#i-activity"/></svg></span>Log</div>
         <div class="ni"><span class="pill"><svg class="ico"><use href="#i-user"/></svg></span>You</div>
-      </div>
-    </div></div>
+      </nav>
+    </div>
   </div>
 
-  <!-- ════════ SCREEN 2 · DETAIL — Run ════════ -->
+  <!-- ════════ SCREEN 2 · DETAIL — live on the trail: position, climb left, checkpoints ════════ -->
   <div class="col">
-    <div class="label">Detail · Run</div>
-    <div class="phone"><div class="notch"></div><div class="screen">
-      <div class="topbar"><button class="iconbtn glass"><svg class="ico"><use href="#i-back"/></svg></button><div style="flex:1"></div><button class="iconbtn glass"><svg class="ico"><use href="#i-share"/></svg></button></div>
-      <!-- hero illustration with route overlay -->
-      <div class="illwrap" id="hero2" style="position:relative">
-        <svg class="route-ovl" viewBox="0 0 400 240" preserveAspectRatio="none"><path d="M70 188 C 120 150, 150 200, 200 170 S 300 120, 330 150" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10" opacity=".95"/><circle cx="70" cy="188" r="6" fill="#fff"/><circle cx="330" cy="150" r="6" fill="var(--primary)" stroke="#fff" stroke-width="2"/></svg>
-      </div>
-      <div class="pad" style="padding-bottom:96px">
-        <div class="t-label" style="color:var(--primary);margin-top:14px">Riverside loop · Today 7:02 AM</div>
-        <div class="bigstat"><span class="t-display-m">7.2</span><span class="t-headline-s" style="color:var(--on-surface-variant)">km</span></div>
-        <!-- stat row -->
-        <div class="stat3" style="margin-top:14px">
-          <div class="s"><div class="v">38:20</div><div class="k">time</div></div>
-          <div class="s"><div class="v">5:19</div><div class="k">/km pace</div></div>
-          <div class="s"><div class="v">612</div><div class="k">kcal</div></div>
+    <div class="label">Detail · Live on the trail</div>
+    <div class="device">
+      <div class="scroll" style="padding-bottom:96px">
+        <div class="terrain bleed" style="height:360px">
+          <img src="photos/roys-peak-sunrise.jpg" alt="Roys Peak ridge" style="object-position:8% 40%;transform:scale(1.25);transform-origin:20% 40%">
+          <svg viewBox="0 0 360 360" preserveAspectRatio="none" aria-hidden="true">
+            <g class="topo">
+              <path d="M-10 290 C70 270 140 300 220 276 S320 250 370 262"/>
+              <path d="M-10 242 C60 226 126 250 200 228 S310 198 370 210"/>
+              <path d="M-10 196 C50 182 110 200 176 182 S290 152 370 160"/>
+              <path d="M10 152 C60 138 108 152 160 138 S260 112 320 118"/>
+              <path d="M40 112 C76 100 114 108 150 98 S220 82 256 88"/>
+            </g>
+            <path class="route-done" d="M300 352 C286 334 290 320 270 306 C252 294 262 280 240 268 C222 258 232 244 212 232 C196 222 204 210 188 200"/>
+            <path class="route" d="M188 200 C172 190 178 176 160 166 C142 156 148 142 128 132 C112 124 116 110 100 100 C92 95 88 88 84 80"/>
+            <circle class="you" cx="188" cy="200" r="8"/>
+            <polygon class="peak" points="84,62 95,80 73,80"/>
+          </svg>
+          <div class="over">
+            <div class="row-between">
+              <button class="iconbtn" aria-label="Back" style="color:inherit"><svg class="ico"><use href="#i-back"/></svg></button>
+              <span class="hudlabel" style="color:var(--route)">● Live · 02:14:07</span>
+              <button class="iconbtn" aria-label="Share" style="color:inherit"><svg class="ico"><use href="#i-share"/></svg></button>
+            </div>
+            <div>
+              <div class="hudlabel">To summit</div>
+              <div class="mono" style="font:600 40px/1 var(--font-mono);letter-spacing:-.03em;margin-top:4px;color:var(--route)">↑ 412<span style="font-size:16px"> m</span></div>
+            </div>
+          </div>
         </div>
-        <!-- splits -->
-        <div class="sec-h">Splits</div>
-        <div class="card card-filled splits" style="padding:8px 16px">
-          <div class="sp"><span class="km">1</span><div class="barwrap"><div class="bar" style="width:88%"></div></div><span class="pc">5:02</span></div>
-          <div class="sp"><span class="km">2</span><div class="barwrap"><div class="bar" style="width:80%"></div></div><span class="pc">5:14</span></div>
-          <div class="sp"><span class="km">3</span><div class="barwrap"><div class="bar" style="width:72%"></div></div><span class="pc">5:28</span></div>
-          <div class="sp"><span class="km">4</span><div class="barwrap"><div class="bar" style="width:84%"></div></div><span class="pc">5:08</span></div>
-          <div class="sp"><span class="km">5</span><div class="barwrap"><div class="bar" style="width:90%"></div></div><span class="pc">4:58</span></div>
+
+        <div class="hud c3 section">
+          <div class="readout hot"><span class="k">Elev</span><span class="v">1,166<span class="u">m</span></span></div>
+          <div class="readout"><span class="k">Dist</span><span class="v">6.1<span class="u">/8.0</span></span></div>
+          <div class="readout"><span class="k">Climb rate</span><span class="v">540<span class="u">m/h</span></span></div>
         </div>
-        <div class="row" style="gap:8px;margin-top:14px;color:var(--on-surface-variant);font:600 13px var(--font-body)"><svg class="ico ico--sm"><use href="#i-flame"/></svg>New best on the Castle climb</div>
+
+        <div class="section">
+          <div class="row-between"><span class="t-title-s">Elevation</span><span class="hudlabel" style="color:var(--on-surface-variant)">km 0 → 8</span></div>
+          <svg class="profile" viewBox="0 0 328 92" style="margin-top:var(--gap-related)" aria-label="Elevation profile, current position at 6.1 km">
+            <line class="grid" x1="0" y1="20" x2="328" y2="20"/><line class="grid" x1="0" y1="50" x2="328" y2="50"/><line class="grid" x1="0" y1="80" x2="328" y2="80"/>
+            <text x="2" y="16">1500</text><text x="2" y="46">900</text><text x="2" y="76">300</text>
+            <path class="area" d="M0 80 L30 76 L64 68 L100 60 L136 52 L172 44 L208 37 L244 30 L262 27 L292 20 L328 14 L328 92 L0 92 Z"/>
+            <path class="line" d="M0 80 L30 76 L64 68 L100 60 L136 52 L172 44 L208 37 L244 30 L262 27 L292 20 L328 14"/>
+            <line class="grid" x1="250" y1="0" x2="250" y2="92" style="stroke:var(--primary-ink);stroke-dasharray:2 3"/>
+            <circle class="pos" cx="250" cy="29" r="4"/>
+          </svg>
+        </div>
+
+        <div class="section">
+          <span class="t-title-s">Checkpoints</span>
+          <div class="cp done" style="margin-top:var(--sp-4)"><span class="dot"></span><div><div class="t-body-m" style="color:var(--on-surface)">Trailhead</div><div class="t-body-s mono">320 m</div></div><span class="mono t-body-s">08:02</span></div>
+          <div class="cp"><span class="dot"></span><div><div class="t-body-m" style="color:var(--on-surface)">Ridge viewpoint</div><div class="t-body-s mono">1,375 m</div></div><span class="mono t-body-s">ETA 10:58</span></div>
+          <div class="cp"><span class="dot"></span><div><div class="t-body-m" style="color:var(--on-surface)">Summit</div><div class="t-body-s mono">1,578 m</div></div><span class="mono t-body-s">ETA 11:31</span></div>
+        </div>
       </div>
-      <div class="ctabar">
-        <button class="btn btn-filled btn--lg" style="flex:1">Save run</button>
-        <button class="iconbtn tonal"><svg class="ico"><use href="#i-share"/></svg></button>
+      <div class="cta">
+        <button class="btn btn-outlined"><svg class="ico ico--sm"><use href="#i-pin"/></svg>Waypoint</button>
+        <button class="btn btn-filled"><svg class="ico ico--sm"><use href="#i-pause"/></svg>Pause</button>
       </div>
-    </div></div>
+    </div>
   </div>
 
 </div>
 
-<div class="caption">Two concept screens — Today (first view: wide city-illustration hero, daily stats, start-a-run CTA, bottom nav) and a Run detail (full-bleed city illustration with the route traced over it, big metrics, splits, sticky CTA — no bottom nav). Built only from Stride components + the token-driven city illustration. Switch the theme by editing <code>styles.css</code> :root tokens.</div>
+<div class="legend">
+  <b>One signature per screen:</b> the terrain layer — photo, yellow contours and the hand-drawn route — with the
+  readouts below it. Yellow is the only action colour; mist blue marks weather. Built only from <code>styles.css</code>
+  classes — the extra CSS is layout glue (frame, list rows, sticky bar).
+</div>
 
-<script>
-let _uid=0;
-function cityScene(variant){const u=++_uid,g='cg'+u,c='cc'+u;
- const blob='M0 60C40 30 90 18 150 22C214 26 262 8 330 30C372 44 400 96 400 130L400 240L0 240Z';
- return `<svg class="illus illus--${variant}" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" style="height:230px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="City skyline"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--illus-1)"/><stop offset="1" stop-color="var(--illus-2)"/></linearGradient><clipPath id="${c}"><path d="${blob}"/></clipPath></defs><path d="${blob}" fill="url(#${g})"/><g clip-path="url(#${c})"><circle cx="318" cy="66" r="30" fill="var(--sun)"/><g fill="var(--cloud)"><ellipse cx="96" cy="70" rx="26" ry="15"/><ellipse cx="128" cy="64" rx="20" ry="13"/><ellipse cx="72" cy="76" rx="15" ry="10"/></g><g fill="var(--illus-sil)"><rect x="40" y="150" width="22" height="90"/><rect x="64" y="126" width="16" height="114"/><rect x="82" y="162" width="20" height="78"/><path d="M120 122l8-10 8 10v118h-16z"/><rect x="142" y="146" width="24" height="94"/><rect x="170" y="132" width="18" height="108"/><rect x="232" y="92" width="6" height="148"/><ellipse cx="235" cy="112" rx="11" ry="6"/><rect x="233.5" y="72" width="3" height="22"/><rect x="262" y="150" width="26" height="90"/><path d="M290 150a9 9 0 0 1 18 0v90h-18z"/><rect x="318" y="166" width="20" height="74"/><rect x="344" y="150" width="16" height="90"/></g></g></svg>`;}
-document.getElementById('hero1').innerHTML=cityScene('day');
-document.getElementById('hero2').innerHTML=cityScene('dusk');
-</script>
 </body>
 </html>

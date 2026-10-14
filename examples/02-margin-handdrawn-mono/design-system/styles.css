@@ -1,160 +1,195 @@
 /* =========================================================================
    Margin · Reading & Notes — Design System (tokens + component classes)
    Reference guideline: Cross-platform → Material 3 token model + MUI components.
-   Theme: "Inkprint" — monochrome, hand-drawn. Library archetypes: BRUTALIST ×
-   EDITORIAL — thick black outlines, hard offset shadows, expressive heavy display
-   type, hand-drawn line illustrations + sparkle/doodle accents, a handwriting face
-   for reading notes. Ink on warm paper; an inverse "ink card" (black/white).
 
-   HARMONY BY CONSTRUCTION: every fill ships a paired on-* foreground (here mostly
-   ink↔paper), each pair WCAG-checked by math. Monochrome on purpose — "status" is
-   shown by treatment (fill/outline/icon), not hue. Tokens everywhere.
+   Direction: "Swiss margin"
+   References (user-supplied): (1) a Swiss-typography poster — neutral grey paper with
+   film grain, ink, a tight lowercase grotesk; (2) a hand-drawn character collection —
+   uneven black line people, one green marker accent, a black brush label.
+   Borrowed: (1) colour, paper grain, typography; (2) the characters, the green accent,
+   the brush label, handwriting. Not borrowed: either piece's layout or identity.
+   Proposition: for readers who annotate, keeping the page a quiet black-and-white
+   Swiss layout — so the reader's own handwritten notes are the only colour — makes
+   "where did I think something" visible at a glance.
+   - Hierarchy: the text → your green notes/underlines → chapter + progress → chrome.
+   - Color roles: INK is the interaction family; GREEN is reserved for the reader's own
+     marks (notes, underlines, the margin dot) — never for buttons or navigation.
+   - Type: Inter Tight (display, lowercase, tight) · Inter (reading + UI) · Caveat Brush (notes).
+   - Restraint: r 0, 1px rules, no shadows; the paper grain and the characters are the texture.
+   HARMONY BY CONSTRUCTION: every fill ships a paired on-*; every pair WCAG-checked by math.
    ========================================================================= */
 :root{
-  /* ---- Color: monochrome ink-on-paper ---- */
-  --ink:#14110D; --paper:#FAF7F0;
-  --primary:#14110D;             --on-primary:#FAF7F0;         /* ink button, paper text ~16:1 */
+  /* ---- Color: ink on neutral grey paper (from the Swiss poster) ---- */
+  --ink:#1B1C1C; --paper:#E8E8E7;
+  --primary:#1B1C1C;             --on-primary:#F4F4F3;         /* ink button, 15.5:1 */
   --primary-strong:#000000;
-  --primary-container:#ECE6D8;   --on-primary-container:#14110D;
-  --secondary:#5B554A;           --on-secondary:#FAF7F0;        /* warm grey ink */
-  --secondary-container:#E4DECF; --on-secondary-container:#2A261E;
-  --accent:#14110D;              --on-accent:#FAF7F0;           /* mono — accent = ink */
+  --primary-ink:#1B1C1C;
+  --primary-container:#D9D9D8;   --on-primary-container:#1B1C1C;
+  --secondary:#5E5F5F;           --on-secondary:#F4F4F3;        /* grey ink */
+  --secondary-container:#DCDCDB; --on-secondary-container:#1B1C1C;
+  --accent:#1B1C1C;              --on-accent:#F4F4F3;
 
-  --bg:#F3EFE5;                  --on-bg:#14110D;
-  --surface:#FFFDF8;            --on-surface:#14110D;          /* paper, ink ≈ 16:1 */
-  --surface-sunken:#F0EBDF;
-  --muted-surface:#ECE6D8;      --on-muted-surface:#3A352B;
-  --ink-card:#14110D;           --on-ink-card:#FAF7F0;          /* inverse dark card */
+  /* ---- The reader's mark (from the character sheet): green, notes only ---- */
+  --note:#448434;                /* underline, margin dot, note rule — graphic (3.7:1) */
+  --note-ink:#336E27;            /* handwritten note text: 5.0:1 on paper, 5.6:1 on surface */
+  --note-wash:#D3E0CC;           /* selected-text fill; ink on it 12.5:1 */
 
-  --muted:#6B6557; --subtle:#9A9483;
-  --border:#14110D;             /* THICK BLACK outline — the signature */
-  --border-faint:#D9D3C4; --hairline:rgb(20 17 13 / .12);
+  --bg:#E8E8E7;                  --on-bg:#1B1C1C;              /* 13.9:1 */
+  --surface:#F4F4F3;            --on-surface:#1B1C1C;          /* page, 15.5:1 */
+  --surface-sunken:#DEDEDD;
+  --muted-surface:#DCDCDB;      --on-muted-surface:#3A3B3B;
+  --ink-card:#1B1C1C;           --on-ink-card:#F4F4F3;          /* inverse block, as on the poster */
+
+  --muted:#5E5F5F; --subtle:#808181;                           /* 5.2:1 · UI-only 3.2:1 */
+  --border:#1B1C1C;             /* 1px ink rule */
+  --border-faint:#C9C9C8; --hairline:rgb(27 28 28 / .14);
 
   /* status — monochrome; differentiate by treatment + icon, not colour */
-  --success:#14110D; --on-success:#FAF7F0;
-  --error:#14110D;   --on-error:#FAF7F0;
-  --warning:#14110D; --on-warning:#FAF7F0;
-  --info:#14110D;    --on-info:#FAF7F0;
-  --link:#14110D;
+  --success:#1B1C1C; --on-success:#F4F4F3;
+  --error:#1B1C1C;   --on-error:#F4F4F3;
+  --warning:#1B1C1C; --on-warning:#F4F4F3;
+  --info:#1B1C1C;    --on-info:#F4F4F3;
+  --link:#1B1C1C;
 
-  /* ---- Spacing (4dp) + optical ---- */
+  /* ---- Spacing (4dp) + optical + semantic roles (airy) ---- */
   --sp-2:2px; --sp-4:4px; --sp-8:8px; --sp-12:12px; --sp-16:16px;
   --sp-20:20px; --sp-24:24px; --sp-32:32px; --sp-48:48px; --sp-64:64px;
   --opt-1:1px; --opt-3:3px;
+  --gap-related:var(--sp-8); --gap-section:var(--sp-32); --gap-major:var(--sp-48);
+  --layout-gutter:var(--sp-24);
+  --target-min:48px;
 
-  /* ---- Shape — large + pills (hand-drawn rounded) ---- */
-  --r-none:0; --r-xs:8px; --r-sm:12px; --r-md:18px; --r-lg:24px; --r-xl:32px; --r-full:999px;
-  --stroke:2px;            /* the outline weight — the look */
+  /* ---- Shape — Swiss: square. Only naturally round things stay round. ---- */
+  --r-none:0; --r-xs:0; --r-sm:0; --r-md:0; --r-lg:0; --r-xl:0; --r-full:999px;
+  --stroke:1px;            /* hairline rules */
 
-  /* ---- Elevation — flat brutalist + a HARD offset shadow signature ---- */
-  --elev-0:none;
-  --elev-1:0 1px 2px rgb(20 17 13 / .08);
-  --elev-2:0 3px 10px rgb(20 17 13 / .12);
-  /* Hard shadow = an OUTLINED offset block (warm cream fill + ink outline) — the manga "empty
-     drop-shadow". The fill is --secondary-container so it reads as a distinct WARM tone against
-     white surfaces (depth, not a black blob). Never merges with a solid-ink fill; auto-themes. */
-  --shadow-hard:5px 5px 0 0 var(--secondary-container), 5px 5px 0 2px var(--ink);
-  --shadow-hard-sm:3px 3px 0 0 var(--secondary-container), 3px 3px 0 2px var(--ink);
+  /* ---- Elevation — flat. Overlays get a 1px rule, not a shadow. ---- */
+  --elev-0:none; --elev-1:none; --elev-2:none;
+  --shadow-hard:none; --shadow-hard-sm:none;
 
   /* ---- State layers ---- */
   --state-hover:.06; --state-press:.10; --state-disabled:.38;
 
   /* ---- Craft ---- */
-  --ring:rgb(20 17 13 / .9);
-  --focus-ring:0 0 0 2px var(--surface), 0 0 0 4px var(--ink);
+  --ring:rgb(27 28 28 / .9);
+  --focus-ring:0 0 0 2px var(--surface), 0 0 0 3px var(--ink);
 
-  /* ---- Type: heavy display + body + handwriting (notes) + serif (reading) ---- */
-  --font-display:'Space Grotesk','Inter',-apple-system,sans-serif;
-  --font-body:'Inter',-apple-system,'Segoe UI',Roboto,'PingFang SC',sans-serif;
-  --font-hand:'Caveat','Segoe Script',cursive;           /* reading notes / annotations */
-  --font-read:'Lora','Iowan Old Style',Georgia,serif;     /* book reading content */
-  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  /* ---- Type ---- */
+  --font-display:'Inter Tight','Inter',-apple-system,sans-serif;
+  --font-body:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-hand:'Caveat Brush','Segoe Script',cursive;      /* the reader's notes */
+  --font-read:'Inter',-apple-system,'Segoe UI',sans-serif; /* book text: the reading face */
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;     /* style-guide chrome only */
+  --track-display:-.045em;
 
   /* ---- Motion ---- */
   --dur-fast:120ms; --dur-base:240ms; --ease:cubic-bezier(.2,.8,.2,1); --ease-spring:cubic-bezier(.34,1.5,.5,1);
 
-  /* ---- Icons (heavier stroke to match the hand-drawn outline look) ---- */
-  --icon-size:24px; --icon-stroke:2.1;
+  /* ---- Icons — thin, square-ended, matching the 1px rules ---- */
+  --icon-size:24px; --icon-inline:18px; --icon-large:28px; --icon-stroke:1.5;
+  --icon-cap:square; --icon-join:miter; --icon-fill:none;
 
-  /* ---- Hand-drawn texture: paper grain + a "roughen" filter for line wobble ---- */
-  --paper-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-opacity:.42;   /* subtle; bump for more tooth */
+  /* ---- Paper grain (user-requested, from the Swiss poster): film-like noise overlay ---- */
+  --paper-grain:url("grain.png");   /* 128px tile: half black, half white specks, alpha 0–8.5% → σ≈6.5 like the poster */
+  --grain-opacity:1;
 }
 
-/* ---- Dark theme = inverse (paper becomes ink) ---- */
+/* ---- Dark theme: the poster inverted — grey ink on near-black, notes in a lighter green ---- */
 :root[data-theme="dark"]{
-  --primary:#FAF7F0; --on-primary:#14110D; --primary-strong:#FFFFFF;
-  --primary-container:#2C281F; --on-primary-container:#FAF7F0;
-  --secondary:#C8C1B1; --on-secondary:#14110D; --secondary-container:#33302A; --on-secondary-container:#E4DECF;
-  --accent:#FAF7F0; --on-accent:#14110D;
-  --bg:#100E0A; --on-bg:#FAF7F0;
-  --surface:#16140F; --on-surface:#FAF7F0; --surface-sunken:#0C0A07;
-  --muted-surface:#23211B; --on-muted-surface:#D8D2C4;
-  --ink-card:#FAF7F0; --on-ink-card:#14110D;
-  --muted:#A39D8E; --subtle:#6E695C;
-  --border:#FAF7F0; --border-faint:#2C2922; --hairline:rgb(250 247 240 / .14);
-  --success:#FAF7F0; --on-success:#14110D; --error:#FAF7F0; --on-error:#14110D; --warning:#FAF7F0; --on-warning:#14110D; --info:#FAF7F0; --on-info:#14110D;
-  --link:#FAF7F0; --ink:#FAF7F0;   /* --shadow-hard auto-inverts via --surface/--ink */
+  --ink:#E6E6E4; --paper:#141515;
+  --primary:#E6E6E4; --on-primary:#141515; --primary-strong:#FFFFFF; --primary-ink:#E6E6E4;
+  --primary-container:#2A2B2B; --on-primary-container:#E6E6E4;
+  --secondary:#A3A4A3; --on-secondary:#141515; --secondary-container:#262727; --on-secondary-container:#E6E6E4;
+  --accent:#E6E6E4; --on-accent:#141515;
+  --note:#8CC57A; --note-ink:#8CC57A; --note-wash:#243320;      /* 9.1:1 · ink on wash 10.7:1 */
+  --bg:#141515; --on-bg:#E6E6E4;                                  /* 14.6:1 */
+  --surface:#1C1D1D; --on-surface:#E6E6E4; --surface-sunken:#101111;
+  --muted-surface:#262727; --on-muted-surface:#CFCFCD;
+  --ink-card:#E6E6E4; --on-ink-card:#141515;
+  --muted:#A3A4A3; --subtle:#767777;                              /* 7.3:1 · 4.1:1 */
+  --border:#E6E6E4; --border-faint:#333434; --hairline:rgb(230 230 228 / .14);
+  --success:#E6E6E4; --on-success:#141515; --error:#E6E6E4; --on-error:#141515; --warning:#E6E6E4; --on-warning:#141515; --info:#E6E6E4; --on-info:#141515;
+  --link:#E6E6E4;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 
-/* paper grain — a fixed, subtle tooth over everything (overlay blend works light & dark) */
+/* paper grain — a fixed film-like tooth over everything (black+white specks work light & dark) */
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
-  background-image:var(--paper-grain);background-size:180px;mix-blend-mode:overlay;opacity:var(--grain-opacity)}
+  background-image:var(--paper-grain);background-size:128px;opacity:var(--grain-opacity)}
 
 /* =========================================================================
-   TYPOGRAPHY — heavy display, plain body, handwriting notes, serif reading
+   TYPOGRAPHY — tight lowercase grotesk display, Inter reading, brush-hand notes
    ========================================================================= */
-.t-display{font:700 44px/1.02 var(--font-display);letter-spacing:-.02em;color:var(--on-surface)}
-.t-h1{font:700 36px/1.06 var(--font-display);letter-spacing:-.02em;color:var(--on-surface)}
-.t-h2{font:700 28px/1.12 var(--font-display);letter-spacing:-.01em;color:var(--on-surface)}
-.t-h3{font:700 22px/1.2 var(--font-display);color:var(--on-surface)}
-.t-title{font:700 18px/1.3 var(--font-display);color:var(--on-surface)}
+.t-display{font:700 52px/.95 var(--font-display);letter-spacing:var(--track-display);text-transform:lowercase;color:var(--on-surface)}
+.t-h1{font:700 38px/1 var(--font-display);letter-spacing:var(--track-display);text-transform:lowercase;color:var(--on-surface)}
+.t-h2{font:700 28px/1.05 var(--font-display);letter-spacing:-.035em;text-transform:lowercase;color:var(--on-surface)}
+.t-h3{font:700 22px/1.12 var(--font-display);letter-spacing:-.03em;text-transform:lowercase;color:var(--on-surface)}
+.t-title{font:600 18px/1.25 var(--font-display);letter-spacing:-.02em;text-transform:lowercase;color:var(--on-surface)}
 .t-subtitle{font:600 15px/1.4 var(--font-body);color:var(--on-surface)}
 .t-body{font:400 16px/1.6 var(--font-body);color:var(--on-surface)}
 .t-body2{font:400 14px/1.55 var(--font-body);color:var(--muted)}
-.t-read{font:400 17px/1.7 var(--font-read);color:var(--on-surface)}     /* book text */
-.t-note{font:600 20px/1.3 var(--font-hand);color:var(--on-surface)}      /* reading notes */
-.t-label{font:700 12px/1.3 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.t-caption{font:400 12px/1.4 var(--font-body);color:var(--subtle)}
-.t-num{font:700 30px/1 var(--font-display);letter-spacing:-.01em;color:var(--on-surface)}
-.u-wavy{text-decoration:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='8'><path d='M0 5 Q 10 0 20 5 T 40 5' fill='none' stroke='%2314110D' stroke-width='2'/></svg>");background-repeat:repeat-x;background-position:0 100%;padding-bottom:6px}
+.t-read{font:400 18px/1.72 var(--font-read);letter-spacing:-.005em;color:var(--on-surface)}   /* book text */
+.t-note{font:400 22px/1.15 var(--font-hand);color:var(--note-ink)}                            /* the reader's notes */
+.t-label{font:600 12px/1.3 var(--font-display);letter-spacing:-.01em;text-transform:lowercase;color:var(--muted)}
+.t-caption{font:400 12px/1.4 var(--font-body);color:var(--muted)}
+.t-num{font:700 30px/1 var(--font-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:var(--on-surface)}
+/* the reader's marks: green underline + inverse block (from the poster) */
+.u-note{text-decoration:underline;text-decoration-color:var(--note);text-decoration-thickness:2px;text-underline-offset:4px}
+.u-wavy{text-decoration:underline wavy;text-decoration-color:var(--note);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.hl{background:var(--note-wash);color:var(--on-surface);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.inverse{display:inline-block;background:var(--ink-card);color:var(--on-ink-card);line-height:1;padding:.04em .1em .1em;margin:.1em 0 0}
+/* (inline-block with its own line-height: the block never rides up into the line above, even in tight display leading) */
+
+/* brush label (from the character sheet): an uneven black brush block, white lowercase grotesk */
+.brush{display:inline-flex;align-items:center;padding:6px 16px 7px;background:var(--ink);color:var(--on-primary);
+  font:700 13px/1 var(--font-display);letter-spacing:-.01em;text-transform:lowercase;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 32' preserveAspectRatio='none'%3E%3Cpath d='M4 6C20 2 46 4 70 3S108 1 116 5C119 12 117 20 118 27C96 31 70 28 44 30S10 31 3 27C1 20 2 12 4 6Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 32' preserveAspectRatio='none'%3E%3Cpath d='M4 6C20 2 46 4 70 3S108 1 116 5C119 12 117 20 118 27C96 31 70 28 44 30S10 31 3 27C1 20 2 12 4 6Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+
+/* registration mark "+" — a Swiss corner glyph for section starts */
+.reg{display:inline-block;width:14px;height:14px;position:relative}
+.reg::before,.reg::after{content:"";position:absolute;background:var(--ink)}
+.reg::before{left:6px;top:0;width:2px;height:14px}.reg::after{top:6px;left:0;width:14px;height:2px}
+
+/* layout primitives */
+.bleed{margin-left:calc(-1 * var(--layout-gutter));margin-right:calc(-1 * var(--layout-gutter))}
+.inset{padding-left:var(--layout-gutter);padding-right:var(--layout-gutter)}
 
 /* =========================================================================
    INPUTS
    ========================================================================= */
 /* Button — contained / outlined / text; pill; hard-shadow press */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-8);
-  height:48px;padding:0 var(--sp-24);border-radius:var(--r-full);cursor:pointer;
-  font:700 15px var(--font-display);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);
+  height:48px;padding:0 var(--sp-24);border-radius:var(--r-none);cursor:pointer;
+  font:600 15px var(--font-display);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);
   transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
 .btn .ico{--icon-size:18px}
 .btn-contained{background:var(--ink);color:var(--on-primary)}
-.btn-contained:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.btn-contained:hover{background:var(--primary-strong)}
 .btn-contained:active{box-shadow:none;transform:translate(2px,2px)}
 .btn-outlined{background:var(--surface);color:var(--ink)}
-.btn-outlined:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.btn-outlined:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}
 .btn-outlined:active{box-shadow:none;transform:translate(2px,2px)}
 .btn-tonal{background:var(--secondary-container);color:var(--on-secondary-container)}   /* soft warm action — adds a mid tone between contained & outlined */
-.btn-tonal:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.btn-tonal:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}
 .btn-tonal:active{box-shadow:none;transform:translate(2px,2px)}
 .btn-text{background:transparent;border-color:transparent;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .btn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
 .btn.disabled,.btn:disabled{opacity:var(--state-disabled);cursor:not-allowed;box-shadow:none;transform:none}
 .btn--sm{height:38px;padding:0 var(--sp-16);font-size:13px}
 .btn--lg{height:58px;padding:0 var(--sp-32);font-size:17px}
-.btn--hero{height:62px;width:100%;box-shadow:var(--shadow-hard)}    /* hero CTA — always-on outlined drop shadow */
+.btn--hero{height:56px;width:100%}
 
-.btn-group{display:inline-flex;border:var(--stroke) solid var(--ink);border-radius:var(--r-full);overflow:hidden}
+.btn-group{display:inline-flex;border:var(--stroke) solid var(--ink);border-radius:var(--r-none);overflow:hidden}
 .btn-group .btn{border:none;border-radius:0;height:44px}
 .btn-group .btn+.btn{border-left:var(--stroke) solid var(--ink)}
 .btn-group .btn.sel{background:var(--ink);color:var(--on-primary)}
 
 /* Icon button — circular, outlined (like the reference) */
-.iconbtn{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-full);
+.iconbtn{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-none);
   border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
-.iconbtn:hover{box-shadow:var(--shadow-hard-sm);transform:translate(-1px,-1px)}
+.iconbtn:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}
 .iconbtn:active{box-shadow:none;transform:translate(2px,2px)}
 .iconbtn.filled{background:var(--ink);color:var(--on-primary)}
 .iconbtn.ghost{border-color:transparent;box-shadow:none}
@@ -163,7 +198,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 
 /* FAB */
 .fab{display:inline-flex;align-items:center;gap:var(--sp-8);height:60px;min-width:60px;justify-content:center;padding:0 var(--sp-20);
-  border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);background:var(--ink);color:var(--on-primary);cursor:pointer;font:700 15px var(--font-display);box-shadow:var(--shadow-hard);transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
+  border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);background:var(--ink);color:var(--on-primary);cursor:pointer;font:600 15px var(--font-display);box-shadow:var(--shadow-hard);transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
 .fab:active{box-shadow:none;transform:translate(3px,3px)}
 .fab--sm{height:44px;min-width:44px;border-radius:var(--r-md)}
 
@@ -191,7 +226,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 .field .ctl input::placeholder{color:var(--subtle)}
 .field.filled .ctl{background:var(--muted-surface)}
 .field.standard .ctl{background:none;border:none;border-bottom:var(--stroke) solid var(--ink);border-radius:0;padding:0}
-.field.focus .ctl{box-shadow:var(--shadow-hard-sm)}
+.field.focus .ctl{box-shadow:0 0 0 1px var(--ink)}        /* rule doubles on focus */
 .field.error .ctl{border-style:dashed}
 .field .hint{font:400 12px var(--font-body);color:var(--muted)}
 .field.error .hint{font-weight:700}
@@ -203,13 +238,13 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 
 /* Slider — pill track, ink fill (the exp-bar look) */
 .slider{position:relative;height:28px;display:flex;align-items:center;min-width:220px}
-.slider .track{height:14px;width:100%;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink)}
-.slider .fill{position:absolute;height:14px;border-radius:var(--r-full);background:var(--ink);border:var(--stroke) solid var(--ink);left:0}
+.slider .track{height:2px;width:100%;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink)}
+.slider .fill{position:absolute;height:2px;border-radius:var(--r-full);background:var(--ink);border:var(--stroke) solid var(--ink);left:0}
 .slider .thumb{position:absolute;width:24px;height:24px;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink)}
 
 /* Toggle button group */
-.toggle-group{display:inline-flex;border:var(--stroke) solid var(--ink);border-radius:var(--r-full);overflow:hidden}
-.toggle-group .tb{padding:9px var(--sp-16);font:700 13px var(--font-display);color:var(--ink);background:var(--surface);cursor:pointer;border:none}
+.toggle-group{display:inline-flex;border:var(--stroke) solid var(--ink);border-radius:var(--r-none);overflow:hidden}
+.toggle-group .tb{padding:9px var(--sp-16);font:600 13px var(--font-display);color:var(--ink);background:var(--surface);cursor:pointer;border:none}
 .toggle-group .tb+.tb{border-left:var(--stroke) solid var(--ink)}
 .toggle-group .tb.sel{background:var(--ink);color:var(--on-primary)}
 
@@ -220,16 +255,16 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 /* =========================================================================
    DATA DISPLAY
    ========================================================================= */
-.avatar{width:44px;height:44px;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;font:700 15px var(--font-display);overflow:hidden;flex:0 0 auto}
+.avatar{width:44px;height:44px;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;font:600 15px var(--font-display);overflow:hidden;flex:0 0 auto}
 .avatar.square{border-radius:var(--r-sm)}
 .avatar--sm{width:32px;height:32px;font-size:12px}.avatar--lg{width:60px;height:60px;font-size:20px}
 .avatar img{width:100%;height:100%;object-fit:cover}
 
 .badge-wrap{position:relative;display:inline-flex}
-.badge{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:var(--r-full);background:var(--ink);color:var(--on-primary);font:700 11px var(--font-display);display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--surface)}
+.badge{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:var(--r-full);background:var(--ink);color:var(--on-primary);font:600 11px var(--font-display);display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--surface)}
 .badge.dot{min-width:11px;height:11px;padding:0;top:-1px;right:-1px}
 
-.chip{display:inline-flex;align-items:center;gap:var(--sp-4);height:36px;padding:0 var(--sp-16);border-radius:var(--r-full);font:700 13px var(--font-display);background:var(--surface);color:var(--ink);border:var(--stroke) solid var(--ink);cursor:pointer}
+.chip{display:inline-flex;align-items:center;gap:var(--sp-4);height:36px;padding:0 var(--sp-16);border-radius:var(--r-none);font:600 13px var(--font-display);background:var(--surface);color:var(--ink);border:var(--stroke) solid var(--ink);cursor:pointer}
 .chip.selected{background:var(--ink);color:var(--on-primary)}
 .chip .x{display:inline-flex;cursor:pointer}
 
@@ -240,9 +275,9 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 .list{display:flex;flex-direction:column}
 .list-item{display:flex;align-items:center;gap:var(--sp-16);padding:var(--sp-12) var(--sp-4);min-height:64px}
 .list-item .grow{flex:1;min-width:0}
-.list-item .pri{font:700 16px var(--font-display);color:var(--on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-item .pri{font:600 16px var(--font-display);color:var(--on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .list-item .sec{font:400 14px var(--font-body);color:var(--muted);margin-top:2px}
-.list-item .meta{font:700 13px var(--font-display);color:var(--ink)}
+.list-item .meta{font:600 13px var(--font-display);color:var(--ink)}
 
 .table{width:100%;border-collapse:collapse;font:400 14px var(--font-body)}
 .table th{text-align:left;font:700 11px var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:var(--sp-12);border-bottom:var(--stroke) solid var(--ink)}
@@ -256,26 +291,26 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
    ========================================================================= */
 .alert{display:flex;gap:var(--sp-12);align-items:flex-start;padding:var(--sp-12) var(--sp-16);border-radius:var(--r-md);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink)}
 .alert .ico{flex:0 0 auto;margin-top:1px}
-.alert .at{font:700 14px var(--font-display)}.alert .ab{font:400 13px var(--font-body);margin-top:2px}
-.alert.success{box-shadow:var(--shadow-hard-sm)}          /* raised = good */
+.alert .at{font:600 14px var(--font-display)}.alert .ab{font:400 13px var(--font-body);margin-top:2px}
+.alert.success{border-left-width:6px}                      /* heavy left rule = good */
 .alert.info{background:var(--muted-surface);border-style:solid}
 .alert.warning{border-style:dashed}                        /* dashed = caution */
 .alert.error{background:var(--ink);color:var(--on-primary);border-color:var(--ink)}  /* inverted = error */
 
 .dialog{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-lg);padding:var(--sp-24);max-width:360px;box-shadow:var(--shadow-hard)}
-.dialog .dt{font:700 24px var(--font-display);color:var(--on-surface)}
+.dialog .dt{font:600 24px var(--font-display);color:var(--on-surface)}
 .dialog .db{font:400 14px/1.6 var(--font-body);color:var(--muted);margin:var(--sp-12) 0 var(--sp-20)}
 .dialog .da{display:flex;justify-content:flex-end;gap:var(--sp-8)}
 
 .snackbar{display:inline-flex;align-items:center;gap:var(--sp-16);background:var(--ink);color:var(--on-primary);padding:var(--sp-12) var(--sp-16);border-radius:var(--r-md);font:600 14px var(--font-body)}
 .snackbar .sa{font-weight:700;text-decoration:underline;cursor:pointer}
 
-.progress{height:14px;width:100%;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);overflow:hidden}
+.progress{height:3px;width:100%;border-radius:var(--r-full);background:var(--surface);border:var(--stroke) solid var(--ink);overflow:hidden}
 .progress .bar{height:100%;border-radius:var(--r-full);background:var(--ink);margin:-1px}
 .spinner{width:30px;height:30px;border-radius:var(--r-full);border:3px solid var(--border-faint);border-top-color:var(--ink);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.skeleton{background:repeating-linear-gradient(45deg,var(--muted-surface),var(--muted-surface) 8px,var(--surface) 8px,var(--surface) 16px);border-radius:var(--r-xs);border:1px solid var(--border-faint)}
+.skeleton{background:var(--muted-surface);animation:pulse 1.4s ease-in-out infinite;border-radius:var(--r-xs);border:1px solid var(--border-faint)}
 
 .backdrop{background:rgb(20 17 13 / .5)}
 
@@ -294,10 +329,10 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 .card.sunken{background:var(--surface-sunken)}
 
 .appbar{height:60px;display:flex;align-items:center;gap:var(--sp-8);padding:0 var(--sp-12);background:var(--surface);color:var(--on-surface)}
-.appbar .ttl{flex:1;font:700 20px var(--font-display);text-align:center;letter-spacing:.02em}
+.appbar .ttl{flex:1;font:600 20px var(--font-display);text-align:center;letter-spacing:.02em}
 
 .accordion{border:var(--stroke) solid var(--ink);border-radius:var(--r-md);overflow:hidden;background:var(--surface)}
-.accordion .ah{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-16);cursor:pointer;font:700 15px var(--font-display);color:var(--on-surface)}
+.accordion .ah{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-16);cursor:pointer;font:600 15px var(--font-display);color:var(--on-surface)}
 .accordion .ab{padding:0 var(--sp-16) var(--sp-16);font:400 14px/1.6 var(--font-body);color:var(--muted)}
 .accordion .ah .chev{transition:transform var(--dur-base) var(--ease)}.accordion.open .ah .chev{transform:rotate(180deg)}
 
@@ -305,21 +340,21 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
    NAVIGATION
    ========================================================================= */
 .bottomnav{display:flex;align-items:center;height:68px;background:var(--surface);border-top:var(--stroke) solid var(--ink)}
-.bottomnav .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--muted);font:700 11px var(--font-display)}
+.bottomnav .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--muted);font:600 11px var(--font-display)}
 .bottomnav .ni.sel{color:var(--ink)}
 .bottomnav .ni.sel .pill{background:var(--ink);color:var(--on-primary)}
-.bottomnav .ni .pill{width:44px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-full);transition:background var(--dur-base) var(--ease)}
+.bottomnav .ni .pill{width:44px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-none);transition:background var(--dur-base) var(--ease)}
 
 .drawer{width:288px;background:var(--surface);border-right:var(--stroke) solid var(--ink);padding:var(--sp-16);display:flex;flex-direction:column;gap:4px}
-.drawer .di{display:flex;align-items:center;gap:var(--sp-12);padding:var(--sp-12);border-radius:var(--r-md);color:var(--on-surface);font:700 15px var(--font-display);cursor:pointer;border:var(--stroke) solid transparent}
+.drawer .di{display:flex;align-items:center;gap:var(--sp-12);padding:var(--sp-12);border-radius:var(--r-md);color:var(--on-surface);font:600 15px var(--font-display);cursor:pointer;border:var(--stroke) solid transparent}
 .drawer .di.sel{border-color:var(--ink)}
 .drawer .di:hover:not(.sel){background:var(--muted-surface)}
 
 .tabs{display:flex;gap:var(--sp-8);border-bottom:var(--stroke) solid var(--ink)}
-.tabs .tab{padding:var(--sp-12) var(--sp-16);font:700 14px var(--font-display);color:var(--muted);cursor:pointer;border:var(--stroke) solid transparent;border-bottom:none;border-radius:var(--r-md) var(--r-md) 0 0;margin-bottom:calc(var(--stroke)*-1)}
+.tabs .tab{padding:var(--sp-12) var(--sp-16);font:600 14px var(--font-display);color:var(--muted);cursor:pointer;border:var(--stroke) solid transparent;border-bottom:none;border-radius:var(--r-md) var(--r-md) 0 0;margin-bottom:calc(var(--stroke)*-1)}
 .tabs .tab.sel{color:var(--ink);border-color:var(--ink);background:var(--surface)}
-.segment{display:inline-flex;background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-full);padding:3px}
-.segment .seg{padding:var(--sp-8) var(--sp-16);border-radius:var(--r-full);font:700 13px var(--font-display);color:var(--ink);cursor:pointer}
+.segment{display:inline-flex;background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-none);padding:3px}
+.segment .seg{padding:var(--sp-8) var(--sp-16);border-radius:var(--r-none);font:600 13px var(--font-display);color:var(--ink);cursor:pointer}
 .segment .seg.sel{background:var(--ink);color:var(--on-primary)}
 
 .menu{background:var(--surface);border:var(--stroke) solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-hard-sm);padding:var(--sp-8);min-width:210px}
@@ -329,7 +364,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 .link{color:var(--link);font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
 
 .stepper{display:flex;align-items:center;gap:var(--sp-8)}
-.stepper .step{display:flex;align-items:center;gap:var(--sp-8);color:var(--muted);font:700 13px var(--font-display)}
+.stepper .step{display:flex;align-items:center;gap:var(--sp-8);color:var(--muted);font:600 13px var(--font-display)}
 .stepper .step .num{width:30px;height:30px;border-radius:var(--r-full);border:var(--stroke) solid var(--ink);background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:13px}
 .stepper .step.done .num,.stepper .step.active .num{background:var(--ink);color:var(--on-primary)}
 .stepper .bar{flex:1;height:var(--stroke);background:var(--ink);min-width:24px}
@@ -341,8 +376,8 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
    ICON + DOODLES + ILLUSTRATION + utilities
    ========================================================================= */
 .ico{width:var(--icon-size);height:var(--icon-size);display:inline-block;vertical-align:middle;
-  fill:none;stroke:currentColor;stroke-width:var(--icon-stroke);stroke-linecap:round;stroke-linejoin:round}
-.ico--sm{--icon-size:18px}.ico--lg{--icon-size:30px}.ico--filled{fill:currentColor;stroke:none}
+  fill:var(--icon-fill);stroke:currentColor;stroke-width:var(--icon-stroke);stroke-linecap:var(--icon-cap);stroke-linejoin:var(--icon-join)}
+.ico--sm{--icon-size:var(--icon-inline)}.ico--lg{--icon-size:var(--icon-large)}.ico--filled{fill:currentColor;stroke:none}
 .sparkle{display:inline-block;color:var(--ink);filter:url(#rough2)}
 /* hand-drawn line art: stroke=currentColor + a roughen filter for wobble & uneven weight */
 .illus{display:block;width:100%;height:auto;color:var(--ink);filter:url(#rough)}
@@ -352,3 +387,5 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
 .scrollrow{display:flex;gap:var(--sp-12);overflow-x:auto;overflow-y:hidden;padding:4px 4px 12px}
 .scrollrow::-webkit-scrollbar{height:0}
 .row{display:flex;align-items:center}.stack{display:flex;flex-direction:column}
+
+@keyframes pulse{50%{opacity:.55}}

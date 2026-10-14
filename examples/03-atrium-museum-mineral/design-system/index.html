@@ -6,6 +6,7 @@
 <title>Atrium · Design System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
 <style>
 body{font-family:var(--font-body);color:var(--on-surface);background:var(--bg);display:flex}
 nav.side{position:sticky;top:0;align-self:flex-start;height:100vh;width:218px;flex:0 0 218px;background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;overflow:auto}
@@ -47,7 +48,7 @@ h2.sec{font:600 26px var(--font-display);color:var(--on-surface);margin-bottom:5
 .sec-prompt{font:600 11px var(--font-body);border:1px solid color-mix(in srgb,var(--primary) 40%,transparent);background:var(--surface);color:var(--primary);border-radius:8px;padding:4px 10px;margin-left:12px;cursor:pointer;vertical-align:middle}
 body.dev [data-insp]:hover{outline:2px dashed var(--accent);outline-offset:3px;cursor:pointer}
 .insp-sel{outline:2px solid var(--primary)!important;outline-offset:3px}
-#inspector{position:fixed;top:0;right:0;width:344px;height:100vh;background:var(--surface);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgb(42 39 34 / .10);transform:translateX(100%);transition:transform .28s var(--ease);z-index:49;overflow:auto;padding:58px 20px 40px}
+#inspector{position:fixed;top:0;right:0;width:344px;height:100vh;background:var(--surface);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgb(var(--shadow-ink) / .10);transform:translateX(100%);transition:transform .28s var(--ease);z-index:49;overflow:auto;padding:58px 20px 40px}
 body.inspecting #inspector{transform:translateX(0)}
 body.inspecting main{margin-right:344px}
 #inspector .iclose{position:absolute;top:16px;right:16px;border:none;background:none;font-size:18px;color:var(--muted);cursor:pointer}
@@ -67,7 +68,6 @@ body.inspecting main{margin-right:344px}
 
 <!-- ICON SPRITE (copied from icons.html — self-contained under file://) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="paintGrain"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0"/></filter>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
@@ -103,7 +103,7 @@ body.inspecting main{margin-right:344px}
 
 <div id="topctl">
   <button class="ds-btn" onclick="copyFullSystem()" title="Copy a prompt to install or update the whole design system">⤓ Install design system</button>
-  <select id="themeSel" title="Preview theme" onchange="document.documentElement.setAttribute('data-theme',this.value)"><option value="">Light · plaster</option><option value="dark">Dark · after-hours</option></select>
+  <select id="themeSel" title="Preview theme" aria-label="Theme"><option value="">Light</option><option value="dark">Dark · lights off</option></select>
   <select id="langSel" title="Copy-as-prompt target"></select>
   <button id="devToggle" onclick="toggleDev()">◧ Dev Mode</button>
 </div>
@@ -112,10 +112,10 @@ body.inspecting main{margin-right:344px}
 
 <nav class="side">
   <div class="brand"><svg class="ico" style="color:var(--primary)"><use href="#i-frame"/></svg>Atrium</div>
-  <div class="tag">Museum &amp; gallery guide · Mineral</div>
+  <div class="tag">Museum &amp; gallery guide · Polychromie rooms</div>
   <a class="concept-link" href="concept.html">◳ &nbsp;Concept preview &nbsp;→</a>
   <div class="grp">Foundations</div>
-  <a href="#colors">Colors</a><a href="#type">Typography</a><a href="#spacing">Spacing</a><a href="#elevation">Elevation</a><a href="#icons">Icons</a><a href="#artworks">Artworks</a>
+  <a href="#colors">Colors</a><a href="#type">Typography</a><a href="#spacing">Spacing</a><a href="#elevation">Elevation</a><a href="#icons">Icons</a><a href="#imagery">Imagery</a>
   <div class="grp">Inputs</div>
   <a href="#button">Button</a><a href="#buttongroup">Button group</a><a href="#iconbtn">Icon button</a><a href="#fab">FAB</a><a href="#checkbox">Checkbox</a><a href="#radio">Radio</a><a href="#switch">Switch</a><a href="#select">Select</a><a href="#autocomplete">Autocomplete</a><a href="#slider">Slider</a><a href="#field">Text field</a><a href="#toggle">Toggle button</a><a href="#rating">Rating</a>
   <div class="grp">Data display</div>
@@ -132,30 +132,30 @@ body.inspecting main{margin-right:344px}
   <header style="margin-bottom:40px">
     <div class="t-overline">Cross-platform · Material 3 tokens + MUI components</div>
     <div class="t-h1" style="margin-top:8px">Atrium Design System</div>
-    <p class="sec-desc" style="margin-top:10px">A calm, mineral system for a museum &amp; gallery guide — a palette in the spirit of Le Corbusier's architectural keyboard (slate, ochre, plaster, umber). Every fill ships a contrast-checked <code>--on-*</code> partner; the source of truth is <code>styles.css</code>. Toggle <b>Dev Mode</b> to inspect, or <b>⤓ Install design system</b> to scaffold/update it all.</p>
+    <p class="sec-desc" style="margin-top:10px"><b>Polychromie rooms</b> — for self-guided visitors, each exhibition is painted as its own coloured room and the exhibitions are composed like the squares of a modernist wool rug (ultramarine, near-black, ecru, mustard), on ink chrome, so “which room am I in” reads at a glance and the artworks stay the richest thing. Every fill ships a contrast-checked <code>--on-*</code> partner; the source of truth is <code>styles.css</code>. Toggle <b>Dev Mode</b> to inspect, or <b>⤓ Install design system</b> to scaffold/update it all.</p>
   </header>
 
-  <section id="colors"><h2 class="sec">Colors</h2><p class="sec-desc">Semantic roles on a light plaster base — each fill shows its paired <code>--on-*</code> (top-right), WCAG-verified. The last three are <b>exhibition tones</b> (<code>.tone-navy / .tone-clay / .tone-sage</code>): per-page background colours that let each exhibition harmonise with its artwork (deep navy for dark works, terracotta for warm, sage for green). See the concept.</p><div class="colors" id="colorGrid"></div></section>
+  <section id="colors"><h2 class="sec">Colors</h2><p class="sec-desc">One <b>ink</b> interaction family on a cool lavender-grey base (the rug's grey, lifted) — each fill shows its paired <code>--on-*</code> (top-right), WCAG-verified. The <b>room tones</b> are sampled from the reference rug by area (ultramarine 30% · near-black 27% · ecru 13% · mustard 11% · lavender-grey 8%): each exhibition is one square of the rug (<code>.room-blue / .room-ink / .room-mustard / .room-ecru / .room-grey</code>). They are content surfaces, never chrome; mustard also marks now-playing.</p><div class="colors" id="colorGrid"></div></section>
 
-  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc">Editorial <b>Spectral</b> serif for display, clean <b>Inter</b> for text, <b>IBM Plex Mono</b> for figures — a catalogue-like hierarchy.</p><div id="typeList"></div></section>
+  <section id="type"><h2 class="sec">Typography</h2><p class="sec-desc"><b>Inter</b> is the reading face — body, navigation, buttons and tabular numerals (audio times, room numbers). <b>Spectral</b> serif is reserved for exhibition and artwork titles, like a wall label's title line.</p><div id="typeList"></div></section>
 
-  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">One 4dp-grid scale, plus fine <code>--opt-*</code> optical nudges.</p><div id="spacingList"></div></section>
+  <section id="spacing"><h2 class="sec">Spacing</h2><p class="sec-desc">One 4dp-grid scale, plus fine <code>--opt-*</code> optical nudges. Between groups use the <b>semantic roles</b>: <code>--gap-related</code> (8) &lt; <code>--gap-section</code> (24) &lt; <code>--gap-major</code> (32), screen edges <code>--layout-gutter</code> (24), touch targets <code>--target-min</code> (48). Room bands are full-bleed (<code>.bleed</code>) with text re-inset (<code>.inset</code>).</p><div id="spacingList"></div></section>
 
-  <section id="elevation"><h2 class="sec">Elevation</h2><p class="sec-desc">Soft, ink-tinted, layered shadows — restrained for a calm, architectural surface.</p>
+  <section id="elevation"><h2 class="sec">Elevation</h2><p class="sec-desc"><b>Tonal.</b> Surfaces separate by tone (grey → surface → room); <code>--elev-1</code> is none. Shadow appears only on overlays — menu, snackbar, FAB (<code>--elev-2</code>) and dialog (<code>--elev-3</code>).</p>
     <div class="stage"><div class="elevrow">
       <div class="elevbox" style="box-shadow:var(--elev-1)">--elev-1</div>
       <div class="elevbox" style="box-shadow:var(--elev-2)">--elev-2</div>
       <div class="elevbox" style="box-shadow:var(--elev-3)">--elev-3</div>
     </div></div></section>
 
-  <section id="icons"><h2 class="sec">Icons</h2><p class="sec-desc">Token-driven inline SVG sprite (full set in <a class="link" href="icons.html">icons.html</a>) — outlined, refined 1.7 stroke. Never emoji.</p><div class="iconGrid" id="iconGrid"></div></section>
+  <section id="icons"><h2 class="sec">Icons</h2><p class="sec-desc">Token-driven inline SVG sprite (full set in <a class="link" href="icons.html">icons.html</a>) — rounded outline, 1.75 stroke (round caps/joins to match Inter). 24px glyphs, 18px inline, 48px touch targets. Never emoji.</p><div class="iconGrid" id="iconGrid"></div></section>
 
-  <section id="artworks"><h2 class="sec">Artworks</h2><p class="sec-desc">Imagery is <b>drawn, not placeholder</b> — painterly inline-SVG pieces with a canvas-grain filter for 质感. Shown in a gallery <b>frame</b> (mat + thin frame line + inner glass). Use them as full-bleed heroes, exhibition cards, and ticket thumbnails. Swap in real public-domain images by replacing the SVG with an <code>&lt;img&gt;</code> in the same <code>.artwin</code>.</p>
+  <section id="imagery"><h2 class="sec">Imagery &amp; mosaic</h2><p class="sec-desc">Artworks are shown <b>whole</b> on their room wall (<code>.imgslot.fit</code>, contain — never cropped; list thumbnails may crop). The images here are public-domain works from Wikimedia Commons (sources in README). A hung work gets a thin frame line — no mat texture, no shadow. The <b>mosaic</b> (<code>.mosaic</code> + <code>.tile</code>, cells of <code>--mosaic-cell</code>) is the signature layout: exhibitions placed like rug squares, filler squares in plain room tones, no gaps, no radius.</p>
     <div class="stage" style="gap:22px;align-items:flex-start">
-      <div class="cell"><div class="artframe" style="width:150px"><div class="mat"><div class="artwin" data-art="sunflowers" style="height:170px"></div></div></div><div class="spec">framed · sunflowers</div></div>
-      <div class="cell"><div class="artwin" data-art="starry" style="width:130px;height:170px;border-radius:var(--r-md)"></div><div class="spec">.artwin · starry</div></div>
-      <div class="cell"><div class="artwin" data-art="portrait" style="width:130px;height:170px;border-radius:var(--r-md)"></div><div class="spec">portrait</div></div>
-      <div class="cell"><div class="artwin" data-art="wheatfield" style="width:130px;height:170px;border-radius:var(--r-md)"></div><div class="spec">wheatfield</div></div>
+      <div class="cell"><div class="room-ink" style="padding:16px;width:170px"><div class="hung"><div class="imgslot fit" style="height:170px"><img src="art/whistler-blue-gold.jpg" alt="Nocturne: Blue and Gold – Old Battersea Bridge"></div></div></div><div class="spec">.room-ink .hung .imgslot.fit</div></div>
+      <div class="cell"><div class="room-blue" style="padding:16px;width:170px"><div class="imgslot fit" style="height:200px"><img src="art/monet-footbridge.jpg" alt="The Japanese Footbridge, Monet, 1899"></div></div><div class="spec">.room-blue</div></div>
+      <div class="cell"><div class="room-mustard" style="padding:16px;width:170px"><div class="imgslot fit" style="height:200px"><img src="art/duccio-rucellai.webp" alt="Rucellai Madonna, Duccio"></div></div><div class="spec">.room-mustard</div></div>
+      <div class="cell"><div class="mosaic" style="width:180px;--mosaic-cell:30px"><div class="room-blue" style="grid-column:span 2;grid-row:span 2"></div><div class="room-ink" style="grid-column:span 3"></div><div class="room-ecru"></div><div class="room-mustard"></div><div class="room-grey" style="grid-column:span 2"></div><div class="room-ecru" style="grid-column:span 2"></div><div class="room-ink"></div><div class="room-blue" style="grid-column:span 3"></div><div class="room-mustard" style="grid-column:span 3"></div><div class="room-grey"></div><div class="room-blue" style="grid-column:span 2"></div></div><div class="spec">.mosaic filler squares</div></div>
     </div></section>
 
   <!-- ============ INPUTS ============ -->
@@ -237,7 +237,7 @@ body.inspecting main{margin-right:344px}
   <!-- ============ DATA DISPLAY ============ -->
   <section id="avatar"><h2 class="sec">Avatar</h2><p class="sec-desc">artwork thumb (square) / initials · sizes.</p>
     <div class="stage">
-      <div class="cell"><span class="avatar avatar--lg square" data-insp="avatar" style="padding:0;overflow:hidden"><span class="artwin" data-art="sunflowers" style="width:100%;height:100%;display:block"></span></span><div class="spec">lg · artwork</div></div>
+      <div class="cell"><span class="avatar avatar--lg square" data-insp="avatar" style="padding:0;overflow:hidden"><span class="imgslot" style="width:100%;height:100%;display:block"><img src="art/monet-water-lilies.jpg" alt=""></span></span><div class="spec">lg · artwork thumb</div></div>
       <div class="cell"><span class="avatar" data-insp="avatar">CM</span><div class="spec">md</div></div>
       <div class="cell"><span class="avatar avatar--sm" data-insp="avatar">AR</span><div class="spec">sm</div></div>
     </div></section>
@@ -261,7 +261,7 @@ body.inspecting main{margin-right:344px}
 
   <section id="list"><h2 class="sec">List</h2><p class="sec-desc">Two-line items: artwork thumb, title/artist, audio length.</p>
     <div class="stage col"><div class="list" data-insp="list" style="max-width:460px">
-      <div class="list-item"><span class="avatar square" style="padding:0;overflow:hidden"><span class="artwin" data-art="portrait" style="width:100%;height:100%;display:block"></span></span><div class="grow"><div class="pri">Water Lilies</div><div class="sec">Claude Monet · Gallery 4</div></div><div class="meta">3:20</div></div>
+      <div class="list-item"><span class="avatar square" style="padding:0;overflow:hidden"><span class="imgslot" style="width:100%;height:100%;display:block"><img src="art/monet-water-lilies.jpg" alt=""></span></span><div class="grow"><div class="pri">Water Lilies</div><div class="sec">Claude Monet · Gallery 4</div></div><div class="meta">3:20</div></div>
       <hr class="divider inset">
       <div class="list-item"><span class="avatar square">RO</span><div class="grow"><div class="pri">The Thinker</div><div class="sec">Auguste Rodin · Sculpture court</div></div><div class="meta">2:45</div></div>
       <hr class="divider inset">
@@ -309,10 +309,10 @@ body.inspecting main{margin-right:344px}
     </div></section>
 
   <!-- ============ SURFACES ============ -->
-  <section id="card"><h2 class="sec">Card<button class="sec-prompt" onclick="copyPrompt('card')">Copy as prompt</button></h2><p class="sec-desc">outlined / elevated / wash. A real exhibition card, not a blank box.</p>
+  <section id="card"><h2 class="sec">Card<button class="sec-prompt" onclick="copyPrompt('card')">Copy as prompt</button></h2><p class="sec-desc">room (tonal) / outlined / elevated. Tonal by default: a card separates by its fill, not by a border + shadow stack. A real exhibition card, not a blank box.</p>
     <div class="stage" style="align-items:stretch">
-      <div class="card wash" data-insp="card" style="width:260px"><div class="t-overline">Now showing</div><div class="t-h4" style="margin:6px 0 4px">Light &amp; Form</div><div class="t-body2">East wing · through 12 Sept</div></div>
-      <div class="card elevated" data-insp="card" style="width:240px"><div class="row" style="gap:12px"><span class="avatar square" style="padding:0;overflow:hidden"><span class="artwin" data-art="portrait" style="width:100%;height:100%;display:block"></span></span><div><div class="t-h5">Water Lilies</div><div class="t-body2">Monet · Gallery 4</div></div></div></div>
+      <div class="card room-ink" data-insp="card" style="width:260px"><div class="t-overline">Now showing · Floor 2</div><div class="t-h3" style="margin:6px 0 4px">Night Works</div><div class="t-body2">Rooms 7–9 · until 12 January</div></div>
+      <div class="card elevated" data-insp="card" style="width:240px"><div class="row" style="gap:12px"><span class="avatar square" style="padding:0;overflow:hidden"><span class="imgslot" style="width:100%;height:100%;display:block"><img src="art/monet-water-lilies.jpg" alt=""></span></span><div><div class="t-h5">Water Lilies</div><div class="t-body2">Monet · Gallery 4</div></div></div></div>
       <div class="card outlined" data-insp="card" style="width:220px"><div class="t-subtitle">Next tour</div><div class="t-body2" style="margin-top:4px">2:00 PM · Highlights</div></div>
     </div></section>
 
@@ -370,40 +370,18 @@ body.inspecting main{margin-right:344px}
 </main>
 
 <script>
-/* ===== Drawn painterly artworks (inline SVG + canvas grain) — fills any [data-art] ===== */
-let _aid=0;
-function artwork(name){
-  const u=++_aid, id=s=>`aw${u}${s}`, W=320, H=400;
-  const grain=`<rect width="${W}" height="${H}" filter="url(#paintGrain)" opacity=".4" style="mix-blend-mode:overlay"/>`;
-  const vign=`<defs><radialGradient id="${id('v')}" cx="50%" cy="40%" r="78%"><stop offset="60%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".24"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('v')})"/>`;
-  let g='';
-  if(name==='sunflowers'){
-    const fl=[[120,150,30],[188,142,32],[152,206,26],[214,200,24],[100,212,22]];
-    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2=".2" y2="1"><stop offset="0" stop-color="#74A39A"/><stop offset="1" stop-color="#E7C260"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><rect y="300" width="${W}" height="100" fill="#C9982C" opacity=".92"/><path d="M118 300 q42 -16 84 0 l12 96 h-108z" fill="#E7C147"/><path d="M118 300 q42 -16 84 0" fill="none" stroke="#94661B" stroke-width="4"/><path d="M150 232 q6 38 2 70 M188 174 q-4 60 -34 122" stroke="#5E6E2C" stroke-width="6" fill="none"/>`+fl.map(([x,y,r])=>{let p='';for(let i=0;i<12;i++){const a=i/12*Math.PI*2,px=(x+Math.cos(a)*(r+3)).toFixed(1),py=(y+Math.sin(a)*(r+3)).toFixed(1);p+=`<ellipse cx="${px}" cy="${py}" rx="9" ry="5" fill="#F1C249" transform="rotate(${(a*57.3).toFixed(0)} ${px} ${py})"/>`;}return `<g><circle cx="${x}" cy="${y}" r="${r+9}" fill="#E0A52A"/>${p}<circle cx="${x}" cy="${y}" r="${r-6}" fill="#6B481C"/></g>`;}).join('');
-  } else if(name==='starry'){
-    const st=[[40,70],[92,40],[150,80],[212,52],[282,100],[60,150],[300,60]];
-    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#15224E"/><stop offset="1" stop-color="#37527E"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><path d="M30 130 q70 -54 150 -6 q46 34 -16 64 q-58 26 -78 -16" fill="none" stroke="#6E8FCB" stroke-width="7" opacity=".55"/><path d="M70 122 q40 -26 86 0" fill="none" stroke="#CBB86A" stroke-width="4" opacity=".5"/><circle cx="258" cy="84" r="46" fill="#EFD06A" opacity=".22"/><circle cx="258" cy="84" r="32" fill="#EFD16C"/>${st.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13" fill="#F0DE8E" opacity=".22"/><circle cx="${x}" cy="${y}" r="6" fill="#F2E193"/>`).join('')}<path d="M0 320 q80 -34 160 -2 t160 -2 v84 h-320z" fill="#1A2A50"/><path d="M66 372 c -12 -66 8 -132 18 -164 c 10 32 28 98 16 164z" fill="#10211B"/>`;
-  } else if(name==='portrait'){
-    g=`<defs><radialGradient id="${id('b')}" cx="46%" cy="40%" r="80%"><stop offset="0" stop-color="#6E5F4A"/><stop offset="1" stop-color="#2C2824"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#${id('b')})"/><path d="M52 400 c 8 -96 60 -130 108 -130 c 48 0 100 34 108 130z" fill="#3A332A"/><path d="M120 300 q40 16 80 0 l-6 -40 h-68z" fill="#B98E64"/><ellipse cx="160" cy="150" rx="54" ry="64" fill="#CBA079"/><path d="M106 150 c -10 -78 118 -94 112 -8 c -12 -34 -44 -44 -56 -44 c -26 0 -48 14 -56 52z" fill="#2A2118"/><path d="M134 150 q9 -7 18 0 M170 150 q9 -7 18 0" stroke="#3A2C20" stroke-width="3" fill="none"/><path d="M156 168 l6 18 l-8 4" stroke="#9A6E4E" stroke-width="2.5" fill="none"/><path d="M148 196 q12 9 26 0" stroke="#7A463A" stroke-width="3" fill="none"/>`;
-  } else {
-    let wh='';for(let i=0;i<46;i++){const x=i*7+3,s=(i%3-1)*3,h=18+(i%6)*5;wh+=`<path d="M${x} 258 q${s} -${(h/2).toFixed(0)} ${(s*1.5).toFixed(0)} -${h}" stroke="#A87C20" stroke-width="2" fill="none"/>`;}
-    g=`<defs><linearGradient id="${id('b')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5E7E96"/><stop offset="1" stop-color="#AEC2BF"/></linearGradient></defs><rect width="${W}" height="240" fill="url(#${id('b')})"/><path d="M0 214 q90 -26 180 -6 t140 4 v40 h-320z" fill="#7E8B66"/><rect y="250" width="${W}" height="150" fill="#D7AC3A"/>${wh}<path d="M150 400 l22 -150 h-8 l-34 150z" fill="#C99A28"/><path d="M60 120 q6 -7 12 0 q6 -7 12 0 M210 96 q6 -7 12 0 q6 -7 12 0 M150 140 q5 -6 10 0 q5 -6 10 0" stroke="#1A1A12" stroke-width="2.5" fill="none"/>`;
-  }
-  return `<svg class="art" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${name} painting">${g}${grain}${vign}</svg>`;
-}
-document.querySelectorAll('[data-art]').forEach(el=>el.insertAdjacentHTML('afterbegin',artwork(el.dataset.art)));
 
 /* ===== Foundations data (Atrium / mineral tokens) ===== */
 const COLORS=[
-  ['primary','#4E6A78','on-primary','#FFFFFF'],['primary-strong','#3C5562','',''],
-  ['primary-container','#DCE4E7','on-primary-container','#1F2E36'],
-  ['secondary','#7A6A57','on-secondary','#FFFFFF'],['accent','#C08A2E','on-accent','#2A1D06'],
-  ['bg','#F2EEE4','on-bg','#2A2722'],['surface','#F8F5EE','on-surface','#2A2722'],
-  ['surface-sunken','#EAE5D8','',''],['muted','#6B6457','',''],['subtle','#9A9384','',''],['border','#DED8C9','',''],
-  ['success','#4E7351','on-success','#FFFFFF'],['error','#A83E32','on-error','#FFFFFF'],
-  ['warning','#B5841F','on-warning','#271A03'],['info','#3F6275','on-info','#FFFFFF'],
-  ['tone-navy','#1C2533','on-tone-navy','#ECE7DC'],['tone-clay','#A04A38','on-tone-clay','#FBEFE6'],['tone-sage','#4E5C4F','on-tone-sage','#F0ECE0']];
-const TYPE=[['t-h1','Spectral 600 / 42'],['t-h2','Spectral 600 / 33'],['t-h3','Spectral 600 / 26'],['t-h4','Inter 700 / 21'],['t-h5','Inter 700 / 17'],['t-subtitle','Inter 600 / 15'],['t-body','Inter 400 / 16'],['t-body2','Inter 400 / 14'],['t-caption','Inter 400 / 12'],['t-overline','Inter 600 / 11 · caps']];
+  ['primary','#201F26','on-primary','#FFFFFF'],['primary-strong','#3A3943','',''],['primary-ink','#201F26','',''],
+  ['primary-container','#DCE0F4','on-primary-container','#201F26'],
+  ['secondary','#495CB2','on-secondary','#FFFFFF'],['accent','#D0A749','on-accent','#201F26'],
+  ['bg','#E4E4EB','on-bg','#201F26'],['surface','#F8F8FB','on-surface','#201F26'],
+  ['surface-sunken','#D8D8E0','',''],['muted','#52515C','',''],['subtle','#7A7986','',''],['border','#C9C9D3','',''],
+  ['success','#3D6948','on-success','#FFFFFF'],['error','#A63E2E','on-error','#FFFFFF'],
+  ['warning','#D0A749','on-warning','#201F26'],['info','#495CB2','on-info','#FFFFFF'],
+  ['room-blue','#495CB2','on-room-blue','#FAF9F9'],['room-ink','#201F26','on-room-ink','#FAF9F9'],['room-mustard','#D0A749','on-room-mustard','#201F26'],['room-ecru','#C4BCB4','on-room-ecru','#201F26'],['room-grey','#9897A4','on-room-grey','#201F26']];
+const TYPE=[['t-h1','Spectral 600 / 42'],['t-h2','Spectral 600 / 33'],['t-h3','Spectral 600 / 26'],['t-h4','Inter 700 / 21'],['t-h5','Inter 700 / 17'],['t-subtitle','Inter 600 / 15'],['t-body','Inter 400 / 16'],['t-body2','Inter 400 / 14'],['t-caption','Inter 400 / 12'],['t-overline','Inter 600 / 11 · caps'],['t-num','Inter 600 / 28 · tabular']];
 const SPACING=[['sp-4',4],['sp-8',8],['sp-12',12],['sp-16',16],['sp-20',20],['sp-24',24],['sp-32',32],['sp-48',48],['sp-64',64]];
 colorGrid.innerHTML=COLORS.map(([n,h,on,onh])=>`<div class="sw"><div class="c" style="background:${h}">${on?`<span class="on" style="color:${onh}">${onh}</span>`:''}</div><div class="m"><div class="n">${n}</div><div class="v">${h}${on?` · ${on}`:''}</div></div></div>`).join('');
 typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">Form, light and stone</div></div>`).join('');
@@ -415,43 +393,43 @@ iconGrid.innerHTML=ICONS.map(n=>`<div class="it"><svg class="ico ico--lg"><use h
 const SPECS={
  button:{name:'Button',file:'components/Button',desc:'Primary action. variant: contained/outlined/text; color: primary/secondary/error; size: sm/md/lg; states: default/hover/focus/disabled.',
   props:[{n:'label',t:'string'},{n:'variant',t:'contained|outlined|text',def:'contained'},{n:'color',t:'primary|secondary|error',def:'primary'},{n:'size',t:'sm|md|lg',def:'md'},{n:'disabled',t:'bool',def:'false'},{n:'onPress',t:'callback'}],
-  tokens:[{r:'fill (contained)',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'label',n:'--on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'hover fill',n:'--primary-strong',v:'#3C5562',c:'#3C5562'},{r:'focus ring',n:'--focus-ring',v:'2px ring + gap'},{r:'shadow',n:'--elev-1',v:'soft tinted'}],
-  metrics:[['radius','--r-sm (8)'],['minHeight','44 · sm 34 · lg 52'],['padding','h 20'],['contrast','white on primary = 5.7:1']]},
- buttongroup:{name:'Button group',file:'components/ButtonGroup',desc:'Joined related actions sharing one border.',props:[{n:'items',t:'string[]'},{n:'value',t:'string'}],tokens:[{r:'border',n:'--primary @42%',v:'rgba',c:'#4E6A78'}],metrics:[['radius','ends --r-sm'],['overlap','-1px']]},
- iconbtn:{name:'Icon button',file:'components/IconButton',desc:'Compact icon-only action. standard/filled.',props:[{n:'icon',t:'sprite id'},{n:'variant',t:'standard|filled',def:'standard'}],tokens:[{r:'filled bg',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'filled fg',n:'--on-primary-container',v:'#1F2E36',c:'#1F2E36'}],metrics:[['size','44×44'],['radius','--r-full']]},
- fab:{name:'FAB',file:'components/Fab',desc:'Floating primary action. regular/small/extended.',props:[{n:'icon',t:'sprite id'},{n:'label',t:'string?'},{n:'size',t:'regular|small',def:'regular'}],tokens:[{r:'fill',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'fg',n:'--on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'shadow',n:'--elev-2',v:'soft'}],metrics:[['size','56 · sm 40'],['radius','--r-lg'],['motion','--ease-spring on hover']]},
- checkbox:{name:'Checkbox',file:'components/Checkbox',desc:'unchecked/checked/indeterminate.',props:[{n:'checked',t:'bool'},{n:'indeterminate',t:'bool',def:'false'}],tokens:[{r:'checked fill',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'border',n:'--subtle',v:'#9A9384',c:'#9A9384'}],metrics:[['box','20'],['radius','--r-xs']]},
- radio:{name:'Radio',file:'components/Radio',desc:'Single-choice within a group.',props:[{n:'selected',t:'bool'},{n:'name',t:'string'}],tokens:[{r:'dot',n:'--primary',v:'#4E6A78',c:'#4E6A78'}],metrics:[['outer','20'],['inner','10']]},
- switch:{name:'Switch',file:'components/Switch',desc:'Binary toggle with spring thumb.',props:[{n:'on',t:'bool'}],tokens:[{r:'on track',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'off track',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'}],metrics:[['track','46×28'],['motion','--ease-spring']]},
- select:{name:'Select',file:'components/Select',desc:'Closed control opens a menu of options.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'}],metrics:[['height','48'],['radius','--r-sm']]},
- autocomplete:{name:'Autocomplete',file:'components/Autocomplete',desc:'Free text + multi-select chips.',props:[{n:'values',t:'string[]'},{n:'onAdd',t:'callback'}],tokens:[{r:'chip',n:'--primary',v:'#4E6A78',c:'#4E6A78'}],metrics:[['minHeight','48']]},
- slider:{name:'Slider',file:'components/Slider',desc:'Continuous value selection.',props:[{n:'value',t:'number'},{n:'min',t:'number'},{n:'max',t:'number'}],tokens:[{r:'fill',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'track',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'}],metrics:[['thumb','18'],['track','4']]},
- field:{name:'Text field',file:'components/TextField',desc:'variant outlined/filled/standard; states empty/focus/filled/error/disabled.',props:[{n:'label',t:'string'},{n:'value',t:'string'},{n:'variant',t:'outlined|filled|standard',def:'outlined'},{n:'error',t:'string?'},{n:'disabled',t:'bool',def:'false'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'},{r:'focus',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'error',n:'--error',v:'#A83E32',c:'#A83E32'}],metrics:[['height','48'],['radius','--r-sm'],['focus','3px ring']]},
- toggle:{name:'Toggle button',file:'components/ToggleButton',desc:'Exclusive selection between options.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'selected',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'}],metrics:[['radius','--r-sm']]},
- rating:{name:'Rating',file:'components/Rating',desc:'Star rating, read-only or interactive.',props:[{n:'value',t:'number'},{n:'max',t:'number',def:'5'}],tokens:[{r:'active',n:'--accent',v:'#C08A2E',c:'#C08A2E'},{r:'inactive',n:'--subtle',v:'#9A9384',c:'#9A9384'}],metrics:[['icon','24']]},
- avatar:{name:'Avatar',file:'components/Avatar',desc:'Artwork thumbnail (square) or initials; sizes sm/md/lg.',props:[{n:'src',t:'url?'},{n:'initials',t:'string?'},{n:'square',t:'bool',def:'false'},{n:'size',t:'sm|md|lg',def:'md'}],tokens:[{r:'bg',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'fg',n:'--on-primary-container',v:'#1F2E36',c:'#1F2E36'}],metrics:[['size','40 · 28 · 56'],['radius','--r-full · square --r-sm']]},
- badge:{name:'Badge',file:'components/Badge',desc:'Count or dot overlay.',props:[{n:'count',t:'number?'},{n:'dot',t:'bool',def:'false'}],tokens:[{r:'bg',n:'--error',v:'#A83E32',c:'#A83E32'},{r:'fg',n:'--on-error',v:'#FFFFFF',c:'#FFFFFF'}],metrics:[['size','18'],['border','2px surface']]},
- chip:{name:'Chip',file:'components/Chip',desc:'filled/outlined/selected/deletable.',props:[{n:'label',t:'string'},{n:'variant',t:'filled|outlined',def:'filled'},{n:'selected',t:'bool',def:'false'},{n:'onDelete',t:'callback?'}],tokens:[{r:'bg (filled)',n:'--muted-surface',v:'#EAE5D8',c:'#EAE5D8'},{r:'fg',n:'--on-muted-surface',v:'#514B40',c:'#514B40'},{r:'selected',n:'--primary',v:'#4E6A78',c:'#4E6A78'}],metrics:[['height','32'],['radius','--r-full']]},
- divider:{name:'Divider',file:'components/Divider',desc:'full/inset hairline rule.',props:[{n:'inset',t:'bool',def:'false'}],tokens:[{r:'line',n:'--border',v:'#DED8C9',c:'#DED8C9'}],metrics:[['height','1'],['inset','16']]},
- list:{name:'List',file:'components/List',desc:'Two-line items: leading thumb, title/artist, trailing audio length.',props:[{n:'items',t:'ListItem[]'},{n:'lines',t:'1|2|3',def:'2'}],tokens:[{r:'primary',n:'--on-surface',v:'#2A2722',c:'#2A2722'},{r:'secondary',n:'--muted',v:'#6B6457',c:'#6B6457'}],metrics:[['minHeight','56'],['gap','12']]},
- table:{name:'Table',file:'components/Table',desc:'Header + rows; numeric columns right-aligned, monospace.',props:[{n:'columns',t:'Column[]'},{n:'rows',t:'Row[]'}],tokens:[{r:'header',n:'--subtle',v:'#9A9384',c:'#9A9384'},{r:'row border',n:'--border-faint',v:'#EAE6DB',c:'#EAE6DB'}],metrics:[['cell pad','12'],['figures','--font-mono']]},
- tooltip:{name:'Tooltip',file:'components/Tooltip',desc:'Inverse-surface label.',props:[{n:'text',t:'string'}],tokens:[{r:'bg',n:'--on-surface',v:'#2A2722',c:'#2A2722'},{r:'fg',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'}],metrics:[['radius','--r-xs'],['pad','6 · 10']]},
- alert:{name:'Alert',file:'components/Alert',desc:'severity success/info/warning/error; soft tinted surface + matching border.',props:[{n:'severity',t:'success|info|warning|error'},{n:'title',t:'string'},{n:'body',t:'string?'}],tokens:[{r:'success',n:'--success',v:'#4E7351',c:'#4E7351'},{r:'info',n:'--info',v:'#3F6275',c:'#3F6275'},{r:'warning',n:'--warning',v:'#B5841F',c:'#B5841F'},{r:'error',n:'--error',v:'#A83E32',c:'#A83E32'}],metrics:[['radius','--r-sm'],['fill','12% tint']]},
- dialog:{name:'Dialog',file:'components/Dialog',desc:'Modal confirmation with title/body/actions.',props:[{n:'title',t:'string'},{n:'body',t:'string'},{n:'actions',t:'Button[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'shadow',n:'--elev-3',v:'soft'}],metrics:[['radius','--r-lg'],['maxWidth','360'],['pad','24']]},
- snackbar:{name:'Snackbar',file:'components/Snackbar',desc:'Transient message with optional action.',props:[{n:'message',t:'string'},{n:'action',t:'string?'}],tokens:[{r:'bg',n:'--on-surface',v:'#2A2722',c:'#2A2722'},{r:'action',n:'--accent',v:'#C08A2E',c:'#C08A2E'}],metrics:[['radius','--r-sm']]},
- progress:{name:'Progress',file:'components/Progress',desc:'linear (determinate) + circular (indeterminate).',props:[{n:'variant',t:'linear|circular'},{n:'value',t:'number?'}],tokens:[{r:'bar',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'track',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'}],metrics:[['linear h','6'],['spinner','28']]},
- skeleton:{name:'Skeleton',file:'components/Skeleton',desc:'Shimmer placeholder shown while content loads.',props:[{n:'variant',t:'text|circle|rect',def:'text'},{n:'width',t:'number|%'},{n:'height',t:'number'}],tokens:[{r:'base',n:'--surface-sunken',v:'#EAE5D8',c:'#EAE5D8'},{r:'sheen',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'}],metrics:[['radius','--r-xs'],['anim','1.3s shimmer']]},
- card:{name:'Card',file:'components/Card',desc:'outlined/elevated/wash surface container.',props:[{n:'variant',t:'outlined|elevated|wash',def:'outlined'},{n:'child',t:'node'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'},{r:'wash',n:'--wash',v:'gradient'},{r:'shadow',n:'--elev-1',v:'soft'}],metrics:[['radius','--r-lg (16)'],['pad','20']]},
- paper:{name:'Paper',file:'components/Paper',desc:'Flat base surface primitive.',props:[{n:'child',t:'node'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border-faint',v:'#EAE6DB',c:'#EAE6DB'}],metrics:[['radius','--r-md']]},
- appbar:{name:'App bar',file:'components/AppBar',desc:'Top bar: leading icon, title, trailing actions.',props:[{n:'title',t:'string'},{n:'actions',t:'IconButton[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border-faint',v:'#EAE6DB',c:'#EAE6DB'}],metrics:[['height','56']]},
- accordion:{name:'Accordion',file:'components/Accordion',desc:'Expandable header + body; chevron rotates.',props:[{n:'title',t:'string'},{n:'open',t:'bool',def:'false'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'border',n:'--border',v:'#DED8C9',c:'#DED8C9'}],metrics:[['radius','--r-sm'],['pad','16']]},
- bottomnav:{name:'Bottom navigation',file:'components/BottomNav',desc:'Primary nav; selected item gets a slate pill.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'selected',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'pill',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'inactive',n:'--subtle',v:'#9A9384',c:'#9A9384'}],metrics:[['height','64']]},
- drawer:{name:'Drawer',file:'components/Drawer',desc:'Side navigation list.',props:[{n:'items',t:'NavItem[]'},{n:'selected',t:'string'}],tokens:[{r:'selected',n:'--primary-container',v:'#DCE4E7',c:'#DCE4E7'},{r:'fg',n:'--on-primary-container',v:'#1F2E36',c:'#1F2E36'}],metrics:[['width','280']]},
- tabs:{name:'Tabs',file:'components/Tabs',desc:'Underline tabs + segmented control variant.',props:[{n:'tabs',t:'string[]'},{n:'index',t:'number'}],tokens:[{r:'active',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'inactive',n:'--muted',v:'#6B6457',c:'#6B6457'}],metrics:[['indicator','2'],['pad','12 · 16']]},
- menu:{name:'Menu',file:'components/Menu',desc:'Dropdown of actions.',props:[{n:'items',t:'MenuItem[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'},{r:'shadow',n:'--elev-2',v:'soft'}],metrics:[['radius','--r-sm'],['minWidth','200']]},
- link:{name:'Link',file:'components/Link',desc:'Inline text navigation.',props:[{n:'href',t:'string'},{n:'label',t:'string'}],tokens:[{r:'color',n:'--link',v:'#4E6A78',c:'#4E6A78'}],metrics:[['underline','35% on rest']]},
- stepper:{name:'Stepper',file:'components/Stepper',desc:'Horizontal multi-step progress: done/active/upcoming.',props:[{n:'steps',t:'string[]'},{n:'active',t:'number'}],tokens:[{r:'done',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'active ring',n:'--ring',v:'rgba',c:'#4E6A78'}],metrics:[['num','26']]},
- speeddial:{name:'Speed dial',file:'components/SpeedDial',desc:'FAB that expands to quick actions.',props:[{n:'actions',t:'Action[]'}],tokens:[{r:'fab',n:'--primary',v:'#4E6A78',c:'#4E6A78'},{r:'mini',n:'--surface',v:'#F8F5EE',c:'#F8F5EE'}],metrics:[['mini','40'],['fab','56']]},
+  tokens:[{r:'fill (contained)',n:'--primary',v:'#201F26',c:'#201F26'},{r:'label',n:'--on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'hover fill',n:'--primary-strong',v:'#3A3943',c:'#3A3943'},{r:'focus ring',n:'--focus-ring',v:'2px ring + gap'},{r:'elevation',n:'--elev-1',v:'none (tonal)'}],
+  metrics:[['radius','--r-sm (8)'],['minHeight','48 (--target-min) · sm 34 · lg 52'],['padding','h 20'],['contrast','white on primary = 16.3:1']]},
+ buttongroup:{name:'Button group',file:'components/ButtonGroup',desc:'Joined related actions sharing one border.',props:[{n:'items',t:'string[]'},{n:'value',t:'string'}],tokens:[{r:'border',n:'--primary @42%',v:'rgba',c:'#201F26'}],metrics:[['radius','ends --r-sm'],['overlap','-1px']]},
+ iconbtn:{name:'Icon button',file:'components/IconButton',desc:'Compact icon-only action. standard/filled.',props:[{n:'icon',t:'sprite id'},{n:'variant',t:'standard|filled',def:'standard'}],tokens:[{r:'filled bg',n:'--primary-container',v:'#DCE0F4',c:'#DCE0F4'},{r:'filled fg',n:'--on-primary-container',v:'#201F26',c:'#201F26'}],metrics:[['size','48×48 (--target-min)'],['radius','--r-full']]},
+ fab:{name:'FAB',file:'components/Fab',desc:'Floating primary action. regular/small/extended.',props:[{n:'icon',t:'sprite id'},{n:'label',t:'string?'},{n:'size',t:'regular|small',def:'regular'}],tokens:[{r:'fill',n:'--primary',v:'#201F26',c:'#201F26'},{r:'fg',n:'--on-primary',v:'#FFFFFF',c:'#FFFFFF'},{r:'shadow',n:'--elev-2',v:'soft'}],metrics:[['size','56 · sm 40'],['radius','--r-lg'],['motion','--ease-spring on hover']]},
+ checkbox:{name:'Checkbox',file:'components/Checkbox',desc:'unchecked/checked/indeterminate.',props:[{n:'checked',t:'bool'},{n:'indeterminate',t:'bool',def:'false'}],tokens:[{r:'checked fill',n:'--primary',v:'#201F26',c:'#201F26'},{r:'border',n:'--subtle',v:'#7A7986',c:'#7A7986'}],metrics:[['box','20'],['radius','--r-xs']]},
+ radio:{name:'Radio',file:'components/Radio',desc:'Single-choice within a group.',props:[{n:'selected',t:'bool'},{n:'name',t:'string'}],tokens:[{r:'dot',n:'--primary',v:'#201F26',c:'#201F26'}],metrics:[['outer','20'],['inner','10']]},
+ switch:{name:'Switch',file:'components/Switch',desc:'Binary toggle with spring thumb.',props:[{n:'on',t:'bool'}],tokens:[{r:'on track',n:'--primary',v:'#201F26',c:'#201F26'},{r:'off track',n:'--surface-sunken',v:'#D8D8E0',c:'#D8D8E0'}],metrics:[['track','46×28'],['motion','--ease-spring']]},
+ select:{name:'Select',file:'components/Select',desc:'Closed control opens a menu of options.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'border',n:'--border',v:'#C9C9D3',c:'#C9C9D3'}],metrics:[['height','48'],['radius','--r-sm']]},
+ autocomplete:{name:'Autocomplete',file:'components/Autocomplete',desc:'Free text + multi-select chips.',props:[{n:'values',t:'string[]'},{n:'onAdd',t:'callback'}],tokens:[{r:'chip',n:'--primary',v:'#201F26',c:'#201F26'}],metrics:[['minHeight','48']]},
+ slider:{name:'Slider',file:'components/Slider',desc:'Continuous value selection.',props:[{n:'value',t:'number'},{n:'min',t:'number'},{n:'max',t:'number'}],tokens:[{r:'fill',n:'--primary',v:'#201F26',c:'#201F26'},{r:'track',n:'--surface-sunken',v:'#D8D8E0',c:'#D8D8E0'}],metrics:[['thumb','18'],['track','4']]},
+ field:{name:'Text field',file:'components/TextField',desc:'variant outlined/filled/standard; states empty/focus/filled/error/disabled.',props:[{n:'label',t:'string'},{n:'value',t:'string'},{n:'variant',t:'outlined|filled|standard',def:'outlined'},{n:'error',t:'string?'},{n:'disabled',t:'bool',def:'false'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'border',n:'--border',v:'#C9C9D3',c:'#C9C9D3'},{r:'focus',n:'--primary',v:'#201F26',c:'#201F26'},{r:'error',n:'--error',v:'#A63E2E',c:'#A63E2E'}],metrics:[['height','48'],['radius','--r-sm'],['focus','3px ring']]},
+ toggle:{name:'Toggle button',file:'components/ToggleButton',desc:'Exclusive selection between options.',props:[{n:'value',t:'string'},{n:'options',t:'string[]'}],tokens:[{r:'selected',n:'--primary-container',v:'#DCE0F4',c:'#DCE0F4'}],metrics:[['radius','--r-sm']]},
+ rating:{name:'Rating',file:'components/Rating',desc:'Star rating, read-only or interactive.',props:[{n:'value',t:'number'},{n:'max',t:'number',def:'5'}],tokens:[{r:'active',n:'--accent',v:'#D0A749',c:'#D0A749'},{r:'inactive',n:'--subtle',v:'#7A7986',c:'#7A7986'}],metrics:[['icon','24']]},
+ avatar:{name:'Avatar',file:'components/Avatar',desc:'Artwork thumbnail (square) or initials; sizes sm/md/lg.',props:[{n:'src',t:'url?'},{n:'initials',t:'string?'},{n:'square',t:'bool',def:'false'},{n:'size',t:'sm|md|lg',def:'md'}],tokens:[{r:'bg',n:'--primary-container',v:'#DCE0F4',c:'#DCE0F4'},{r:'fg',n:'--on-primary-container',v:'#201F26',c:'#201F26'}],metrics:[['size','40 · 28 · 56'],['radius','--r-full · square --r-sm']]},
+ badge:{name:'Badge',file:'components/Badge',desc:'Count or dot overlay.',props:[{n:'count',t:'number?'},{n:'dot',t:'bool',def:'false'}],tokens:[{r:'bg',n:'--error',v:'#A63E2E',c:'#A63E2E'},{r:'fg',n:'--on-error',v:'#FFFFFF',c:'#FFFFFF'}],metrics:[['size','18'],['border','2px surface']]},
+ chip:{name:'Chip',file:'components/Chip',desc:'filled/outlined/selected/deletable.',props:[{n:'label',t:'string'},{n:'variant',t:'filled|outlined',def:'filled'},{n:'selected',t:'bool',def:'false'},{n:'onDelete',t:'callback?'}],tokens:[{r:'bg (filled)',n:'--muted-surface',v:'#D8D8E0',c:'#D8D8E0'},{r:'fg',n:'--on-muted-surface',v:'#45444F',c:'#45444F'},{r:'selected',n:'--primary',v:'#201F26',c:'#201F26'}],metrics:[['height','32'],['radius','--r-full']]},
+ divider:{name:'Divider',file:'components/Divider',desc:'full/inset hairline rule.',props:[{n:'inset',t:'bool',def:'false'}],tokens:[{r:'line',n:'--border',v:'#C9C9D3',c:'#C9C9D3'}],metrics:[['height','1'],['inset','16']]},
+ list:{name:'List',file:'components/List',desc:'Two-line items: leading thumb, title/artist, trailing audio length.',props:[{n:'items',t:'ListItem[]'},{n:'lines',t:'1|2|3',def:'2'}],tokens:[{r:'primary',n:'--on-surface',v:'#201F26',c:'#201F26'},{r:'secondary',n:'--muted',v:'#52515C',c:'#52515C'}],metrics:[['minHeight','56'],['gap','12']]},
+ table:{name:'Table',file:'components/Table',desc:'Header + rows; numeric columns right-aligned, monospace.',props:[{n:'columns',t:'Column[]'},{n:'rows',t:'Row[]'}],tokens:[{r:'header',n:'--subtle',v:'#7A7986',c:'#7A7986'},{r:'row border',n:'--border-faint',v:'#D8D8E0',c:'#D8D8E0'}],metrics:[['cell pad','12'],['figures','--font-mono']]},
+ tooltip:{name:'Tooltip',file:'components/Tooltip',desc:'Inverse-surface label.',props:[{n:'text',t:'string'}],tokens:[{r:'bg',n:'--on-surface',v:'#201F26',c:'#201F26'},{r:'fg',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'}],metrics:[['radius','--r-xs'],['pad','6 · 10']]},
+ alert:{name:'Alert',file:'components/Alert',desc:'severity success/info/warning/error; soft tinted surface + matching border.',props:[{n:'severity',t:'success|info|warning|error'},{n:'title',t:'string'},{n:'body',t:'string?'}],tokens:[{r:'success',n:'--success',v:'#3D6948',c:'#3D6948'},{r:'info',n:'--info',v:'#495CB2',c:'#495CB2'},{r:'warning',n:'--warning',v:'#D0A749',c:'#D0A749'},{r:'error',n:'--error',v:'#A63E2E',c:'#A63E2E'}],metrics:[['radius','--r-sm'],['fill','12% tint']]},
+ dialog:{name:'Dialog',file:'components/Dialog',desc:'Modal confirmation with title/body/actions.',props:[{n:'title',t:'string'},{n:'body',t:'string'},{n:'actions',t:'Button[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'shadow',n:'--elev-3',v:'soft'}],metrics:[['radius','--r-lg'],['maxWidth','360'],['pad','24']]},
+ snackbar:{name:'Snackbar',file:'components/Snackbar',desc:'Transient message with optional action.',props:[{n:'message',t:'string'},{n:'action',t:'string?'}],tokens:[{r:'bg',n:'--on-surface',v:'#201F26',c:'#201F26'},{r:'action',n:'--accent',v:'#D0A749',c:'#D0A749'}],metrics:[['radius','--r-sm']]},
+ progress:{name:'Progress',file:'components/Progress',desc:'linear (determinate) + circular (indeterminate).',props:[{n:'variant',t:'linear|circular'},{n:'value',t:'number?'}],tokens:[{r:'bar',n:'--primary',v:'#201F26',c:'#201F26'},{r:'track',n:'--surface-sunken',v:'#D8D8E0',c:'#D8D8E0'}],metrics:[['linear h','6'],['spinner','28']]},
+ skeleton:{name:'Skeleton',file:'components/Skeleton',desc:'Shimmer placeholder shown while content loads.',props:[{n:'variant',t:'text|circle|rect',def:'text'},{n:'width',t:'number|%'},{n:'height',t:'number'}],tokens:[{r:'base',n:'--surface-sunken',v:'#D8D8E0',c:'#D8D8E0'},{r:'sheen',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'}],metrics:[['radius','--r-xs'],['anim','1.3s shimmer']]},
+ card:{name:'Card',file:'components/Card',desc:'Tonal surface container: a room-toned card (exhibition), outlined, or elevated (overlay-like). Separates by fill, never by a border + shadow stack.',props:[{n:'variant',t:'room|outlined|elevated',def:'room'},{n:'room',t:'blue|ink|mustard|ecru|grey'},{n:'child',t:'node'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'room fill',n:'--room-blue',v:'#495CB2',c:'#495CB2'},{r:'on room',n:'--on-room-blue',v:'#FAF9F9',c:'#FAF9F9'},{r:'border (outlined)',n:'--border',v:'#C9C9D3',c:'#C9C9D3'},{r:'shadow (elevated)',n:'--elev-2',v:'overlay'}],metrics:[['radius','--r-lg (12)'],['pad','20']]},
+ paper:{name:'Paper',file:'components/Paper',desc:'Flat base surface primitive.',props:[{n:'child',t:'node'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'border',n:'--border-faint',v:'#D8D8E0',c:'#D8D8E0'}],metrics:[['radius','--r-md']]},
+ appbar:{name:'App bar',file:'components/AppBar',desc:'Top bar: leading icon, title, trailing actions.',props:[{n:'title',t:'string'},{n:'actions',t:'IconButton[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'border',n:'--border-faint',v:'#D8D8E0',c:'#D8D8E0'}],metrics:[['height','56']]},
+ accordion:{name:'Accordion',file:'components/Accordion',desc:'Expandable header + body; chevron rotates.',props:[{n:'title',t:'string'},{n:'open',t:'bool',def:'false'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'border',n:'--border',v:'#C9C9D3',c:'#C9C9D3'}],metrics:[['radius','--r-sm'],['pad','16']]},
+ bottomnav:{name:'Bottom navigation',file:'components/BottomNav',desc:'Primary nav; selected item gets a slate pill.',props:[{n:'items',t:'NavItem[]'},{n:'index',t:'number'}],tokens:[{r:'selected',n:'--primary',v:'#201F26',c:'#201F26'},{r:'pill',n:'--primary-container',v:'#DCE0F4',c:'#DCE0F4'},{r:'inactive',n:'--subtle',v:'#7A7986',c:'#7A7986'}],metrics:[['height','64']]},
+ drawer:{name:'Drawer',file:'components/Drawer',desc:'Side navigation list.',props:[{n:'items',t:'NavItem[]'},{n:'selected',t:'string'}],tokens:[{r:'selected',n:'--primary-container',v:'#DCE0F4',c:'#DCE0F4'},{r:'fg',n:'--on-primary-container',v:'#201F26',c:'#201F26'}],metrics:[['width','280']]},
+ tabs:{name:'Tabs',file:'components/Tabs',desc:'Underline tabs + segmented control variant.',props:[{n:'tabs',t:'string[]'},{n:'index',t:'number'}],tokens:[{r:'active',n:'--primary',v:'#201F26',c:'#201F26'},{r:'inactive',n:'--muted',v:'#52515C',c:'#52515C'}],metrics:[['indicator','2'],['pad','12 · 16']]},
+ menu:{name:'Menu',file:'components/Menu',desc:'Dropdown of actions.',props:[{n:'items',t:'MenuItem[]'}],tokens:[{r:'surface',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'},{r:'shadow',n:'--elev-2',v:'soft'}],metrics:[['radius','--r-sm'],['minWidth','200']]},
+ link:{name:'Link',file:'components/Link',desc:'Inline text navigation.',props:[{n:'href',t:'string'},{n:'label',t:'string'}],tokens:[{r:'color',n:'--link',v:'#201F26',c:'#201F26'}],metrics:[['underline','35% on rest']]},
+ stepper:{name:'Stepper',file:'components/Stepper',desc:'Horizontal multi-step progress: done/active/upcoming.',props:[{n:'steps',t:'string[]'},{n:'active',t:'number'}],tokens:[{r:'done',n:'--primary',v:'#201F26',c:'#201F26'},{r:'active ring',n:'--ring',v:'rgba',c:'#201F26'}],metrics:[['num','26']]},
+ speeddial:{name:'Speed dial',file:'components/SpeedDial',desc:'FAB that expands to quick actions.',props:[{n:'actions',t:'Action[]'}],tokens:[{r:'fab',n:'--primary',v:'#201F26',c:'#201F26'},{r:'mini',n:'--surface',v:'#F8F8FB',c:'#F8F8FB'}],metrics:[['mini','40'],['fab','56']]},
 };
 
 /* ===== Copy-as-prompt — per component (add-or-update) + one "Install design system" prompt =====
@@ -460,24 +438,25 @@ const LANGS=['React (TypeScript + CSS)','SwiftUI','Jetpack Compose (Kotlin)','Fl
 let promptLang=LANGS[0];
 langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</option>`).join('');
 langSel.onchange=()=>promptLang=langSel.value;
-const DS_NAME='the "Atrium" museum & gallery guide design system (mineral & architectural, Le Corbusier–inspired palette)';
+const DS_NAME='the "Atrium" museum & gallery guide design system ("Polychromie rooms": ink chrome on cool grey, one rug-square room tone per exhibition, mosaic layout)';
 
 const TOKEN_GROUPS={
- 'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
- 'Spacing':['--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
+ 'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-ink','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--warning-ink','--info','--on-info','--link'],
+ 'Room tones (exhibition surfaces — the reference rug)':['--room-blue','--on-room-blue','--room-ink','--on-room-ink','--room-mustard','--on-room-mustard','--room-ecru','--on-room-ecru','--room-grey','--on-room-grey','--mosaic-cell'],
+ 'Spacing':['--gap-related','--gap-section','--gap-major','--layout-gutter','--target-min','--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
  'Radius':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full'],
  'Elevation':['--elev-0','--elev-1','--elev-2','--elev-3'],
- 'Craft & expression':['--ring','--focus-ring','--signature','--wash','--hero-wash'],
+ 'Craft & expression':['--ring','--focus-ring','--signature'],
  'Type families':['--font-display','--font-body','--font-mono'],
  'Motion':['--dur-fast','--dur-base','--dur-slow','--ease','--ease-spring'],
- 'Icons':['--icon-size','--icon-stroke']};
+ 'Icons':['--icon-size','--icon-inline','--icon-large','--icon-stroke','--icon-cap','--icon-join','--icon-fill']};
 function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];
  for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
   if(rows.length)out.push(`### ${grp}`,...rows,'');}
  return out;}
 function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as a named constant in ONE theme/config file, idiomatic to ${promptLang}. Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### Type scale (text styles)`];
  TYPE.forEach(([n,m])=>L.push(`- ${n}: ${m}`));
- L.push('',`### Rules`,`- Every fill stays paired with its --on-* foreground; pairs are WCAG-checked (body ≥ 4.5:1). Don't break a pair.`,`- Neutrals are intentionally tinted warm (plaster) and accents stay in one mineral band — preserve them; shadows are soft and tinted, not flat grey.`);
+ L.push('',`### Rules`,`- Every fill stays paired with its --on-* foreground; pairs are WCAG-checked (body ≥ 4.5:1). Don't break a pair.`,`- Ink is the only interaction family; ultramarine carries meaning, mustard only now-playing/ratings. Room tones are content surfaces, never chrome.`,`- Elevation is tonal: no shadow on cards; shadow only on overlays. Backgrounds are flat fills — no gradients or grain.`,`- Use the semantic spacing roles (--gap-related < --gap-section < --gap-major) between groups.`);
  return L.join('\n');}
 
 /* Single component — ADD if missing, UPDATE in place if it already exists */
@@ -489,7 +468,7 @@ function buildPrompt(key){const s=SPECS[key];const L=[
   L.push('',`## Design tokens (define/extend them in the foundation layer; never inline)`);
   s.tokens.forEach(t=>L.push(`- ${t.n} = ${t.v}   // ${t.r}`));
   L.push('',`## Metrics`); s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
-  L.push('',`## Requirements`,`- Implement every variant/state listed.`,`- Reference tokens by name; keep each fill paired with its --on-* foreground (WCAG ≥ 4.5:1).`,`- Match the calm, mineral, architectural feel: warm plaster surfaces, restrained radii, soft tinted shadows, generous whitespace.`,`- Output complete, compilable ${promptLang} code + a short usage example.`);
+  L.push('',`## Requirements`,`- Implement every variant/state listed.`,`- Reference tokens by name; keep each fill paired with its --on-* foreground (WCAG ≥ 4.5:1).`,`- Match the “Polychromie rooms” direction: ink chrome on a cool lavender-grey base, the rug colours (ultramarine/ink/mustard/ecru/grey) room tones only as exhibition surfaces, tonal elevation (no card shadows), medium radii, comfortable density.`,`- Output complete, compilable ${promptLang} code + a short usage example.`);
   return L.join('\n');}
 function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
 
@@ -500,7 +479,7 @@ function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[
  `Set up ${DS_NAME} in ${promptLang}. If it doesn't exist yet, scaffold it from scratch; if parts already exist, update them IN PLACE to match this spec (the source of truth) — modify, don't duplicate; collect breaking changes with migration notes.`,'',
  `## Build order`,`1. Implement the **foundation token layer** below as the single source of truth.`,`2. Then build the components. They're independent — you may split them across parallel workers — but **every component imports the shared token layer from step 1**; never redefine colors/sizes locally, or the set drifts. Keep naming & states consistent across all of them.`,`3. Reconcile: one components index/barrel + a pass confirming every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
  keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
- L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); preserve warm plaster neutrals & soft tinted shadows.`,`- Output: the token file, then each component, each with a short usage example.`);
+ L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); keep ink as the single interaction family, tonal elevation, flat backgrounds and the semantic spacing roles.`,`- Output: the token file, then each component, each with a short usage example.`);
  return L.join('\n');}
 function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
 

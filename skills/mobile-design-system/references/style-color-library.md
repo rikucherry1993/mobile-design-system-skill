@@ -7,14 +7,15 @@ plus the **authoritative colour systems** to reason with. This is a *background 
   into the chat. When the user gives a hint ("Scandinavian", "muji", "brutalist", "like Barragán",
   "70s", "calm/clinical", a brand) silently map it to the relevant entries here and let it inform the
   token values you generate. Surface a term only if it genuinely helps the user choose.
-- **Translate to tokens, never pixel-copy.** Every entry below resolves to decisions about palette
-  *temperature*, saturation band, neutral tint, shape/roundness, elevation, type personality, and
-  density — i.e. the `:root` token layer. It is a starting direction, then tuned to the brief.
+- **Translate to tokens, never pixel-copy.** Every entry must first inform spatial hierarchy, proportion
+  and reading rhythm, then decisions about palette *temperature*, saturation band, neutral tint,
+  shape/roundness, elevation, type personality, and density — and the concept screens' composition.
+  Be able to name where the entry is visible (`design-principles.md` §8); a movement name alone proves nothing.
 - **Licensing:** prefer open/public-domain sources for any embedded values. Proprietary systems
   (Pantone, Sanzo Wada's book, NCS) are referenced by *approach* only — approximate, don't copy their
   tables. Hexes here are illustrative approximations to seed from, not authoritative reproductions.
 - Still obey `design-principles.md`: harmony by construction (paired `--on-*`, WCAG-checked by math),
-  tinted neutrals, one coherent temperature.
+  purposeful neutral treatment and visual hierarchy. A pure neutral is valid when appropriate.
 
 ---
 
@@ -44,7 +45,7 @@ plus the **authoritative colour systems** to reason with. This is a *background 
 - **Le Corbusier — *Polychromie Architecturale*** (1931 & 1959): an authoritative architectural colour
   system of 63 harmonised hues organised into mood "keyboards". The go-to when the user wants an
   *architectural* palette — calm, mineral, confidently harmonised earth/sky tones.
-- **日本の伝統色 (Traditional Japanese colours)** & **Werner's Nomenclature of Colours** (1814) — for
+- **Traditional Japanese colours** & **Werner's Nomenclature of Colours** (1814) — for
   muted, natural, literary palettes (sage, indigo, clay, ash). Cited names, public domain.
 - **Sanzo Wada**, *A Dictionary of Colour Combinations* — reference the *combination sensibility*
   (unexpected but harmonious pairings), don't copy the plates.
