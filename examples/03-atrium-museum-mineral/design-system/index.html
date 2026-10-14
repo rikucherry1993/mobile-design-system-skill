@@ -438,9 +438,9 @@ const LANGS=['React (TypeScript + CSS)','SwiftUI','Jetpack Compose (Kotlin)','Fl
 let promptLang=LANGS[0];
 langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</option>`).join('');
 langSel.onchange=()=>promptLang=langSel.value;
-const DS_NAME='the "Atrium" museum & gallery guide design system ("Polychromie rooms": ink chrome on cool grey, one rug-square room tone per exhibition, mosaic layout)';
+const dsName='the "Atrium" museum & gallery guide design system ("Polychromie rooms": ink chrome on cool grey, one rug-square room tone per exhibition, mosaic layout)';
 
-const TOKEN_GROUPS={
+const varGroups={
  'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-ink','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--warning-ink','--info','--on-info','--link'],
  'Room tones (exhibition surfaces — the reference rug)':['--room-blue','--on-room-blue','--room-ink','--on-room-ink','--room-mustard','--on-room-mustard','--room-ecru','--on-room-ecru','--room-grey','--on-room-grey','--mosaic-cell'],
  'Spacing':['--gap-related','--gap-section','--gap-major','--layout-gutter','--target-min','--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
@@ -451,7 +451,7 @@ const TOKEN_GROUPS={
  'Motion':['--dur-fast','--dur-base','--dur-slow','--ease','--ease-spring'],
  'Icons':['--icon-size','--icon-inline','--icon-large','--icon-stroke','--icon-cap','--icon-join','--icon-fill']};
 function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];
- for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
+ for(const[grp,names]of Object.entries(varGroups)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
   if(rows.length)out.push(`### ${grp}`,...rows,'');}
  return out;}
 function foundationsBody(){const L=[`## Foundations — design tokens (single source of truth)`,`Define every token below as a named constant in ONE theme/config file, idiomatic to ${promptLang}. Components reference tokens by name — never inline raw values.`,'',...tokenLines(),`### Type scale (text styles)`];
@@ -462,7 +462,7 @@ function foundationsBody(){const L=[`## Foundations — design tokens (single so
 /* Single component — ADD if missing, UPDATE in place if it already exists */
 function buildPrompt(key){const s=SPECS[key];const L=[
   `# Add or update the \`${s.name}\` component — ${promptLang}`,'',
-  `A component from ${DS_NAME}. You are most likely working inside a codebase that already uses it: if a component with this role ALREADY EXISTS, modify it IN PLACE to match the spec below (this spec is the source of truth) — don't duplicate, and note any breaking prop/token change with a migration note. If it doesn't exist yet, create it, reusing existing tokens/atoms and following the project's file layout & naming.`,'',
+  `A component from ${dsName}. You are most likely working inside a codebase that already uses it: if a component with this role ALREADY EXISTS, modify it IN PLACE to match the spec below (this spec is the source of truth) — don't duplicate, and note any breaking prop/token change with a migration note. If it doesn't exist yet, create it, reusing existing tokens/atoms and following the project's file layout & naming.`,'',
   `## What it is`,s.desc,'',`## Props`];
   s.props.forEach(p=>L.push(`- \`${p.n}\`: ${p.t}${p.def?` (default ${p.def})`:''}${p.d?` — ${p.d}`:''}`));
   L.push('',`## Design tokens (define/extend them in the foundation layer; never inline)`);
@@ -470,18 +470,20 @@ function buildPrompt(key){const s=SPECS[key];const L=[
   L.push('',`## Metrics`); s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
   L.push('',`## Requirements`,`- Implement every variant/state listed.`,`- Reference tokens by name; keep each fill paired with its --on-* foreground (WCAG ≥ 4.5:1).`,`- Match the “Polychromie rooms” direction: ink chrome on a cool lavender-grey base, the rug colours (ultramarine/ink/mustard/ecru/grey) room tones only as exhibition surfaces, tonal elevation (no card shadows), medium radii, comfortable density.`,`- Output complete, compilable ${promptLang} code + a short usage example.`);
   return L.join('\n');}
-function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
+function specCount(){return Object.keys(SPECS).length;}
+function specName(key){return SPECS[key].name;}
+function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${specName(key)} → ${promptLang}`);}
 
 /* Whole system — install from scratch OR update all to match; foundation-first, then components
    against the SHARED token layer (Pencil's spawn-agents rule: split work but read shared variables). */
 function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[
  `# Install or update the ENTIRE design system — ${promptLang}`,'',
- `Set up ${DS_NAME} in ${promptLang}. If it doesn't exist yet, scaffold it from scratch; if parts already exist, update them IN PLACE to match this spec (the source of truth) — modify, don't duplicate; collect breaking changes with migration notes.`,'',
+ `Set up ${dsName} in ${promptLang}. If it doesn't exist yet, scaffold it from scratch; if parts already exist, update them IN PLACE to match this spec (the source of truth) — modify, don't duplicate; collect breaking changes with migration notes.`,'',
  `## Build order`,`1. Implement the **foundation token layer** below as the single source of truth.`,`2. Then build the components. They're independent — you may split them across parallel workers — but **every component imports the shared token layer from step 1**; never redefine colors/sizes locally, or the set drifts. Keep naming & states consistent across all of them.`,`3. Reconcile: one components index/barrel + a pass confirming every component references only named tokens.`,'','---','',foundationsBody(),'','---','',`## Components (${keys.length})`];
  keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
  L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); keep ink as the single interaction family, tonal elevation, flat backgrounds and the semantic spacing roles.`,`- Output: the token file, then each component, each with a short usage example.`);
  return L.join('\n');}
-function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
+function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${specCount()} components) → ${promptLang}`);}
 
 function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t);}
 

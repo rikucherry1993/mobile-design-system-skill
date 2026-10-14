@@ -37,11 +37,11 @@ with a baked faded treatment (lower saturation and contrast, lifted blacks, a sl
 
 | File | Photo | License · source |
 |---|---|---|
-| `photos/roys-peak-sunrise.jpg` | Sunrise at Roys Peak, New Zealand | CC0 · [Commons](https://commons.wikimedia.org/wiki/File:Sunrise_at_Roy%27s_Peak_(Unsplash).jpg) |
-| `photos/fog-trail-markers.jpg` | Looking for trail markers in low visibility | Public domain · [Commons](https://commons.wikimedia.org/wiki/File:Looking_for_trail_markers_in_low_visibility_conditions_(51484234243).jpg) |
-| `photos/tinkham-ridge.jpg` | Hikers on Tinkham Mountain Ridge | Public domain · [Commons](https://commons.wikimedia.org/wiki/File:Hikers_on_Tinkham_Mountain_Ridge_(5)_(29351320781).jpg) |
-| `photos/dolomites-ridge.jpg` | Hiking in the tall Dolomites | CC0 · [Commons](https://commons.wikimedia.org/wiki/File:Hiking_in_the_tall_Dolomites_(Unsplash).jpg) |
-| `photos/ridge-trail-nps.jpg` | Hiker on a ridge trail (NPS photo) | Public domain · [Commons](https://commons.wikimedia.org/wiki/File:Hiker_ridge_mountain_people_trail_NPS_Photo_(16751838183).jpg) |
+| photos/roys-peak-sunrise.jpg | Sunrise at Roys Peak, New Zealand | CC0 · [Commons](https://commons.wikimedia.org/wiki/File:Sunrise_at_Roy%27s_Peak_(Unsplash).jpg) |
+| photos/fog-trail-markers.jpg | Looking for trail markers in low visibility | Public domain · [Commons](https://commons.wikimedia.org/wiki/File:Looking_for_trail_markers_in_low_visibility_conditions_(51484234243).jpg) |
+| photos/tinkham-ridge.jpg | Hikers on Tinkham Mountain Ridge | Public domain · [Commons](https://commons.wikimedia.org/wiki/File:Hikers_on_Tinkham_Mountain_Ridge_(5)_(29351320781).jpg) |
+| photos/dolomites-ridge.jpg | Hiking in the tall Dolomites | CC0 · [Commons](https://commons.wikimedia.org/wiki/File:Hiking_in_the_tall_Dolomites_(Unsplash).jpg) |
+| photos/ridge-trail-nps.jpg | Hiker on a ridge trail (NPS photo) | Public domain · [Commons](https://commons.wikimedia.org/wiki/File:Hiker_ridge_mountain_people_trail_NPS_Photo_(16751838183).jpg) |
 
 Trail figures in the concept (distances, ascent, times) are illustrative sample content.
 

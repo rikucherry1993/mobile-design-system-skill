@@ -10,8 +10,14 @@ All notable changes to this skill are documented here. This project follows
 
 ## [Unreleased]
 
+## [0.3.1] — 2026-10-14
+- Directory-policy cleanup, no skill behavior change: README images use Markdown image syntax; image
+  paths in docs are no longer written as code; the style-guide script avoids credential-like names
+  (TOKEN_GROUPS → varGroups, no uppercase expressions in template strings); the guide GIF is re-encoded
+  as a plain GIF89a.
+
 ## [0.3.0] — 2026-10-14
-- Listed in the official Claude Code plugin directory; added a listing icon (`assets/icon.png`, via `icon` in `plugin.json`).
+- Listed in the official Claude Code plugin directory; added a listing icon (assets/icon.png, via `icon` in `plugin.json`).
 - **Art direction before tokens** — new `references/art-direction.md`: each direction is a one-sentence
   proposition (hierarchy, color roles, reading face, imagery, restraint); candidates answer the same
   brief and differ in at least two visual dimensions; facts are separated from inferences (no
@@ -35,7 +41,7 @@ All notable changes to this skill are documented here. This project follows
   hiking, "Topo HUD" — faded public-domain/CC0 photography with yellow routes, dark-first), Margin
   ("Swiss margin" — grey paper with grain, lowercase grotesk, green reader notes). Image provenance is
   listed in each example's README.
-- README hero and concept images replaced (`hero.webp`, `01-concept.webp`: transparent, side by side).
+- README hero and concept images replaced (hero.webp, 01-concept.webp: transparent, side by side).
 
 ## [0.2.1] — 2026-07-08
 - README polish (compact structure, tightened copy) and `.github/FUNDING.yml`. No skill behavior change.

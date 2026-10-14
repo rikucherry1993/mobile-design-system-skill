@@ -97,8 +97,8 @@ toggle):
   type scale + the harmony rules.
 
 Copy via `navigator.clipboard`. The `templates/index.html` scaffold ships all of this (toggle,
-inspector, language selector, `TOKEN_GROUPS`, `buildPrompt` / `copyFullSystem`). You fill `SPECS`, the
-component sections, and the `TYPE` data; `TOKEN_GROUPS` reads values live so it needs no upkeep.
+inspector, language selector, `varGroups`, `buildPrompt` / `copyFullSystem`). You fill `SPECS`, the
+component sections, and the `TYPE` data; `varGroups` reads values live so it needs no upkeep.
 
 ## concept.html — TWO concept screens (first view + detail)
 Two static **concept screens shown side by side in square presentation frames** (no device bezel,
@@ -173,7 +173,7 @@ the user's feedback, not on your own screenshots.
 
 ## Common pitfalls (learned)
 - Don't use emoji for UI icons — use the inline SVG sprite (`icons.html`).
-- Keep the sprite copied into each HTML file (self-contained); don't rely on external `.svg` refs
+- Keep the sprite copied into each HTML file (self-contained); don't rely on external .svg refs
   that break under `file://`.
 - Reserve space for hard shadows inside `overflow:auto` rows (a horizontal scroll that is
   `overflow-x:auto` forces `overflow-y` non-visible, clipping a drop shadow — add bottom padding).

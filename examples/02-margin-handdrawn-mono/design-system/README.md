@@ -21,7 +21,7 @@ at a glance.
   display and labels; **Inter** as the reading face (book text 18/1.72); **Caveat Brush** only for notes.
 - **Shape & depth** — square (every radius 0), 1px rules, **no shadows**; emphasis via the inverse
   block (`.inverse`) and heavy rules.
-- **Texture** — a film-like **paper grain** (user-requested): `grain.png`, a 128px tile of black and
+- **Texture** — a film-like **paper grain** (user-requested): grain.png, a 128px tile of black and
   white specks at 0–8.5% alpha, laid over everything with normal blending — about the same grain as
   the poster (σ≈6.5 of 255) in both themes. None in the UI itself.
 - **Characters** — hand-drawn line people (`stroke:currentColor` + a roughen filter) only for

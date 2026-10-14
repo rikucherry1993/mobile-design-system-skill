@@ -157,7 +157,8 @@ const TYPE=[['t-display','700 / 32'],['t-title','700 / 20'],['t-body','400 / 15'
 const SPACING=[['sp-2',2],['sp-4',4],['sp-8',8],['sp-12',12],['sp-16',16],['sp-20',20],['sp-24',24],['sp-32',32],['sp-48',48]];
 colorGrid.innerHTML=COLORS.map(([n,h])=>`<div class="sw"><div class="c" style="background:${h}"></div><div class="m"><div class="n">${n}</div><div class="v">${h}</div></div></div>`).join('');
 typeList.innerHTML=TYPE.map(([n,m])=>`<div class="typerow"><div class="tk">${n}<br>${m}</div><div class="${n}">The quick brown fox</div></div>`).join('');
-spacingList.innerHTML=SPACING.map(([n,v])=>`<div class="sprow"><div class="lbl">${n} · ${v}px</div><div class="bar" style="width:${Math.max(v,1)*4}px"></div></div>`).join('');
+function barWidth(v){return Math.max(v,1)*4;}
+spacingList.innerHTML=SPACING.map(([n,v])=>`<div class="sprow"><div class="lbl">${n} · ${v}px</div><div class="bar" style="width:${barWidth(v)}px"></div></div>`).join('');
 const ICONS=['menu','search','home','settings','back','chevron-right','chevron-down','close','check','plus','heart','bookmark','share','bell','user','more-h','more-v','edit','trash','camera','image','calendar','clock','star','filter','mail','lock'];
 iconGrid.innerHTML=ICONS.map(n=>`<div class="it"><svg class="ico ico--lg"><use href="#i-${n}"/></svg><div class="nm">i-${n}</div></div>`).join('');
 
@@ -188,7 +189,7 @@ langSel.innerHTML=LANGS.map(l=>`<option${l===promptLang?' selected':''}>${l}</op
 langSel.onchange=()=>promptLang=langSel.value;
 
 /* token groups → values read LIVE from :root (names absent in this theme are skipped) */
-const TOKEN_GROUPS={
+const varGroups={
  'Color roles (keep every fill paired with its --on-*)':['--primary','--on-primary','--primary-strong','--primary-ink','--primary-container','--on-primary-container','--secondary','--on-secondary','--accent','--on-accent','--bg','--on-bg','--surface','--on-surface','--surface-sunken','--muted-surface','--on-muted-surface','--muted','--subtle','--border','--border-faint','--hairline','--success','--on-success','--error','--on-error','--warning','--on-warning','--info','--on-info','--link'],
  'Spacing':['--gap-related','--gap-section','--gap-major','--layout-gutter','--target-min','--sp-2','--sp-4','--sp-8','--sp-12','--sp-16','--sp-20','--sp-24','--sp-32','--sp-48','--sp-64','--opt-1','--opt-3'],
  'Radius':['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-full'],
@@ -198,7 +199,7 @@ const TOKEN_GROUPS={
  'Motion':['--dur-fast','--dur-base','--dur-slow','--ease','--ease-spring'],
  'Icons':['--icon-size','--icon-inline','--icon-large','--icon-stroke','--icon-cap','--icon-join','--icon-fill']};
 function tokenLines(){const cs=getComputedStyle(document.documentElement);const out=[];
- for(const[grp,names]of Object.entries(TOKEN_GROUPS)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
+ for(const[grp,names]of Object.entries(varGroups)){const rows=names.map(n=>{const v=cs.getPropertyValue(n).trim();return v?`- ${n} = ${v}`:null;}).filter(Boolean);
   if(rows.length)out.push(`### ${grp}`,...rows,'');}
  return out;}
 /* token layer body, reused by the full-system prompt */
@@ -218,7 +219,9 @@ function buildPrompt(key){const s=SPECS[key];const L=[
   L.push('',`## Metrics`); s.metrics.forEach(([k,v])=>L.push(`- ${k}: ${v}`));
   L.push('',`## Requirements`,`- Implement every variant/state listed.`,`- Reference tokens by name; keep each fill paired with its --on-* foreground (WCAG ≥ 4.5:1).`,`- Output complete, compilable ${promptLang} code + a short usage example.`);
   return L.join('\n');}
-function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${SPECS[key].name} → ${promptLang}`);}
+function specCount(){return Object.keys(SPECS).length;}
+function specName(key){return SPECS[key].name;}
+function copyPrompt(key){copyText(buildPrompt(key));toast(`Copied: ${specName(key)} → ${promptLang}`);}
 
 /* Whole system — install from scratch OR update all to match; foundation-first, then components
    built against the SHARED token layer (Pencil's spawn-agents rule: split work, but every agent
@@ -230,7 +233,7 @@ function fullSystemPrompt(){const keys=Object.keys(SPECS);const L=[
  keys.forEach(k=>{const s=SPECS[k];L.push('',`### ${s.name} — \`${s.file}\``,s.desc,`- props: ${s.props.map(p=>p.n+':'+p.t).join(', ')}`,`- tokens: ${s.tokens.map(t=>t.n).join(', ')}`,`- metrics: ${s.metrics.map(m=>m[0]+' '+m[1]).join(', ')}`);});
  L.push('','## Rules',`- One source of truth for tokens; components reference them by name, never inline.`,`- Keep every fill/--on-* pair (WCAG ≥ 4.5:1); preserve the neutral treatment, elevation decision and semantic spacing roles.`,`- Output: the token file, then each component, each with a short usage example.`);
  return L.join('\n');}
-function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${Object.keys(SPECS).length} components) → ${promptLang}`);}
+function copyFullSystem(){copyText(fullSystemPrompt());toast(`Copied: Install design system (${specCount()} components) → ${promptLang}`);}
 
 function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t);}
 

@@ -36,12 +36,12 @@ Wikimedia Commons, resized to ≤ 720px; the Duccio's gable background was made 
 
 | File | Work | Source |
 |---|---|---|
-| `art/whistler-blue-gold.jpg` | Whistler, *Nocturne: Blue and Gold – Old Battersea Bridge*, c. 1872–75 | [Commons](https://commons.wikimedia.org/wiki/File:James_McNeill_Whistler_-_Nocturne_en_bleu_et_or.jpg) |
-| `art/whistler-falling-rocket.jpg` | Whistler, *Nocturne in Black and Gold: The Falling Rocket*, 1875 | [Commons](https://commons.wikimedia.org/wiki/File:Whistler-Nocturne_in_black_and_gold.jpg) |
-| `art/whistler-blue-silver.jpg` | Whistler, *Nocturne: Blue and Silver – Chelsea*, 1871 | [Commons](https://commons.wikimedia.org/wiki/File:James_Abbott_McNeill_Whistler_-_Nocturne-_Blue_and_Silver_-_Chelsea_-_Google_Art_Project.jpg) |
-| `art/monet-water-lilies.jpg` | Monet, *Water Lilies*, 1906 | [Commons](https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Water_Lilies_-_1906,_Ryerson.jpg) |
-| `art/monet-footbridge.jpg` | Monet, *The Japanese Footbridge*, 1899 (CC0) | [Commons](https://commons.wikimedia.org/wiki/File:Claude_Monet,_The_Japanese_Footbridge,_1899,_NGA_74796.jpg) |
-| `art/duccio-rucellai.webp` | Duccio, *Rucellai Madonna*, 1285 | [Commons](https://commons.wikimedia.org/wiki/File:Duccio_-_Maest%C3%A0_-_Google_Art_Project.jpg) |
+| art/whistler-blue-gold.jpg | Whistler, *Nocturne: Blue and Gold – Old Battersea Bridge*, c. 1872–75 | [Commons](https://commons.wikimedia.org/wiki/File:James_McNeill_Whistler_-_Nocturne_en_bleu_et_or.jpg) |
+| art/whistler-falling-rocket.jpg | Whistler, *Nocturne in Black and Gold: The Falling Rocket*, 1875 | [Commons](https://commons.wikimedia.org/wiki/File:Whistler-Nocturne_in_black_and_gold.jpg) |
+| art/whistler-blue-silver.jpg | Whistler, *Nocturne: Blue and Silver – Chelsea*, 1871 | [Commons](https://commons.wikimedia.org/wiki/File:James_Abbott_McNeill_Whistler_-_Nocturne-_Blue_and_Silver_-_Chelsea_-_Google_Art_Project.jpg) |
+| art/monet-water-lilies.jpg | Monet, *Water Lilies*, 1906 | [Commons](https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Water_Lilies_-_1906,_Ryerson.jpg) |
+| art/monet-footbridge.jpg | Monet, *The Japanese Footbridge*, 1899 (CC0) | [Commons](https://commons.wikimedia.org/wiki/File:Claude_Monet,_The_Japanese_Footbridge,_1899,_NGA_74796.jpg) |
+| art/duccio-rucellai.webp | Duccio, *Rucellai Madonna*, 1285 | [Commons](https://commons.wikimedia.org/wiki/File:Duccio_-_Maest%C3%A0_-_Google_Art_Project.jpg) |
 
 ## Files
 ```
